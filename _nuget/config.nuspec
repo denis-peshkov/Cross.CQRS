@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
     <!-- <iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl> -->
     <releaseNotes>
-    Nuget package documentation and picture update.
+    Nuget package documentation and icon updated.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET Mediatr Query QueryHandler Command CommandHandler Event EventHandler EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
