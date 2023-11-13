@@ -17,3 +17,7 @@ Added Net 6.0 targeted libraries.
 Added Net 7.0 targeted libraries.
 
 1.0.0 - 31 Oct 2023
+Release.
+
+1.0.1 - 13 Nov 2023
+Nuget package documentation updated.
