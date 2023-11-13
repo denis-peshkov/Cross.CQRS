@@ -11,13 +11,10 @@
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
     <!-- <iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl> -->
     <releaseNotes>
-    Initial version.
-	Added Sourcelink.
-	Package updates.
-	Only netstandard2.1, net6.0, net7.0 is now supported.
+    Nuget package documentation and picture update.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Written on C#.</description>
-    <tags>.NET Mediatr Query Command Event EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
+    <tags>.NET Mediatr Query QueryHandler Command CommandHandler Event EventHandler EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS" />
     <dependencies>
         <dependency id="FluentValidation" version="11.8.0" />
