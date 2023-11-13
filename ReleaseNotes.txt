@@ -21,3 +21,5 @@ Release.
 
 1.0.1 - 13 Nov 2023
 Nuget package documentation updated.
+Readme updated.
+Icon updated.
