@@ -26,3 +26,6 @@ Icon updated.
 7.0.0
 Removed PaginatedQuery as useless.
 Updated version to correlate with .NET version.
+
+8.0.0
+Added support for .NET 8.
