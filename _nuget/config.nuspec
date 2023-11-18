@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Cross.CQRS</id>
-    <version>1.0.1</version>
+    <version>7.0.0</version>
     <authors>denis-peshkov</authors>
     <owners>denis-peshkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,20 +11,20 @@
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
     <icon>icon.png</icon>
     <releaseNotes>
-    Documentation updated.
-    Icon updated.
+      Removed PaginatedQuery as useless.
+      Updated version to correlate with .NET version.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET Mediatr Query QueryHandler Command CommandHandler Event EventHandler EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS" />
     <dependencies>
-        <dependency id="FluentValidation" version="11.8.0" />
-        <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.8.0" />
-        <dependency id="MediatR" version="11.1.0" />
-        <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
-        <dependency id="Microsoft.Extensions.Configuration" version="7.0.0" />
-        <dependency id="Microsoft.CSharp" version="4.7.0" />
-        <dependency id="Scrutor" version="4.2.2" />
+      <dependency id="FluentValidation" version="11.8.0" />
+      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.8.0" />
+      <dependency id="MediatR" version="11.1.0" />
+      <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
+      <dependency id="Microsoft.Extensions.Configuration" version="7.0.0" />
+      <dependency id="Microsoft.CSharp" version="4.7.0" />
+      <dependency id="Scrutor" version="4.2.2" />
     </dependencies>
   </metadata>
   <files>
