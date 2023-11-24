@@ -29,3 +29,7 @@ Updated version to correlate with .NET version.
 
 8.0.0
 Added support for .NET 8.
+
+8.0.1
+Fixed unhandled exception on .NET 8. System.TypeLoadException: GenericArguments[0], 'TCommnd', on 'MediatR.IRequestHandler`2[TRequest,TResponse]' violates the constraint of type parameter 'TRequest'.
+Upgrade packages.

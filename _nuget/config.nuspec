@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Cross.CQRS</id>
-    <version>8.0.0</version>
+    <version>8.0.1</version>
     <authors>denis-peshkov</authors>
     <owners>denis-peshkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,14 +11,15 @@
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
     <icon>icon.png</icon>
     <releaseNotes>
-      Added support for .NET 8.
+      Fixed unhandled exception on .NET 8. System.TypeLoadException: GenericArguments[0], 'TCommnd', on 'MediatR.IRequestHandler`2[TRequest,TResponse]' violates the constraint of type parameter 'TRequest'.
+      Upgrade packages.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET Mediatr Query QueryHandler Command CommandHandler Event EventHandler EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS" />
     <dependencies>
-      <dependency id="FluentValidation" version="11.8.0" />
-      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.8.0" />
+      <dependency id="FluentValidation" version="11.8.1" />
+      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.8.1" />
       <dependency id="MediatR" version="11.1.0" />
       <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
       <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />

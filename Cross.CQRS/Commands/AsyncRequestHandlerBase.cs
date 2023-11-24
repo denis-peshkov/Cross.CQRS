@@ -3,11 +3,11 @@
 /// <summary>
 /// Wrapper class for a handler that asynchronously handles a request and does not return a response
 /// </summary>
-/// <typeparam name="TRequest">The type of request being handled</typeparam>
-public abstract class AsyncRequestHandlerBase<TCommnd> : IRequestHandler<TCommnd>
-	where TCommnd : IRequest
+/// <typeparam name="TCommand">The type of request being handled</typeparam>
+public abstract class AsyncRequestHandlerBase<TCommand> : IRequestHandler<TCommand>
+	where TCommand : ICommand
 {
-	async Task<Unit> IRequestHandler<TCommnd, Unit>.Handle(TCommnd command, CancellationToken cancellationToken)
+	async Task<Unit> IRequestHandler<TCommand, Unit>.Handle(TCommand command, CancellationToken cancellationToken)
 	{
 		await Handle(command, cancellationToken).ConfigureAwait(false);
 		return Unit.Value;
@@ -19,5 +19,5 @@ public abstract class AsyncRequestHandlerBase<TCommnd> : IRequestHandler<TCommnd
 	/// <param name="command">Request</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>Response</returns>
-	public abstract Task Handle(TCommnd command, CancellationToken cancellationToken);
+	public abstract Task Handle(TCommand command, CancellationToken cancellationToken);
 }

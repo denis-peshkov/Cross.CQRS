@@ -24,7 +24,7 @@ Main Features:
 
   Here included validation behavior based on FluentValidation, that allow to validate Queries and Command before their execution.
 
-* **.NET Standard 2.1 and Source Linking**.
+* **.NET frameworks and Source Linking**.
 
   From version 1.0 repository contains .NET Standard 2.0, .NET 6, .NET 7 and .NET 8 projects.
   Source linking enabled and symbol package is published to nuget symbols server, making debugging easier.
