@@ -34,7 +34,15 @@ public sealed class BehaviorCollection
 
         foreach (var behavior in orderedBehaviors)
         {
-            _services.Add(new ServiceDescriptor(typeof(IPipelineBehavior<,>), behavior, ServiceLifetime.Scoped));
+            var isNoRegisterAutomatically = behavior
+                .GetCustomAttributes(typeof(NoRegisterAutomaticallyAttribute), inherit: false)
+                .Any();
+
+            if (!isNoRegisterAutomatically)
+            {
+                _services.Add(new ServiceDescriptor(typeof(IPipelineBehavior<,>), behavior, ServiceLifetime.Scoped));
+            }
+
         }
 
         return this;
