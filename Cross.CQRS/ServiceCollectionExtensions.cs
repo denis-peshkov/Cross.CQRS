@@ -2,12 +2,26 @@
 
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Registers required services from the specified assemblies to the
+    /// specified <see cref="IServiceCollection"/>.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+    /// <param name="assemblies">Assemblies to scan</param>
+    /// <returns>A reference to this instance after the operation has completed.</returns>
     public static CqrsRegistrationSyntax AddCQRS(this IServiceCollection services, params Assembly[] assemblies)
     {
         var behaviorCollection = new BehaviorCollection(services);
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(assemblies.FirstOrDefault());
+        services.AddValidatorsFromAssembly(assemblies.FirstOrDefault(), ServiceLifetime.Scoped, result =>
+        {
+            var isNoRegisterAutomatically = result.ValidatorType
+                .GetCustomAttributes(typeof(NoRegisterAutomaticallyAttribute), inherit: false)
+                .Length != 0;
+
+            return !isNoRegisterAutomatically;
+        });
 
         services.AddMediatR(o => o.AsScoped(), assemblies);
 

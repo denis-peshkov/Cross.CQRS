@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_nuget", "_nuget", "{19139C
 		_nuget\pushSymbols.bat = _nuget\pushSymbols.bat
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApp", "SampleWebApp\SampleWebApp.csproj", "{3433E255-17DF-4142-9507-7E34449947C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{EAF0AC39-A26A-4432-8EA0-F1C9C01E3B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF0AC39-A26A-4432-8EA0-F1C9C01E3B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAF0AC39-A26A-4432-8EA0-F1C9C01E3B06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3433E255-17DF-4142-9507-7E34449947C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3433E255-17DF-4142-9507-7E34449947C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3433E255-17DF-4142-9507-7E34449947C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3433E255-17DF-4142-9507-7E34449947C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
