@@ -14,6 +14,7 @@
     <releaseNotes>
       Added NoRegisterAutomaticallyAttribute to avoid register instance of class automatically in DI.
       Small fixes.
+      Added sample project.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET Mediatr Query QueryHandler Command CommandHandler Event EventHandler EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
