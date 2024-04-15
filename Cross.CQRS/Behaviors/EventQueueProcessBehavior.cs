@@ -1,6 +1,7 @@
 namespace Cross.CQRS.Behaviors;
 
-internal sealed class EventQueueProcessBehavior<T, TR> : IPipelineBehavior<T, TR> where T : IRequest<TR>
+internal sealed class EventQueueProcessBehavior<TRequest, TResult> : IPipelineBehavior<TRequest, TResult>
+    where TRequest : IRequest<TResult>
 {
     private readonly IEventQueueReader _eventReader;
     private readonly IMediator _mediator;
@@ -12,11 +13,11 @@ internal sealed class EventQueueProcessBehavior<T, TR> : IPipelineBehavior<T, TR
     }
 
     /// <inheritdoc />
-    public async Task<TR> Handle(T request, RequestHandlerDelegate<TR> next, CancellationToken cancellationToken)
+    public async Task<TResult> Handle(TRequest request, RequestHandlerDelegate<TResult> next, CancellationToken cancellationToken)
     {
         var result = await next();
 
-        if (request is ICommand<TR> identifiable)
+        if (request is ICommand<TResult> identifiable)
         {
             var events = _eventReader.Read(identifiable.CommandId);
             foreach (var @event in events)

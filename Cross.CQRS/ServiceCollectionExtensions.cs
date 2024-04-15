@@ -35,6 +35,7 @@ public static class ServiceCollectionExtensions
         // Behaviors registered earlier will be executed earlier
         behaviorCollection.AddBehavior(typeof(EventQueueProcessBehavior<,>), order: int.MinValue);
         behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 1);
+        behaviorCollection.AddBehavior(typeof(FilterBehavior<,>), order: 2);
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);
     }
