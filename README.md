@@ -22,7 +22,7 @@ Main Features:
 
 * **Filters**.
 
-  Here included filter behavior based on RequestFilter and ResultFilter.  
+  Here included filter behavior based on RequestFilter and ResultFilter.
   The RequestFilter allow to filter Queries and Commands requests before their execution.
   The ResultFilter allow to filter Queries and Commands results after their execution.
 
@@ -60,5 +60,5 @@ Note - test project is not a part of nuget package. You have to clone repository
 ## Roadmap:
 - ~~Queries implementation~~
 - ~~Commands Implementation~~
-- ~~Validation behavior~~ (based on FluentValidation)
+- ~~Validation behavior (based on FluentValidation)~~
 - ~~Events~~
