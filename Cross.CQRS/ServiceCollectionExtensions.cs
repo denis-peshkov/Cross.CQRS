@@ -29,9 +29,11 @@ public static class ServiceCollectionExtensions
         services.Scan(scan => scan
             .FromAssemblies(assemblies)
             .AddClasses(classes => classes.AssignableTo(typeof(IResultFilter<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
             .AddClasses(classes => classes.AssignableTo(typeof(IRequestFilter<>)))
-            .AsImplementedInterfaces()
-            .WithScopedLifetime()
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
         );
 
         services.AddMediatR(o => o.AsScoped(), assemblies);

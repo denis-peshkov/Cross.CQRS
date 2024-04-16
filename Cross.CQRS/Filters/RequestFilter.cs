@@ -11,5 +11,5 @@ public abstract class RequestFilter<TRequest, TResult> : IRequestFilter<TRequest
         => ApplyFilterAsync(request, CancellationToken.None).GetAwaiter().GetResult();
 
     /// <inheritdoc />
-    public abstract Task<TRequest> ApplyFilterAsync(TRequest result, CancellationToken cancellationToken);
+    public abstract Task<TRequest> ApplyFilterAsync(TRequest request, CancellationToken cancellationToken);
 }
