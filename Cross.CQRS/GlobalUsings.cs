@@ -11,6 +11,5 @@ global using Cross.CQRS.Behaviors;
 global using Cross.CQRS.Commands;
 global using Cross.CQRS.Events;
 global using Cross.CQRS.Queries;
-global using Cross.CQRS.QueryFilters;
 global using Cross.CQRS.Services;
 global using FluentValidation.Results;

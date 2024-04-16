@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Cross.CQRS</id>
-    <version>8.1.2</version>
+    <version>8.2.0-preview.4</version>
     <authors>denis-peshkov</authors>
     <owners>denis-peshkov</owners>
     <license type="expression">MIT</license>
@@ -12,9 +12,8 @@
     <readme>docs\README.md</readme>
     <icon>icon.png</icon>
     <releaseNotes>
-      Added NoRegisterAutomaticallyAttribute to avoid register instance of class automatically in DI.
-      Small fixes.
-      Added sample project.
+      Added IRequestFilter with Behaviour to filter request of query or command.
+      Added IResultFilter with Behaviour to filter result of query or command.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET Mediatr Query QueryHandler Command CommandHandler Event EventHandler EventQueueBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
@@ -25,6 +24,7 @@
       <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
       <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
       <dependency id="Microsoft.CSharp" version="4.7.0" />
+      <dependency id="Scrutor" version="4.2.2" />
     </dependencies>
   </metadata>
   <files>
