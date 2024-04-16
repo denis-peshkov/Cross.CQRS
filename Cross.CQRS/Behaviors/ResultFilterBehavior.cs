@@ -1,6 +1,4 @@
-﻿using Cross.CQRS.Filters;
-
-namespace Cross.CQRS.Behaviors;
+﻿namespace Cross.CQRS.Behaviors;
 
 internal sealed class ResultFilterBehavior<TRequest, TResult> : IPipelineBehavior<TRequest, TResult>
     where TRequest : IRequest<TResult>

@@ -1,6 +1,4 @@
-﻿using Cross.CQRS.Filters;
-
-namespace Cross.CQRS;
+﻿namespace Cross.CQRS;
 
 public static class ServiceCollectionExtensions
 {
