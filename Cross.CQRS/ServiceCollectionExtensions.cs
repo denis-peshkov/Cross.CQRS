@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     {
         var behaviorCollection = new BehaviorCollection(services);
 
-        // FluentValidation
+        // FluentValidations
         services.AddValidatorsFromAssembly(assemblies.FirstOrDefault(), ServiceLifetime.Scoped, result =>
         {
             var isNoRegisterAutomatically = result.ValidatorType
@@ -22,6 +22,17 @@ public static class ServiceCollectionExtensions
 
             return !isNoRegisterAutomatically;
         });
+
+        // Filters
+        services.Scan(scan => scan
+            .FromAssemblies(assemblies)
+            .AddClasses(classes => classes.AssignableTo(typeof(IResultFilter<,>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+            .AddClasses(classes => classes.AssignableTo(typeof(IRequestFilter<>)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+        );
 
         services.AddMediatR(o => o.AsScoped(), assemblies);
 
@@ -35,6 +46,8 @@ public static class ServiceCollectionExtensions
         // Behaviors registered earlier will be executed earlier
         behaviorCollection.AddBehavior(typeof(EventQueueProcessBehavior<,>), order: int.MinValue);
         behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 1);
+        behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 2);
+        behaviorCollection.AddBehavior(typeof(ResultFilterBehavior<,>), order: 3);
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);
     }

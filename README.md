@@ -20,6 +20,12 @@ Main Features:
   Implemented base patterns to crate Events, approach how to write a new Events from the Commands, consuming patterns and behavior to handle it.
   The main idea is to do some actions after the Commands have to be finished, to avoid cases when one Command call another one.
 
+* **Filters**.
+
+  Here included filter behavior based on RequestFilter and ResultFilter.
+  The RequestFilter allow to filter Queries and Commands requests before their execution.
+  The ResultFilter allow to filter Queries and Commands results after their execution.
+
 * **Validation**.
 
   Here included validation behavior based on FluentValidation, that allow to validate Queries and Command before their execution.
@@ -54,5 +60,5 @@ Note - test project is not a part of nuget package. You have to clone repository
 ## Roadmap:
 - ~~Queries implementation~~
 - ~~Commands Implementation~~
-- ~~Validation behavior~~ (based on FluentValidation)
+- ~~Validation behavior (based on FluentValidation)~~
 - ~~Events~~

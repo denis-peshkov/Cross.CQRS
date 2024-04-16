@@ -38,3 +38,8 @@ Upgrade packages.
 Added NoRegisterAutomaticallyAttribute to avoid register instance of class automatically in DI.
 Small fixes.
 Added sample project.
+
+8.2.0 - 16 Apr 2024
+Added IRequestFilter with Behaviour to filter request of query or command.
+Added IResultFilter with Behaviour to filter result of query or command.
+
