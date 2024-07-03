@@ -44,9 +44,9 @@ public static class ServiceCollectionExtensions
 
         // Registration order is important, it works like ASP.NET Core middleware
         // Behaviors registered earlier will be executed earlier
-        behaviorCollection.AddBehavior(typeof(EventQueueProcessBehavior<,>), order: int.MinValue);
-        behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 1);
-        behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 2);
+        behaviorCollection.AddBehavior(typeof(EventQueueProcessBehavior<,>), order: 0);
+        behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 1);
+        behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 2);
         behaviorCollection.AddBehavior(typeof(ResultFilterBehavior<,>), order: 3);
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);
