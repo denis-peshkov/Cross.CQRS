@@ -22,7 +22,7 @@ jobs:
       BUILD_CONFIG: 'Release'
       SOLUTION: 'Cross.CQRS.sln'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # ubuntu-latest
 
     steps:
       - name: Checkout
@@ -35,10 +35,10 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Install Mono
-        run: |
-          apt-get install -y mono-runtime
-          apt-get install -y mono-complete
+#      - name: Install Mono
+#        run: |
+#          apt-get install -y mono-runtime
+#          apt-get install -y mono-complete
 #          apt-get install -y nuget
 
       - name: Setup NuGet
