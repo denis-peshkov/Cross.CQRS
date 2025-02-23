@@ -1,7 +1,7 @@
 ﻿namespace Cross.CQRS.Events;
 
 /// <summary>
-/// Wrapper class for a handler that handles a events and does not return a response
+/// Wrapper class for a handler that handles an events and does not return a response
 /// </summary>
 public abstract class EventHandler<TEvent> : INotificationHandler<TEvent>
 	where TEvent : INotification

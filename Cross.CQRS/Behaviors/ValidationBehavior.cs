@@ -13,8 +13,8 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
     /// <inheritdoc />
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var validators = _validators.ToArray();
-        if (validators.Length <= 0)
+        var validators = _validators.ToList();
+        if (!validators.Any())
         {
             return await next();
         }
