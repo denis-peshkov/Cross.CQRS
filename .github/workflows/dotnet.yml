@@ -22,7 +22,7 @@ jobs:
       BUILD_CONFIG: 'Release'
       SOLUTION: 'Cross.CQRS.sln'
 
-    runs-on: ubuntu-24.04 # ubuntu-latest
+    runs-on: ubuntu-22.04 # ubuntu-latest
 
     steps:
       - name: Checkout
