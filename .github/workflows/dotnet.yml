@@ -35,6 +35,12 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Install Mono
+        run: |
+          apt-get install -y mono-runtime
+          apt-get install -y mono-complete
+#          apt-get install -y nuget
+
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2.0.0
 
