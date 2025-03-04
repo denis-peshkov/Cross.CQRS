@@ -12,5 +12,5 @@ public interface ICommandEvent : INotification
     /// </summary>
     /// <returns></returns>
     CommandEventTypeEnum EventTypeEnum()
-        => CommandEventTypeEnum.InTransaction;
+        => CommandEventTypeEnum.WithoutException;
 }
