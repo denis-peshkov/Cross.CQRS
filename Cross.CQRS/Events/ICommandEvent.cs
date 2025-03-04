@@ -11,6 +11,6 @@ public interface ICommandEvent : INotification
     /// Define a type of Event, should process event inside or outside of transaction.
     /// </summary>
     /// <returns></returns>
-    CommandEventTypeEnum EventTypeEnum()
-        => CommandEventTypeEnum.WithoutException;
+    CommandEventFlowTypeEnum EventFlowType()
+        => CommandEventFlowTypeEnum.OnStandardFlow;
 }
