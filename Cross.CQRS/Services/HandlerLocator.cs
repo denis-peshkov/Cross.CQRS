@@ -28,11 +28,11 @@ internal sealed class HandlerLocator : IHandlerLocator
         {
             Type GetHandlerType()
             {
-                var requestInterface = requestType.GetTypeInfo().ImplementedInterfaces
-                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IRequest<>));
+                var requestInterface = t.GetTypeInfo().ImplementedInterfaces
+                    .First(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IRequest<>));
 
                 var responseType = requestInterface.GetGenericArguments()[0];
-                return typeof(IRequestHandler<,>).MakeGenericType(requestType, responseType);
+                return typeof(IRequestHandler<,>).MakeGenericType(t, responseType);
             }
 
             var handlerType = GetHandlerType();

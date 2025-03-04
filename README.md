@@ -2,9 +2,9 @@
 
 # Cross.CQRS
 
-Simple .NET MediatR base Query, Command, Event and Validation.
+Simple .NET MediatR base Query, Command, Event, Validation and Filter.
 
-Event Queue and Validation behaviors written on C#.
+Event Queue, Validation and Filter behaviors written on C#.
 
 Main Features:
 * **Queries, and QueryHandlers**.
@@ -15,10 +15,11 @@ Main Features:
 
   Implemented base patterns to work with Commands. The Commands used to modify entities.
 
-* **Events, EventHandlers, EventWriter and EventReader**.
+* **CommandEvents, CommandEventHandlers, CommandEventWriter, CommandEventReader and CommandEventQueueProcessBehavior**.
 
-  Implemented base patterns to crate Events, approach how to write a new Events from the Commands, consuming patterns and behavior to handle it.
-  The main idea is to do some actions after the Commands have to be finished, to avoid cases when one Command call another one.
+  Implemented base patterns to crate CommandEvents, approach how to write a new CommandEvents from the Commands, consuming patterns and behavior to handle it.
+  The main idea is to do some actions after the Commands have to be finished, to avoid cases when one Command call another one. 
+  Added possibility to exclude the processing of some CommandEvents from Command transaction (even on trow Exception).
 
 * **Filters**.
 
@@ -32,7 +33,7 @@ Main Features:
 
 * **.NET frameworks and Source Linking**.
 
-  From version 1.0 repository contains .NET Standard 2.0, .NET 6, .NET 7 and .NET 8 projects.
+  The repository contains .NET Standard 2.0, .NET 6, .NET 7 and .NET 8 projects.
   Source linking enabled and symbol package is published to nuget symbols server, making debugging easier.
 
 ## Install with nuget.org:

@@ -6,11 +6,11 @@ namespace Cross.CQRS.Commands;
 public abstract class CommandHandler<TCommand> : AsyncRequestHandlerBase<TCommand>
     where TCommand : ICommand
 {
-    protected IEventQueueWriter Events { get; }
+    protected ICommandEventQueueWriter CommandEvents { get; }
 
-    protected CommandHandler(IEventQueueWriter events)
+    protected CommandHandler(ICommandEventQueueWriter commandEvents)
     {
-        Events = events;
+        CommandEvents = commandEvents;
     }
 
     /// <inheritdoc />
