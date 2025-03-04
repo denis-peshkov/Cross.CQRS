@@ -56,6 +56,6 @@ Set the RequestFilterBehavior before the ValidationBehavior.
 Small internal refactoring.
 Fix build pipeline.
 
-9.0.0 - 03 Mar 2025
+9.0.0 - 04 Mar 2025
 Added CommandEventTypeEnum to define a type of Event, should process event inside or outside of transaction.
 Renamed EventQueueProcessBehavior into CommandEventQueueProcessBehavior, EventHandler into CommandEventHandler, EventQueue into CommandEventQueue, IEvent into ICommandEvent, IEventQueue into ICommandEventQueue, IEventQueueReader into ICommandEventQueueReader and IEventQueueWriter into ICommandEventQueueWriter.
