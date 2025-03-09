@@ -5,11 +5,13 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
 {
     private readonly ICommandEventQueueReader _commandEventReader;
     private readonly IMediator _mediator;
+    private readonly ILogger<CommandEventQueueProcessBehavior<TRequest, TResult>> _logger;
 
-    public CommandEventQueueProcessBehavior(ICommandEventQueueReader commandEventReader, IMediator mediator)
+    public CommandEventQueueProcessBehavior(ICommandEventQueueReader commandEventReader, IMediator mediator, ILogger<CommandEventQueueProcessBehavior<TRequest, TResult>> logger)
     {
         _commandEventReader = commandEventReader;
         _mediator = mediator;
+        _logger = logger;
     }
 
     /// <inheritdoc />
@@ -21,11 +23,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
 
             if (request is ICommand<TResult> identifiable)
             {
-                var commandEvents = _commandEventReader.Read(identifiable.CommandId);
-                foreach (var commandEvent in commandEvents.Where(x => x.EventFlowType() == CommandEventFlowTypeEnum.OnStandardFlow))
-                {
-                    await _mediator.Publish((dynamic)commandEvent, cancellationToken);
-                }
+                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.OnStandardFlow, cancellationToken);
             }
 
             return result;
@@ -34,11 +32,28 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
         {
             if (request is ICommand<TResult> identifiable)
             {
-                var commandEvents = _commandEventReader.Read(identifiable.CommandId);
-                foreach (var commandEvent in commandEvents.Where(x => x.EventFlowType() == CommandEventFlowTypeEnum.OnExceptionalFlow))
-                {
-                    await _mediator.Publish((dynamic)commandEvent, cancellationToken);
-                }
+                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.OnExceptionalFlow, cancellationToken);
+            }
+        }
+    }
+
+    private async Task ProcessCommandEvents(Guid commandId, CommandEventFlowTypeEnum eventFlowType, CancellationToken cancellationToken)
+    {
+        var commandEvents = _commandEventReader.Read(commandId, eventFlowType);
+        foreach (var commandEvent in commandEvents)
+        {
+            try
+            {
+                await _mediator.Publish((dynamic)commandEvent, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "An error occurred while handling the CommandEvent {CommandEventType} for the CommandId {CommandId} with message: {ErrorMessage}",
+                    commandEvent.GetType(),
+                    commandId,
+                    ex.Message);
             }
         }
     }
