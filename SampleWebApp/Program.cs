@@ -18,4 +18,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/test", async (IMediator mediator) =>
+{
+    await mediator.Send(new TestCommand());
+});
+
 app.Run();
