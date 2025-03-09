@@ -63,6 +63,27 @@ jobs:
       - name: Run tests
         run: dotnet test /p:Configuration=$BUILD_CONFIG --no-restore --no-build --verbosity normal
 
+      - name: SonarQube Scan
+        uses: sonarsource/sonarcloud-github-action@v5 # Ex: v4.0.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
+        with:
+          #          projectBaseDir: app/
+          #          args: >
+          #            -Dsonar.organization=peshkov
+          #            -Dsonar.projectKey=Cross.CQRS.EF
+          #            -Dsonar.python.coverage.reportPaths=coverage.xml
+          #            -Dsonar.sources=Cross.CQRS.EF/
+          #            -Dsonar.tests=tests/
+          #            -Dsonar.test.exclusions=tests/**
+          #            -Dsonar.verbose=true
+          args: >
+            -Dsonar.organization=peshkov
+            -Dsonar.projectKey=Cross.CQRS
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=Cross.CQRS/
+            -Dsonar.verbose=true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Nuget Pack
         run: nuget pack _nuget/config.nuspec -Symbols -Version ${{ env.semVer }}
 
