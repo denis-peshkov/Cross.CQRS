@@ -9,11 +9,11 @@ public class TestCommandHandler : CommandHandler<TestCommand>
 
     protected override Task HandleAsync(TestCommand command, CancellationToken cancellationToken)
     {
-        CommandEvents.Write(new AddNoteEvent(command.CommandId));
+        CommandEvents.Write(new TestEvent(command.CommandId));
 
-        CommandEvents.Write(new AddNoteOnExceptionEvent(command.CommandId));
+        CommandEvents.Write(new TestOnExceptionEvent(command.CommandId));
 
-        CommandEvents.Write(new AddNoteOverriddenOnExceptionEvent(command.CommandId)); // Doesn't work, required an exact handler
+        CommandEvents.Write(new TestOnExceptionOverriddenEvent(command.CommandId)); // Doesn't work, required an exact handler
 
         throw new NotImplementedException();
     }

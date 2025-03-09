@@ -1,10 +1,10 @@
 ﻿namespace SampleWebApp.Modules.Test;
 
-public class AddNoteEvent  : ICommandEvent
+public class TestEvent  : ICommandEvent
 {
     public Guid CommandId { get; }
 
-    public AddNoteEvent(Guid commandId)
+    public TestEvent(Guid commandId)
     {
         CommandId = commandId;
     }
