@@ -24,15 +24,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
                 var commandEvents = _commandEventReader.Read(identifiable.CommandId);
                 foreach (var commandEvent in commandEvents.Where(x => x.EventFlowType() == CommandEventFlowTypeEnum.OnStandardFlow))
                 {
-                    try
-                    {
-                        await _mediator.Publish((dynamic)commandEvent, cancellationToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        // TODO: log event ...
-                        // do nothing
-                    }
+                    await _mediator.Publish((dynamic)commandEvent, cancellationToken);
                 }
             }
 
@@ -45,15 +37,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
                 var commandEvents = _commandEventReader.Read(identifiable.CommandId);
                 foreach (var commandEvent in commandEvents.Where(x => x.EventFlowType() == CommandEventFlowTypeEnum.OnExceptionalFlow))
                 {
-                    try
-                    {
-                        await _mediator.Publish((dynamic)commandEvent, cancellationToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        // TODO: log event ...
-                        // do nothing
-                    }
+                    await _mediator.Publish((dynamic)commandEvent, cancellationToken);
                 }
             }
         }

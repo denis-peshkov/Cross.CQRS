@@ -13,6 +13,8 @@ public class TestCommandHandler : CommandHandler<TestCommand>
 
         CommandEvents.Write(new AddNoteOnExceptionEvent(command.CommandId));
 
+        CommandEvents.Write(new AddNoteOverriddenOnExceptionEvent(command.CommandId)); // Doesn't work, required an exact handler
+
         throw new NotImplementedException();
     }
 }
