@@ -2,5 +2,5 @@ namespace Cross.CQRS.Events;
 
 public interface ICommandEventQueueReader
 {
-    IReadOnlyCollection<ICommandEvent> Read(Guid requestId);
+    IReadOnlyCollection<ICommandEvent> Read(Guid requestId, CommandEventFlowTypeEnum commandEventFlow);
 }

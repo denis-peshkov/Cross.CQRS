@@ -28,7 +28,7 @@ public class CommandEventQueue : ICommandEventQueue
         }
 
         /// <inheritdoc />
-        public IReadOnlyCollection<ICommandEvent> Read(Guid requestId)
+        public IReadOnlyCollection<ICommandEvent> Read(Guid requestId, CommandEventFlowTypeEnum commandEventFlow)
         {
             var result = new List<ICommandEvent>();
             var newQueue = new List<ICommandEvent>();
@@ -37,7 +37,7 @@ public class CommandEventQueue : ICommandEventQueue
             {
                 while (_eventStore.TryDequeue(out var commandEvent))
                 {
-                    if (commandEvent.CommandId == requestId)
+                    if (commandEvent.CommandId == requestId && commandEvent.EventFlowType() == commandEventFlow)
                     {
                         result.Add(commandEvent);
                     }
@@ -48,6 +48,7 @@ public class CommandEventQueue : ICommandEventQueue
                 }
 
                 _eventStore.Clear();
+
                 newQueue.Reverse(); // Reverse to preserve order
 
                 foreach (var unmatched in newQueue)
