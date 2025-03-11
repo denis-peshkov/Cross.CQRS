@@ -1,4 +1,4 @@
-namespace SampleWebApp.Modules.Test;
+namespace SampleWebApp.Modules.TestEventsCommand;
 
 public class TestOnExceptionEventHandler : CommandEventHandler<TestOnExceptionEvent>
 {
@@ -9,6 +9,6 @@ public class TestOnExceptionEventHandler : CommandEventHandler<TestOnExceptionEv
 
     protected override async Task HandleAsync(TestOnExceptionEvent @event, CancellationToken cancellationToken)
     {
-        Console.WriteLine("TestOnExceptionEventHandler");
+        Logger.LogInformation("TestOnExceptionEventHandler");
     }
 }

@@ -19,15 +19,14 @@ public abstract class CommandEventHandler<TCommandEvent> : INotificationHandler<
     /// <param name="commandEvent">Command Event</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Response</returns>
-    public Task Handle(TCommandEvent commandEvent, CancellationToken cancellationToken)
+    public async Task Handle(TCommandEvent commandEvent, CancellationToken cancellationToken)
     {
-        Logger.InternalLogTrace(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has begun.", commandEvent.GetGenericTypeName(), commandEvent.CommandId);
+        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has begun.", commandEvent.GetGenericTypeName(), commandEvent.CommandId);
         var sw = new Stopwatch();
         sw.Start();
-        var result = HandleAsync(commandEvent, cancellationToken);
+        await HandleAsync(commandEvent, cancellationToken);
         sw.Stop();
-        Logger.InternalLogTrace(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {ElapsedMilliseconds} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
-        return result;
+        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {ElapsedMilliseconds} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
     }
 
     /// <summary>

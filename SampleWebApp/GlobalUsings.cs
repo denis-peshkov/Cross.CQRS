@@ -19,4 +19,6 @@ global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
-global using SampleWebApp.Modules.Test;
+global using SampleWebApp.Modules.TestCommandGeneric;
+global using SampleWebApp.Modules.TestEventsCommand;
+global using SampleWebApp.Modules.TestQueryGeneric;

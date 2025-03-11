@@ -7,6 +7,10 @@ namespace Cross.CQRS.Commands;
 ///     Use it to change system state e.g. add something or update.
 ///     Do not use it query data from database, instead use <see cref="IQuery{TResult}"/>.
 /// </remarks>
-public interface ICommand<out TResult> : IRequest<TResult>, ICommandOrCommandEvent
+public interface ICommand<out TResult> : IRequest<TResult>, IInternalLogObject
 {
+    /// <summary>
+    /// Unique command identifier.
+    /// </summary>
+    Guid CommandId { get; }
 }
