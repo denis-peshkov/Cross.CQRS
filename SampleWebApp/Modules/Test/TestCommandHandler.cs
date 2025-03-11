@@ -2,8 +2,8 @@ namespace SampleWebApp.Modules.Test;
 
 public class TestCommandHandler : CommandHandler<TestCommand>
 {
-    public TestCommandHandler(ICommandEventQueueWriter commandEvents)
-        : base(commandEvents)
+    public TestCommandHandler(ICommandEventQueueWriter commandEvents, ILogger<TestCommandHandler> logger)
+        : base(commandEvents, logger)
     {
     }
 

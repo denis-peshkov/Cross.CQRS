@@ -2,7 +2,15 @@ namespace Cross.CQRS.Events;
 
 public enum CommandEventFlowTypeEnum
 {
-    OnStandardFlow = 1,
+    /// <summary>
+    /// Processes events only when the command executes successfully without errors.
+    /// Used for the standard event processing flow.
+    /// </summary>
+    StandardFlow = 1,
 
-    OnExceptionalFlow = 2,
+    /// <summary>
+    /// Ensures the event is processed even if an exception occurs during command execution.
+    /// Used for a safe error-handling flow.
+    /// </summary>
+    ExceptionSafeFlow = 2,
 }

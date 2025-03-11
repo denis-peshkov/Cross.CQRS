@@ -23,7 +23,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
 
             if (request is ICommand<TResult> identifiable)
             {
-                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.OnStandardFlow, cancellationToken);
+                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.StandardFlow, cancellationToken);
             }
 
             return result;
@@ -32,7 +32,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
         {
             if (request is ICommand<TResult> identifiable)
             {
-                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.OnExceptionalFlow, cancellationToken);
+                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.ExceptionSafeFlow, cancellationToken);
             }
         }
     }

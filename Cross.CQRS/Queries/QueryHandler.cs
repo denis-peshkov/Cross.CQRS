@@ -7,7 +7,8 @@ public abstract class QueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TR
     where TQuery : IQuery<TResult>
 {
     /// <inheritdoc />
-    public Task<TResult> Handle(TQuery request, CancellationToken cancellationToken) => HandleAsync(request, cancellationToken);
+    public Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
+        => HandleAsync(request, cancellationToken);
 
     protected abstract Task<TResult> HandleAsync(TQuery query, CancellationToken cancellationToken);
 }

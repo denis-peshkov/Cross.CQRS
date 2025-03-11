@@ -6,7 +6,7 @@
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
     <GenerateRequiresPreviewFeaturesAttribute>False</GenerateRequiresPreviewFeaturesAttribute>
     <ImplicitUsings>false</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
 
     <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>

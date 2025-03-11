@@ -5,7 +5,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-//MediatR
+// MediatR
 builder.Services
     .AddCQRS(typeof(Program).Assembly);
 
