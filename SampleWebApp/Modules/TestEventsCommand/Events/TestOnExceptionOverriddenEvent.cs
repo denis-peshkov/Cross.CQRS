@@ -1,4 +1,4 @@
-namespace SampleWebApp.Modules.TestEventsCommand;
+namespace SampleWebApp.Modules.TestEventsCommand.Events;
 
 public class TestOnExceptionOverriddenEvent : TestOnExceptionEvent
 {
