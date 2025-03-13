@@ -22,11 +22,25 @@ public abstract class CommandEventHandler<TCommandEvent> : INotificationHandler<
     public async Task Handle(TCommandEvent commandEvent, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has begun.", commandEvent.GetGenericTypeName(), commandEvent.CommandId);
-        var sw = new Stopwatch();
-        sw.Start();
-        await HandleAsync(commandEvent, cancellationToken);
-        sw.Stop();
-        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {ElapsedMilliseconds} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
+
+        var isNoStopWatchMeasurement = commandEvent
+            .GetType()
+            .GetCustomAttributes(typeof(NoStopWatchMeasurementAttribute), inherit: true)
+            .Length != 0;
+
+        if (isNoStopWatchMeasurement)
+        {
+            await HandleAsync(commandEvent, cancellationToken);
+            Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully.", commandEvent.GetGenericTypeName(), commandEvent.CommandId);
+        }
+        else
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            await HandleAsync(commandEvent, cancellationToken);
+            sw.Stop();
+            Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {ElapsedMilliseconds} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
+        }
     }
 
     /// <summary>

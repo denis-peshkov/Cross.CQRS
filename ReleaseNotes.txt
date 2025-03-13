@@ -71,3 +71,6 @@ add ILogger on CommandEvent processing.
 
 10.0.0 - 13 Mar 2025
 Added ILogger into CommandEventHandler and CommandHandler and QueryHandler.
+
+10.0.0 - 13 Mar 2025
+Added NoStopWatchMeasurementAttribute.
