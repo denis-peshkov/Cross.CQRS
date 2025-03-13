@@ -13,7 +13,7 @@
     <readme>docs\README.md</readme>
     <icon>icon.png</icon>
     <releaseNotes>
-      Added NoStopWatchMeasurementAttribute.
+      Make ObjectExtensions.GetObjectSize() safe for some cases.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>

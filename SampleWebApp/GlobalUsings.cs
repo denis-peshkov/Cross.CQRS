@@ -9,7 +9,6 @@ global using System.Threading.Tasks;
 global using Cross.CQRS;
 global using Cross.CQRS.Behaviors;
 global using Cross.CQRS.Commands;
-global using Cross.CQRS.Common;
 global using Cross.CQRS.Events;
 global using Cross.CQRS.Extensions;
 global using Cross.CQRS.Filters;
