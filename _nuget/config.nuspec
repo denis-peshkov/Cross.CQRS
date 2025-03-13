@@ -13,8 +13,7 @@
     <readme>docs\README.md</readme>
     <icon>icon.png</icon>
     <releaseNotes>
-      Added CommandEventTypeEnum to define a type of Event, which should process event inside or outside of a transaction.
-      Renamed EventQueueProcessBehavior into CommandEventQueueProcessBehavior, EventHandler into CommandEventHandler, EventQueue into CommandEventQueue, IEvent into ICommandEvent, IEventQueue into ICommandEventQueue, IEventQueueReader into ICommandEventQueueReader and IEventQueueWriter into ICommandEventQueueWriter.
+      Added ILogger into CommandEventHandler and CommandHandler and QueryHandler.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
