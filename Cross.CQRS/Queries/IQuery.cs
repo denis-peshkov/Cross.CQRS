@@ -8,7 +8,7 @@ namespace Cross.CQRS.Queries;
 ///     Do not use it to change database entities, instead use <see cref="ICommand"/>.
 /// </remarks>
 /// <typeparam name="TResult">Query result.</typeparam>
-public interface IQuery<out TResult> : IRequest<TResult>
+public interface IQuery<out TResult> : IRequest<TResult>, IInternalLogObject
 {
     /// <summary>
     /// Unique query identifier.

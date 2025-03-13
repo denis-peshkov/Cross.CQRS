@@ -1,11 +1,11 @@
-﻿namespace SampleWebApp.Modules.Test;
+﻿namespace SampleWebApp.Modules.TestEventsCommand.Events;
 
 public class TestOnExceptionEvent : ICommandEvent
 {
     public Guid CommandId { get; }
 
     public virtual CommandEventFlowTypeEnum EventFlowType()
-        => CommandEventFlowTypeEnum.OnExceptionalFlow;
+        => CommandEventFlowTypeEnum.ExceptionSafeFlow;
 
     public TestOnExceptionEvent(Guid commandId)
     {

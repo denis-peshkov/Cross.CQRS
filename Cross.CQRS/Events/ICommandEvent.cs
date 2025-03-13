@@ -1,6 +1,6 @@
 namespace Cross.CQRS.Events;
 
-public interface ICommandEvent : INotification
+public interface ICommandEvent : INotification, IInternalLogObject
 {
     /// <summary>
     /// Identifier of source which led to creation of event, e.g. <see cref="ICommand.CommandId"/>.
@@ -12,5 +12,5 @@ public interface ICommandEvent : INotification
     /// </summary>
     /// <returns></returns>
     CommandEventFlowTypeEnum EventFlowType()
-        => CommandEventFlowTypeEnum.OnStandardFlow;
+        => CommandEventFlowTypeEnum.StandardFlow;
 }

@@ -47,7 +47,7 @@ Added IResultFilter with Behaviour to filter result of query or command.
 Add autobuild/push Nuget packets.
 
 8.2.2 - 16 May 2024
-Fix pipeline
+Fix pipeline.
 
 8.3.0 - 03 Yul 2024
 Set the RequestFilterBehavior before the ValidationBehavior.
@@ -56,6 +56,18 @@ Set the RequestFilterBehavior before the ValidationBehavior.
 Small internal refactoring.
 Fix build pipeline.
 
-9.0.0 - 04 Mar 2025
+9.1.0 - 04 Mar 2025
 Added CommandEventTypeEnum to define a type of Event, which should process event inside or outside of a transaction.
 Renamed EventQueueProcessBehavior into CommandEventQueueProcessBehavior, EventHandler into CommandEventHandler, EventQueue into CommandEventQueue, IEvent into ICommandEvent, IEventQueue into ICommandEventQueue, IEventQueueReader into ICommandEventQueueReader and IEventQueueWriter into ICommandEventQueueWriter.
+
+9.1.1 - 09 Mar 2025
+Add SonarCloud.
+
+9.1.2 - 09 Mar 2025
+Hotfix/add some examples.
+
+9.2.0 - 09 Mar 2025
+add ILogger on CommandEvent processing.
+
+10.0.0 - 13 Mar 2025
+Added ILogger into CommandEventHandler and CommandHandler and QueryHandler.

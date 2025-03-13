@@ -1,4 +1,4 @@
-﻿namespace SampleWebApp.Modules.Test;
+﻿namespace SampleWebApp.Modules.TestEventsCommand.Events;
 
 public class TestEvent  : ICommandEvent
 {
