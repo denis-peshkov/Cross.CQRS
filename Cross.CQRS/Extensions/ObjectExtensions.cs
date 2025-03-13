@@ -4,7 +4,7 @@ public static class ObjectExtensions
 {
     public static int GetObjectSize(this object obj)
     {
-        var array = Array.Empty<byte>();
+        byte[] array;
 
         try
         {
@@ -14,6 +14,7 @@ public static class ObjectExtensions
         catch (InvalidOperationException)
         {
             // do ignore InvalidOperationException when try to serialize obj with Stream field
+            return int.MaxValue;
         }
 
         return array.Length;
