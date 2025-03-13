@@ -47,7 +47,7 @@ Added IResultFilter with Behaviour to filter result of query or command.
 Add autobuild/push Nuget packets.
 
 8.2.2 - 16 May 2024
-Fix pipeline
+Fix pipeline.
 
 8.3.0 - 03 Yul 2024
 Set the RequestFilterBehavior before the ValidationBehavior.
