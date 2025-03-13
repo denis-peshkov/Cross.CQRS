@@ -13,7 +13,12 @@ public static class ObjectExtensions
         }
         catch (InvalidOperationException)
         {
-            // do ignore InvalidOperationException when try to serialize obj with Stream field
+            // Do ignore. InvalidOperationException when try to serialize obj with Stream field
+            return int.MaxValue;
+        }
+        catch (NotSupportedException)
+        {
+            // Do ignore. Serialization and deserialization of 'System.Type' instances is not supported. Path: $.EntitySelector.Type.
             return int.MaxValue;
         }
 
