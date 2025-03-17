@@ -26,7 +26,7 @@ public abstract class CommandEventHandler<TCommandEvent> : INotificationHandler<
         sw.Start();
         await HandleAsync(commandEvent, cancellationToken);
         sw.Stop();
-        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {ElapsedMilliseconds} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
+        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
     }
 
     /// <summary>

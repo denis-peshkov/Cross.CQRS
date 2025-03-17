@@ -23,7 +23,7 @@ public abstract class CommandHandler<TCommand> : AsyncRequestHandlerBase<TComman
         sw.Start();
         await HandleAsync(command, cancellationToken);
         sw.Stop();
-        Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {ElapsedMilliseconds} ms.", command.GetGenericTypeName(), command.CommandId, sw.ElapsedMilliseconds);
+        Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, sw.ElapsedMilliseconds);
     }
 
     protected abstract Task HandleAsync(TCommand command, CancellationToken cancellationToken);

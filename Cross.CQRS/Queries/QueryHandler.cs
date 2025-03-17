@@ -21,7 +21,7 @@ public abstract class QueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TR
         sw.Start();
         var result = await HandleAsync(request, cancellationToken);
         sw.Stop();
-        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully for a {ElapsedMilliseconds} ms.", request.GetGenericTypeName(), request.QueryId, sw.ElapsedMilliseconds);
+        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully for a {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, sw.ElapsedMilliseconds);
         return result;
     }
 
