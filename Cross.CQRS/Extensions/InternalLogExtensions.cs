@@ -259,7 +259,7 @@ public static class InternalLogExtensions
         using (logger.BeginScope(new List<KeyValuePair<string, object?>>
                {
                    new("CommandEventSize", size),
-                   new("CommandEvent", size > MaxSizeInBytes ? null : ev),
+                   new("CommandEvent", size > MaxSizeInBytes ? null : JsonSerializer.Serialize(ev)),
                    new("CommandEventType", ev.GetGenericTypeName()),
                    new("CommandId", ev.CommandId),
                }))
@@ -276,7 +276,7 @@ public static class InternalLogExtensions
         using (logger.BeginScope(new List<KeyValuePair<string, object?>>
                {
                    new("CommandSize", size),
-                   new("Command", size > MaxSizeInBytes ? null : command),
+                   new("Command", size > MaxSizeInBytes ? null : JsonSerializer.Serialize(command)),
                    new("CommandType", command.GetGenericTypeName()),
                    new("CommandId", command.CommandId),
                }))
@@ -293,7 +293,7 @@ public static class InternalLogExtensions
         using (logger.BeginScope(new List<KeyValuePair<string, object?>>
                {
                    new("CommandSize", size),
-                   new("Command", size > MaxSizeInBytes ? null : command),
+                   new("Command", size > MaxSizeInBytes ? null : JsonSerializer.Serialize(command)),
                    new("CommandType", command.GetGenericTypeName()),
                    new("CommandId", command.CommandId),
                }))
@@ -310,7 +310,7 @@ public static class InternalLogExtensions
         using (logger.BeginScope(new List<KeyValuePair<string, object?>>
                {
                    new("QuerySize", size),
-                   new("Query", size > MaxSizeInBytes ? null : query),
+                   new("Query", size > MaxSizeInBytes ? null : JsonSerializer.Serialize(query)),
                    new("QueryType", query.GetGenericTypeName()),
                    new("QueryId", query.QueryId),
                }))
