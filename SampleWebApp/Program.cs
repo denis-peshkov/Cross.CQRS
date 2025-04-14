@@ -1,7 +1,3 @@
-using SampleWebApp.Modules.TestCommandGeneric.Handlers;
-using SampleWebApp.Modules.TestEventsCommand.Handlers;
-using SampleWebApp.Modules.TestQueryGeneric.Handlers;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container. Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,7 +25,7 @@ app.MapGet("/testEventsCommand", async (IMediator mediator) =>
 
 app.MapGet("/testGenericCommand", async (IMediator mediator) =>
 {
-    return await mediator.Send(new TestGenericCommand());
+    return await mediator.Send(new TestGenericCommand("bcdhbcjdbcjdbcjd"));
 });
 
 app.MapGet("/testGenericQuery", async (IMediator mediator) =>

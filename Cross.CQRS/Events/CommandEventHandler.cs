@@ -22,11 +22,10 @@ public abstract class CommandEventHandler<TCommandEvent> : INotificationHandler<
     public async Task Handle(TCommandEvent commandEvent, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has begun.", commandEvent.GetGenericTypeName(), commandEvent.CommandId);
-        var sw = new Stopwatch();
-        sw.Start();
+        var start = Stopwatch.GetTimestamp();
         await HandleAsync(commandEvent, cancellationToken);
-        sw.Stop();
-        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, sw.ElapsedMilliseconds);
+        var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
+        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, elapsed);
     }
 
     /// <summary>

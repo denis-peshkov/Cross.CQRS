@@ -9,7 +9,7 @@ public class TestGenericCommandHandler : CommandHandler<TestGenericCommand, int>
 
     protected override Task<int> HandleAsync(TestGenericCommand eventsGenericCommand, CancellationToken cancellationToken)
     {
-        Logger.LogInformation("TestCommandGenericHandler");
+        Logger.InternalLogInformation<TestGenericCommandHandler>(eventsGenericCommand, "TestCommandGenericHandler");
 
        return Task.FromResult(1);
     }
