@@ -19,11 +19,10 @@ public abstract class CommandHandler<TCommand, TResult> : IRequestHandler<TComma
     public async Task<TResult> Handle(TCommand command, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<TResult>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has begun.", command.GetGenericTypeName(), command.CommandId);
-        var sw = new Stopwatch();
-        sw.Start();
+        var start = Stopwatch.GetTimestamp();
         var result = await HandleAsync(command, cancellationToken);
-        sw.Stop();
-        Logger.InternalLogTrace<TResult>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, sw.ElapsedMilliseconds);
+        var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
+        Logger.InternalLogTrace<TResult>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, elapsed);
         return result;
     }
 

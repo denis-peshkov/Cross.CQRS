@@ -77,3 +77,11 @@ Make ObjectExtensions.GetObjectSize() safe for some cases.
 
 10.1.1 - 17 Mar 2025
 Fix log field name.
+
+10.1.2 - 11 Apr 2025
+Fix log value for Command, Event, Query.
+
+10.1.3 - 14 Apr 2025
+Fix issue with logging of Command, EventCommand and Query objects.
+Optimize work with Stopwatch.
+Improve internal logging.

@@ -17,11 +17,10 @@ public abstract class QueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TR
     public async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has begun.", request.GetGenericTypeName(), request.QueryId);
-        var sw = new Stopwatch();
-        sw.Start();
+        var start = Stopwatch.GetTimestamp();
         var result = await HandleAsync(request, cancellationToken);
-        sw.Stop();
-        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully for a {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, sw.ElapsedMilliseconds);
+        var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
+        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully for a {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, elapsed);
         return result;
     }
 

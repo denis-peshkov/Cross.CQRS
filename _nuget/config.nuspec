@@ -13,7 +13,9 @@
     <readme>docs\README.md</readme>
     <icon>icon.png</icon>
     <releaseNotes>
-      Fix log field name.
+      Fix issue with logging of Command, EventCommand and Query objects.
+      Optimize work with Stopwatch.
+      Improve internal logging.
     </releaseNotes>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>

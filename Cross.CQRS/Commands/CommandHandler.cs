@@ -19,11 +19,10 @@ public abstract class CommandHandler<TCommand> : AsyncRequestHandlerBase<TComman
     public override async Task Handle(TCommand command, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has begun.", command.GetGenericTypeName(), command.CommandId);
-        var sw = new Stopwatch();
-        sw.Start();
+        var start = Stopwatch.GetTimestamp();
         await HandleAsync(command, cancellationToken);
-        sw.Stop();
-        Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, sw.ElapsedMilliseconds);
+        var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
+        Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, elapsed);
     }
 
     protected abstract Task HandleAsync(TCommand command, CancellationToken cancellationToken);
