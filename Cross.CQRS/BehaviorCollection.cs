@@ -3,6 +3,7 @@
 public sealed class BehaviorCollection
 {
     private readonly IServiceCollection _services;
+
     private readonly Dictionary<Type, int> _orderedPipelineBehaviors = new();
 
     public BehaviorCollection(IServiceCollection services)

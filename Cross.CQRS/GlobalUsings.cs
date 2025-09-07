@@ -21,5 +21,7 @@ global using FluentValidation;
 global using FluentValidation.Results;
 global using JetBrains.Annotations;
 global using MediatR;
+global using MediatR.NotificationPublishers;
+global using MediatR.Pipeline;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;

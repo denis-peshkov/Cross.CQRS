@@ -34,7 +34,13 @@ public static class ServiceCollectionExtensions
                 .WithScopedLifetime()
         );
 
-        services.AddMediatR(o => o.AsScoped(), assemblies);
+        services.AddMediatR(
+            cfg =>
+            {
+                cfg.Lifetime = ServiceLifetime.Scoped;
+                cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher); // ForeachAwaitPublisher, TaskWhenAllPublisher
+                cfg.RegisterServicesFromAssemblies(assemblies);
+            });
 
         services.AddSingleton<IHandlerLocator>(_ => new HandlerLocator(services));
 
@@ -46,7 +52,7 @@ public static class ServiceCollectionExtensions
         // Behaviors registered earlier will be executed earlier
         behaviorCollection.AddBehavior(typeof(CommandEventQueueProcessBehavior<,>), order: 0);
         behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 1);
-        behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 2);
+        behaviorCollection.AddBehavior(typeof(ValidationBehavior<>), order: 2);
         behaviorCollection.AddBehavior(typeof(ResultFilterBehavior<,>), order: 3);
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);

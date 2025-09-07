@@ -20,7 +20,7 @@ public abstract class QueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TR
         var start = Stopwatch.GetTimestamp();
         var result = await HandleAsync(request, cancellationToken);
         var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
-        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully for a {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, elapsed);
+        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully in {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, elapsed);
         return result;
     }
 

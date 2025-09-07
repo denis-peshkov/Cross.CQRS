@@ -22,7 +22,7 @@ public abstract class CommandHandler<TCommand, TResult> : IRequestHandler<TComma
         var start = Stopwatch.GetTimestamp();
         var result = await HandleAsync(command, cancellationToken);
         var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
-        Logger.InternalLogTrace<TResult>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, elapsed);
+        Logger.InternalLogTrace<TResult>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully in {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, elapsed);
         return result;
     }
 
