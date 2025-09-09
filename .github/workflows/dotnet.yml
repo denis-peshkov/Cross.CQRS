@@ -73,7 +73,7 @@ jobs:
             -p:Version=${GitVersion_SemVer} \
             -p:AssemblyVersion=${GitVersion_AssemblySemVer} \
             -p:FileVersion=${GitVersion_AssemblySemFileVer} \
-            -p:InformationalVersion=${GitVersion_InformationalVersion} \
+            -p:InformationalVersion="${GitVersion_InformationalVersion}" \
             -p:Company="Denis Peshkov" \
             -p:Product="Cross.CQRS" \
             -p:Description="$DESC" \
