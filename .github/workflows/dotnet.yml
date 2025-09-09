@@ -63,10 +63,6 @@ jobs:
 #        run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
 
       - name: Build
-        env:
-          DESC: >-
-            Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. 
-            Published on Nuget at https://www.nuget.org/packages/Cross.CQRS
         run: |
           dotnet build "$SOLUTION" --configuration "$BUILD_CONFIG" --no-restore \
             -p:Configuration=$BUILD_CONFIG \
@@ -76,7 +72,7 @@ jobs:
             -p:InformationalVersion="${GitVersion_InformationalVersion}" \
             -p:Company="Denis Peshkov" \
             -p:Product="Cross.CQRS" \
-            -p:Description="$DESC" \
+            -p:Description="Simple .NET MediatR base Query\, Command\, Event. Event Queue and Validation behaviors. Published on Nuget at https://www.nuget.org/packages/Cross.CQRS" \
             -p:RepositoryUrl="https://github.com/denis-peshkov/Cross.CQRS.git" \
             -p:RepositoryType=git \
             -p:CLSCompliant=true \
