@@ -13,25 +13,19 @@
     <readme>docs\README.md</readme>
     <icon>icon.png</icon>
     <releaseNotes><![CDATA[
-      1) Logging Improvements
-      - Changed "for a {Elapsed} ms" to "in {Elapsed} ms"
-      - Optimized Stopwatch usage
-      - Improved internal logging
-
-      2) Dependency Updates
-      - FluentValidation 11.11.0
-      - MediatR 12.5.0
-
-      3) Architectural Changes
-      - Removed AsyncRequestHandlerBase
-      - CommandHandler<TCommand> now implements IRequestHandler<TCommand>
-      - ValidationBehavior now uses IRequestPreProcessor
-      - Added TaskWhenAllPublisher for MediatR
-
-      4) Code Optimizations
-      - Simplified methods
-      - Improved formatting
-      - Refactoring for cleaner architecture
+1) Logging Improvements:
+- Enhanced log message formatting (changed "for a {Elapsed} ms" to "in {Elapsed} ms")
+- Optimized work with Stopwatch
+- Improved internal logging
+2) Dependency Updates:
+- FluentValidation upgraded to version 11.11.0
+3) Architectural Changes:
+- Removed `AsyncRequestHandlerBase` class
+- `CommandHandler<TCommand>` now directly implements `IRequestHandler<TCommand>`
+4) Code Optimizations:
+- Simplified some methods
+- Improved code formatting
+- Refactoring for cleaner architecture
 ]]></releaseNotes>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
