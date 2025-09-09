@@ -34,16 +34,16 @@ public static class ServiceCollectionExtensions
                 .WithScopedLifetime()
         );
 
-        services.AddMediatR(
-            cfg =>
-            {
-                cfg.Lifetime = ServiceLifetime.Scoped;
-                cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher); // ForeachAwaitPublisher, TaskWhenAllPublisher
-                cfg.RegisterServicesFromAssemblies(assemblies);
-            });
+        services.AddMediatR(o => o.AsScoped(), assemblies);
+        // services.AddMediatR( // v. 12.5.0
+        //     cfg =>
+        //     {
+        //         cfg.Lifetime = ServiceLifetime.Scoped;
+        //         cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher); // ForeachAwaitPublisher, TaskWhenAllPublisher
+        //         cfg.RegisterServicesFromAssemblies(assemblies);
+        //     });
 
         services.AddSingleton<IHandlerLocator>(_ => new HandlerLocator(services));
-
 
         services.AddScoped<ICommandEventQueue, CommandEventQueue>();
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Reader);

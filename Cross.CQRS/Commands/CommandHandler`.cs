@@ -16,7 +16,7 @@ public abstract class CommandHandler<TCommand, TResult> : IRequestHandler<TComma
     }
 
     /// <inheritdoc />
-    public async Task<TResult> Handle(TCommand command, CancellationToken cancellationToken)
+    async Task<TResult> IRequestHandler<TCommand, TResult>.Handle(TCommand command, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<TResult>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has begun.", command.GetGenericTypeName(), command.CommandId);
         var start = Stopwatch.GetTimestamp();
