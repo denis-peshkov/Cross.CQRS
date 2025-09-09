@@ -44,15 +44,20 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IHandlerLocator>(_ => new HandlerLocator(services));
 
+
         services.AddScoped<ICommandEventQueue, CommandEventQueue>();
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Reader);
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Writer);
+
+        // Changed to use IRequestPreProcessor instead of IPipelineBehavior for validation
+        services.AddScoped(typeof(IRequestPreProcessor<>), typeof(ValidationBehavior<>));
 
         // Registration order is important, it works like ASP.NET Core middleware
         // Behaviors registered earlier will be executed earlier
         behaviorCollection.AddBehavior(typeof(CommandEventQueueProcessBehavior<,>), order: 0);
         behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 1);
-        behaviorCollection.AddBehavior(typeof(ValidationBehavior<>), order: 2);
+        // Remove this line since we're now using IRequestPreProcessor
+        // behaviorCollection.AddBehavior(typeof(ValidationBehavior<>), order: 2);
         behaviorCollection.AddBehavior(typeof(ResultFilterBehavior<,>), order: 3);
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);
