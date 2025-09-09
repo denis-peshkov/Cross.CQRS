@@ -3,7 +3,7 @@ namespace Cross.CQRS.Commands;
 /// <summary>
 /// Base command handler.
 /// </summary>
-public abstract class CommandHandler<TCommand> : IRequestHandler<TCommand>
+public abstract class CommandHandler<TCommand> : IRequestHandler<TCommand, Unit>
     where TCommand : ICommand
 {
     protected ICommandEventQueueWriter CommandEvents { get; }
@@ -17,13 +17,14 @@ public abstract class CommandHandler<TCommand> : IRequestHandler<TCommand>
     }
 
     /// <inheritdoc />
-    public async Task Handle(TCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(TCommand command, CancellationToken cancellationToken)
     {
         Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has begun.", command.GetGenericTypeName(), command.CommandId);
         var start = Stopwatch.GetTimestamp();
         await HandleAsync(command, cancellationToken);
         var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
         Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully in {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, elapsed);
+        return Unit.Value;
     }
 
     protected abstract Task HandleAsync(TCommand command, CancellationToken cancellationToken);
