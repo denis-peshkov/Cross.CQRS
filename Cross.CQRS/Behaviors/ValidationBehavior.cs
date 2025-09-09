@@ -1,7 +1,7 @@
 ﻿namespace Cross.CQRS.Behaviors;
 
-internal sealed class ValidationBehavior<TRequest> : IRequestPreProcessor<TRequest>
-    where TRequest : IRequest
+internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -11,12 +11,12 @@ internal sealed class ValidationBehavior<TRequest> : IRequestPreProcessor<TReque
     }
 
     /// <inheritdoc />
-    public async Task Process(TRequest request, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var validators = _validators.ToList();
         if (!validators.Any())
         {
-            return;
+            return await next();
         }
 
         var results = new List<ValidationResult>();
@@ -37,5 +37,7 @@ internal sealed class ValidationBehavior<TRequest> : IRequestPreProcessor<TReque
         {
             throw new ValidationException(failures);
         }
+
+        return await next();
     }
 }
