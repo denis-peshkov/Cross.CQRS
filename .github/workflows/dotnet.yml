@@ -69,11 +69,11 @@ jobs:
             -p:Version=${GitVersion_SemVer} \
             -p:AssemblyVersion=${GitVersion_AssemblySemVer} \
             -p:FileVersion=${GitVersion_AssemblySemFileVer} \
-            -p:InformationalVersion="${GitVersion_InformationalVersion}" \
-            -p:Company="Denis Peshkov" \
-            -p:Product="Cross.CQRS" \
-            -p:Description="Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Published on Nuget at https://www.nuget.org/packages/Cross.CQRS" \
-            -p:RepositoryUrl="https://github.com/denis-peshkov/Cross.CQRS.git" \
+            -p:InformationalVersion=${GitVersion_InformationalVersion} \
+            -p:Company='Denis Peshkov' \
+            -p:Product='Cross.CQRS' \
+            -p:Description='Simple .NET MediatR base Query, Command, Event. Event Queue and Validation behaviors. Published on Nuget at https://www.nuget.org/packages/Cross.CQRS' \
+            -p:RepositoryUrl='https://github.com/denis-peshkov/Cross.CQRS.git' \
             -p:RepositoryType=git \
             -p:CLSCompliant=true \
             -p:NeutralLanguage=en
