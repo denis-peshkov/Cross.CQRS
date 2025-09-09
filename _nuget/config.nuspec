@@ -20,9 +20,9 @@
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <dependencies>
-      <dependency id="FluentValidation" version="11.8.1" />
-      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.8.1" />
-      <dependency id="MediatR" version="11.1.0" />
+      <dependency id="FluentValidation" version="11.11.0" />
+      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.11.0" />
+      <dependency id="MediatR" version="12.5.0" />
       <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
       <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
       <dependency id="Microsoft.CSharp" version="4.7.0" />
