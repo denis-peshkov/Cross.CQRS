@@ -3,25 +3,35 @@
   <metadata>
     <id>Cross.CQRS</id>
     <version>0.0.0</version>
-    <authors>denis-peshkov</authors>
-    <owners>denis-peshkov</owners>
-    <copyright>Copyright 2024</copyright>
+    <authors>Denis Peshkov</authors>
+    <owners>Denis Peshkov</owners>
+    <copyright>Copyright 2025</copyright>
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
-    <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS" />
+    <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS.git" />
     <readme>docs\README.md</readme>
     <icon>icon.png</icon>
-    <releaseNotes>
-      Fix issue with logging of Command, EventCommand and Query objects.
-      Optimize work with Stopwatch.
-      Improve internal logging.
-    </releaseNotes>
+    <releaseNotes><![CDATA[
+1) Logging Improvements:
+- Enhanced log message formatting (changed "for a {Elapsed} ms" to "in {Elapsed} ms")
+- Optimized work with Stopwatch
+- Improved internal logging
+2) Dependency Updates:
+- FluentValidation upgraded to version 11.11.0
+3) Architectural Changes:
+- Removed `AsyncRequestHandlerBase` class
+- `CommandHandler<TCommand>` now directly implements `IRequestHandler<TCommand>`
+4) Code Optimizations:
+- Simplified some methods
+- Improved code formatting
+- Refactoring for cleaner architecture
+]]></releaseNotes>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <dependencies>
-      <dependency id="FluentValidation" version="11.8.1" />
-      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.8.1" />
+      <dependency id="FluentValidation" version="11.11.0" />
+      <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.11.0" />
       <dependency id="MediatR" version="11.1.0" />
       <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
       <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />

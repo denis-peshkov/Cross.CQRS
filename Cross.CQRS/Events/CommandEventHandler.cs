@@ -25,7 +25,7 @@ public abstract class CommandEventHandler<TCommandEvent> : INotificationHandler<
         var start = Stopwatch.GetTimestamp();
         await HandleAsync(commandEvent, cancellationToken);
         var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
-        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully for a {Elapsed} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, elapsed);
+        Logger.InternalLogTrace<TCommandEvent>(commandEvent, "Handling of the CommandEventType: {CommandEventType} for CommandId: {CommandId} has completed successfully in {Elapsed} ms.", commandEvent.GetGenericTypeName(), commandEvent.CommandId, elapsed);
     }
 
     /// <summary>

@@ -35,12 +35,22 @@ public static class ServiceCollectionExtensions
         );
 
         services.AddMediatR(o => o.AsScoped(), assemblies);
+        // services.AddMediatR( // v. 12.5.0
+        //     cfg =>
+        //     {
+        //         cfg.Lifetime = ServiceLifetime.Scoped;
+        //         cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher); // ForeachAwaitPublisher, TaskWhenAllPublisher
+        //         cfg.RegisterServicesFromAssemblies(assemblies);
+        //     });
 
         services.AddSingleton<IHandlerLocator>(_ => new HandlerLocator(services));
 
         services.AddScoped<ICommandEventQueue, CommandEventQueue>();
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Reader);
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Writer);
+
+        // Changed to use IRequestPreProcessor instead of IPipelineBehavior for validation
+        // services.AddScoped(typeof(IRequestPreProcessor<>), typeof(ValidationBehavior<>));
 
         // Registration order is important, it works like ASP.NET Core middleware
         // Behaviors registered earlier will be executed earlier
