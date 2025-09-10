@@ -86,7 +86,7 @@ Fix issue with logging of Command, EventCommand and Query objects.
 Optimize work with Stopwatch.
 Improve internal logging.
 
-10.1.4 - 07 Sep 2025
+10.1.4 - 10 Sep 2025
 1) Logging Improvements:
    - Enhanced log message formatting (changed "for a {Elapsed} ms" to "in {Elapsed} ms")
    - Optimized work with Stopwatch

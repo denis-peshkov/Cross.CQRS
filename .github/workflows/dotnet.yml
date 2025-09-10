@@ -29,19 +29,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          # Disabling shallow clones is recommended for improving the relevancy of reporting
           fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-
-#      # required for run-on ubuntu-latest
-#      - name: Install Mono
-#        run: |
-#          apt-get install -y mono-runtime
-#          apt-get install -y mono-complete
-#          apt-get install -y nuget
 
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2.0.0
@@ -58,9 +52,6 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
-
-#      - name: Build
-#        run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
 
       - name: Build
         run: |
