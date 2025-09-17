@@ -1,15 +1,15 @@
 namespace Cross.CQRS.Events;
 
-public class CommandEventQueue : ICommandEventQueue
+public sealed class CommandEventQueue : ICommandEventQueue
 {
-    private static readonly object _lock = new();
+    private readonly object _lock = new();
 
     public CommandEventQueue()
     {
         var store = new Queue<ICommandEvent>();
 
-        Writer = new CommandEventQueueWriter(store);
-        Reader = new CommandEventQueueReader(store);
+        Writer = new CommandEventQueueWriter(store, _lock);
+        Reader = new CommandEventQueueReader(store, _lock);
     }
 
     /// <inheritdoc />
@@ -21,17 +21,19 @@ public class CommandEventQueue : ICommandEventQueue
     private sealed class CommandEventQueueReader : ICommandEventQueueReader
     {
         private readonly Queue<ICommandEvent> _eventStore;
+        private readonly object _lock;
 
-        public CommandEventQueueReader(Queue<ICommandEvent> eventStore)
+        public CommandEventQueueReader(Queue<ICommandEvent> eventStore, object lck)
         {
             _eventStore = eventStore;
+            _lock = lck;
         }
 
         /// <inheritdoc />
         public IReadOnlyCollection<ICommandEvent> Read(Guid requestId, CommandEventFlowTypeEnum commandEventFlow)
         {
-            var result = new List<ICommandEvent>();
-            var newQueue = new List<ICommandEvent>();
+            var result = new Queue<ICommandEvent>();
+            var newQueue = new Queue<ICommandEvent>();
 
             lock (_lock)
             {
@@ -39,22 +41,17 @@ public class CommandEventQueue : ICommandEventQueue
                 {
                     if (commandEvent.CommandId == requestId && commandEvent.EventFlowType() == commandEventFlow)
                     {
-                        result.Add(commandEvent);
+                        result.Enqueue(commandEvent);
                     }
                     else
                     {
-                        newQueue.Add(commandEvent);
+                        newQueue.Enqueue(commandEvent);
                     }
                 }
 
-                _eventStore.Clear();
-
-                newQueue.Reverse(); // Reverse to preserve order
-
-                foreach (var unmatched in newQueue)
-                {
-                    _eventStore.Enqueue(unmatched);
-                }
+                // возвращаем НЕподходящие в исходном порядке (без Reverse!)
+                while (newQueue.TryDequeue(out var ev))
+                    _eventStore.Enqueue(ev);
 
                 return result;
             }
@@ -64,20 +61,25 @@ public class CommandEventQueue : ICommandEventQueue
     private sealed class CommandEventQueueWriter : ICommandEventQueueWriter
     {
         private readonly Queue<ICommandEvent> _eventStore;
+        private readonly object _lock;
 
-        public CommandEventQueueWriter(Queue<ICommandEvent> eventStore)
+        public CommandEventQueueWriter(Queue<ICommandEvent> eventStore, object lck)
         {
             _eventStore = eventStore;
+            _lock = lck;
         }
 
         /// <inheritdoc />
         public void Write(ICommandEvent commandEvent)
         {
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(commandEvent);
+#else
             if (commandEvent == null)
             {
                 throw new ArgumentNullException(nameof(commandEvent));
             }
-
+#endif
             lock (_lock)
             {
                 _eventStore.Enqueue(commandEvent);
