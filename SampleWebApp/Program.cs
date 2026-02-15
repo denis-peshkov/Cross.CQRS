@@ -6,8 +6,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 // MediatR
-builder.Services
-    .AddCQRS(typeof(Program).Assembly);
+builder.Services.AddCQRS(cfg =>
+{
+    cfg.RegisterFromAssemblies(typeof(TestGenericCommand).Assembly);
+    cfg.LicenseKey = "1234567890";
+});
 
 var app = builder.Build();
 

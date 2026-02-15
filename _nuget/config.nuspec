@@ -5,13 +5,15 @@
     <version>0.0.0</version>
     <authors>Denis Peshkov</authors>
     <owners>Denis Peshkov</owners>
-    <copyright>Copyright 2025</copyright>
-    <license type="expression">MIT</license>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright Denis Peshkov</copyright>
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
     <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS.git" />
-    <readme>docs\README.md</readme>
+    <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
+    <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <icon>icon.png</icon>
+    <readme>README.md</readme>
+    <license type="file">LICENSE.md</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes><![CDATA[
 1) Logging Improvements:
 - Enhanced log message formatting (changed "for a {Elapsed} ms" to "in {Elapsed} ms")
@@ -27,8 +29,6 @@
 - Improved code formatting
 - Refactoring for cleaner architecture
 ]]></releaseNotes>
-    <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Written on C#.</description>
-    <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior SyntaxNotes NetCore</tags>
     <dependencies>
       <dependency id="FluentValidation" version="11.11.0" />
       <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.11.0" />
@@ -46,7 +46,8 @@
     <file src="..\Cross.CQRS\bin\Release\net6.0\Cross.CQRS*.* " target="lib\net6.0" />
     <file src="..\Cross.CQRS\bin\Release\net7.0\Cross.CQRS*.* " target="lib\net7.0" />
     <file src="..\Cross.CQRS\bin\Release\net8.0\Cross.CQRS*.* " target="lib\net8.0" />
-    <file src="..\README.md" target="docs\" />
+    <file src="..\LICENSE.md" target="" />
+    <file src="..\README.md" target="" />
     <file src="..\icon.png" target="" />
   </files>
 </package>

@@ -17,9 +17,9 @@ Main Features:
 
 * **CommandEvents, CommandEventHandlers, CommandEventWriter, CommandEventReader and CommandEventQueueProcessBehavior**.
 
-  Implemented base patterns to crate CommandEvents, approach how to write a new CommandEvents from the Commands, consuming patterns and behavior to handle it.
+  Implemented base patterns to create CommandEvents, approach how to write a new CommandEvents from the Commands, consuming patterns and behavior to handle it.
   The main idea is to do some actions after the Commands have to be finished, to avoid cases when one Command call another one. 
-  Added possibility to exclude the processing of some CommandEvents from Command transaction (even on trow Exception).
+  Added possibility to exclude the processing of some CommandEvents from Command transaction (even on throw Exception).
 
 * **Filters**.
 
@@ -42,10 +42,76 @@ https://www.nuget.org/packages/Cross.CQRS
 
 ## Installation
 
-Clone repository or Install Nuget Package
-```
+You should install [Cross.CQRS with NuGet](https://www.nuget.org/packages/Cross.CQRS) package:
+```shell
 Install-Package Cross.CQRS
 ```
+
+Or via the .NET Core command line interface:
+```shell
+dotnet add package Cross.CQRS
+```
+
+Either commands, from Package Manager Console or .NET Core CLI, will download and install Cross.CQRS and all required dependencies.
+
+### Registering with `IServiceCollection`
+
+Cross.CQRS supports `Microsoft.Extensions.DependencyInjection.Abstractions` directly. To register Cross.CQRS services and handlers, use the configuration overload:
+
+```csharp
+services.AddCQRS(cfg =>
+{
+    cfg.RegisterFromAssemblies(typeof(Startup).Assembly);
+});
+```
+
+or with `RegisterFromAssemblyContaining`:
+
+```csharp
+services.AddCQRS(cfg =>
+{
+    cfg.RegisterFromAssemblyContaining<Startup>();
+});
+```
+
+Multiple assemblies:
+
+```csharp
+services.AddCQRS(cfg =>
+{
+    cfg.RegisterFromAssemblies(typeof(Startup).Assembly, typeof(Other).Assembly);
+});
+```
+
+With license key:
+
+```csharp
+services.AddCQRS(cfg =>
+{
+    cfg.RegisterFromAssemblyContaining<Startup>();
+    cfg.LicenseKey = "<license key here>";
+});
+```
+
+This registers (via MediatR with **Scoped** lifetime):
+- `IMediator`, `ISender`, `IPublisher` — scoped
+- `IRequestHandler<,>` and `IRequestHandler<>` implementations — scoped
+- `INotificationHandler<>` implementations — scoped
+- `IStreamRequestHandler<>` implementations — scoped
+- `IRequestExceptionHandler<,,>` and `IRequestExceptionAction<,>` implementations — scoped
+
+Additionally registered:
+- FluentValidation validators from the specified assemblies — scoped
+- `IResultFilter<,>` and `IRequestFilter<>` — scoped
+- `IHandlerLocator` — singleton
+- `ICommandEventQueue` and its reader/writer — scoped
+- Pipeline behaviors: `LicenseCheckBehavior` (mandatory license check on first CQRS request), `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior` — scoped
+
+The license check runs automatically on the first CQRS request — no additional code required.
+
+The method returns `CqrsRegistrationSyntax` for fluent configuration (e.g. adding custom behaviors).
+
+License keys are available at [peshkov.biz](https://peshkov.biz).
 
 ## Issues and Pull Request
 

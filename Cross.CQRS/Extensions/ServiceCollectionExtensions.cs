@@ -1,17 +1,36 @@
-﻿namespace Cross.CQRS.Extensions;
+namespace Cross.CQRS.Extensions;
 
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers required services from the specified assemblies to the
-    /// specified <see cref="IServiceCollection"/>.
+    /// Registers Cross.CQRS services with the specified configuration.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-    /// <param name="assemblies">Assemblies to scan</param>
+    /// <param name="configure">Configuration action for CQRS options (e.g. LicenseKey, RegisterFromAssembly).</param>
     /// <returns>A reference to this instance after the operation has completed.</returns>
-    public static CqrsRegistrationSyntax AddCQRS(this IServiceCollection services, params Assembly[] assemblies)
+    public static CqrsRegistrationSyntax AddCQRS(this IServiceCollection services, Action<CqrsServiceConfiguration> configure)
     {
+        var options = new CqrsServiceConfiguration();
+        configure(options);
+
+        if (options.Assemblies.Count == 0)
+        {
+            throw new InvalidOperationException("At least one assembly must be registered. Use cfg.RegisterFromAssembly(typeof(Startup).Assembly) or cfg.RegisterFromAssemblyContaining<Startup>().");
+        }
+
+        return AddCQRSInternal(services, options);
+    }
+
+    private static CqrsRegistrationSyntax AddCQRSInternal(IServiceCollection services, CqrsServiceConfiguration serviceConfiguration)
+    {
+        var assemblies = serviceConfiguration.Assemblies.ToArray();
         var behaviorCollection = new BehaviorCollection(services);
+
+        LicenseChecked = false;
+        services.AddSingleton(serviceConfiguration);
+
+        services.AddSingleton<LicenseAccessor>();
+        services.AddSingleton<LicenseValidator>();
 
         // FluentValidations
         services.AddValidatorsFromAssembly(assemblies.FirstOrDefault(), ServiceLifetime.Scoped, result =>
@@ -54,6 +73,7 @@ public static class ServiceCollectionExtensions
 
         // Registration order is important, it works like ASP.NET Core middleware
         // Behaviors registered earlier will be executed earlier
+        behaviorCollection.AddBehavior(typeof(LicenseCheckBehavior<,>), order: -1); // License check runs first and is mandatory for every CQRS request
         behaviorCollection.AddBehavior(typeof(CommandEventQueueProcessBehavior<,>), order: 0);
         behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 1);
         behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 2);
@@ -61,4 +81,20 @@ public static class ServiceCollectionExtensions
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);
     }
+
+    internal static void CheckLicense(this IServiceProvider serviceProvider)
+    {
+        if (LicenseChecked == false)
+        {
+            var licenseAccessor = serviceProvider.GetRequiredService<LicenseAccessor>();
+            var licenseValidator = serviceProvider.GetRequiredService<LicenseValidator>();
+            var license = licenseAccessor.Current;
+            licenseValidator.Validate(license);
+        }
+
+        // if True then check will be performed only once
+        LicenseChecked = true;
+    }
+
+    internal static bool LicenseChecked { get; set; }
 }
