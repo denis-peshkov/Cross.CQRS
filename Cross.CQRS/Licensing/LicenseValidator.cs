@@ -18,11 +18,11 @@ internal class LicenseValidator
                           "If you are running in production you are required to have a licensed version. " +
                           "Please visit https://peshkov.biz to obtain a valid license.";
 
-            _logger.LogWarning(message);
+            _logger.LogCritical(message);
             return;
         }
 
-        _logger.LogDebug("The Peshkov software license key details: {license}", license);
+        _logger.LogDebug("The Peshkov software license key details: {License}", license);
 
         var diff = DateTime.UtcNow.Date.Subtract(license.ExpirationDate!.Value.Date).TotalDays;
         if (diff > 0)
@@ -43,11 +43,11 @@ internal class LicenseValidator
                 _logger.LogError(err);
             }
 
-            _logger.LogError("Please visit https://peshkov.biz to obtain a valid license for the Peshkov software Cross.CQRS.");
+            _logger.LogCritical("Please visit https://peshkov.biz to obtain a valid license for the Peshkov software Cross.CQRS.");
         }
         else
         {
-            _logger.LogInformation("You have a valid license key for the Peshkov software {type} {edition} edition. The license expires on {licenseExpiration}.",
+            _logger.LogInformation("You have a valid license key for the Peshkov software {Type} {Edition} edition. The license expires on {LicenseExpiration}.",
                 license.ProductType,
                 license.Edition,
                 license.ExpirationDate);

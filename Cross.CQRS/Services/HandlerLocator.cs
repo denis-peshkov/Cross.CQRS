@@ -38,7 +38,8 @@ internal sealed class HandlerLocator : IHandlerLocator
             var handlerType = GetHandlerType();
             var descriptor = _serviceCollection.FirstOrDefault(s => s.ServiceType == handlerType);
 
-            return descriptor?.ImplementationType;
+            return descriptor?.ImplementationType
+                   ?? throw new InvalidOperationException($"Handler for request type '{t.FullName}' is not registered.");
         });
     }
 }

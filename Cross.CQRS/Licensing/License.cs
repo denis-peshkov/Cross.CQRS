@@ -2,25 +2,34 @@ namespace Cross.CQRS.Licensing;
 
 internal class License
 {
-    internal License(params Claim[] claims) : this(new ClaimsPrincipal(new ClaimsIdentity(claims)))
+    internal License(params Claim[] claims)
+        : this(new ClaimsPrincipal(new ClaimsIdentity(claims)))
     {
 
     }
 
     public License(ClaimsPrincipal claims)
     {
-        if (Guid.TryParse(claims.FindFirst("account_id")?.Value, out var accountId))
+        if (Guid.TryParse(claims.FindFirst("sub_id")?.Value, out var subscriptionId))
         {
-            AccountId = accountId;
+            SubscriptionId = subscriptionId;
         }
 
-        CustomerId = claims.FindFirst("customer_id")?.Value;
-        SubscriptionId = claims.FindFirst("sub_id")?.Value;
+        if (Guid.TryParse(claims.FindFirst("user_id")?.Value, out var userId))
+        {
+            UserId = userId;
+        }
 
         if (long.TryParse(claims.FindFirst("iat")?.Value, out var iat))
         {
             var startedAt = DateTimeOffset.FromUnixTimeSeconds(iat);
             StartDate = startedAt;
+        }
+
+        if (long.TryParse(claims.FindFirst("nbf")?.Value, out var nbf))
+        {
+            var notBefore = DateTimeOffset.FromUnixTimeSeconds(nbf);
+            NotBeforeDate = notBefore;
         }
 
         if (long.TryParse(claims.FindFirst("exp")?.Value, out var exp))
@@ -39,19 +48,19 @@ internal class License
             ProductType = productType;
         }
 
-        IsConfigured = AccountId != null
-                       && CustomerId != null
-                       && SubscriptionId != null
+        IsConfigured = SubscriptionId != null
+                       && UserId != null
+                       && NotBeforeDate != null
                        && StartDate != null
                        && ExpirationDate != null
                        && Edition != null
                        && ProductType != null;
     }
 
-    public Guid? AccountId { get; }
-    public string? CustomerId { get; }
-    public string? SubscriptionId { get; }
+    public Guid? UserId { get; }
+    public Guid? SubscriptionId { get; }
     public DateTimeOffset? StartDate { get; }
+    public DateTimeOffset? NotBeforeDate { get; }
     public DateTimeOffset? ExpirationDate { get; }
     public EditionEnum? Edition { get; }
     public ProductTypeEnum? ProductType { get; }

@@ -1,4 +1,4 @@
-﻿namespace Cross.CQRS;
+namespace Cross.CQRS;
 
 public sealed class BehaviorCollection
 {
@@ -17,7 +17,7 @@ public sealed class BehaviorCollection
         // 2 reorder according to registrations
         // 3 add all behaviors to service collection
         var existingDescriptors = _services
-            .Where(d => d.ServiceType == typeof(IPipelineBehavior<,>) && _orderedPipelineBehaviors.ContainsKey(d.ImplementationType))
+            .Where(d => d.ServiceType == typeof(IPipelineBehavior<,>) && d.ImplementationType != null && _orderedPipelineBehaviors.ContainsKey(d.ImplementationType))
             .ToArray();
 
         foreach (var existingDescriptor in existingDescriptors)

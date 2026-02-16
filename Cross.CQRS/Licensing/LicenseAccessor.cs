@@ -40,12 +40,22 @@ internal class LicenseAccessor
 
     private Claim[] ValidateKey(string licenseKey)
     {
+        if (!IsValidJwtFormat(licenseKey))
+        {
+            _logger.LogError(
+                "Invalid Peshkov software license key. The token needs to be in JWS or JWE Compact Serialization Format. " +
+                "(JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. " +
+                "(JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'. " +
+                "Please visit https://peshkov.biz to obtain a valid license.");
+            return Array.Empty<Claim>();
+        }
+
         var handler = new JsonWebTokenHandler();
 
         var rsa = new RSAParameters
         {
             Exponent = Convert.FromBase64String("AQAB"),
-            Modulus = Convert.FromBase64String("2LTtdJV2b0mYoRqChRCfcqnbpKvsiCcDYwJ+qPtvQXWXozOhGo02/V0SWMFBdbZHUzpEytIiEcojo7Vbq5mQmt4lg92auyPKsWq6qSmCVZCUuL/kpYqLCit4yUC0YqZfw4H9zLf1yAIOgyXQf1x6g+kscDo1pWAniSl9a9l/LXRVEnGz+OfeUrN/5gzpracGUY6phx6T09UCRuzi4YqqO4VJzL877W0jCW2Q7jMzHxOK04VSjNc22CADuCd34mrFs23R0vVm1DVLYtPGD76/rGOcxO6vmRc7ydBAvt1IoUsrY0vQ2rahp51YPxqqhKPd8nNOomHWblCCA7YUeV3C1Q==")
+            Modulus = Convert.FromBase64String("wLWWXccoyaqk6RVn1kDNSX6WNJDtuOB2Lpu5Kh1q3ENDzkieia2xDlffpvo14XoI1JJOunY1k11XDg0HfRxVC2FwdcrouCDZKDQp87jvnY2vsxIZVAIYQ5wUetNOD4GVAoLAGYUhc647nyRgasC4ATIxCbH0XKjJZdWwb9BIKK9OCbqcDwHHX3IKK7v0sbiw/OOQQHhUZ7EeiPzZavnu8ZWwA1M4bsk9s/2qc5t+fFC0EWVhuGlV7U3dtwRKJ3/rvqbpo9MHUT4HzsZPMA6+/uNcZhjZLADjKsNrGs7vIDoaizneg1TUyiIiy+0K50C2vs/vbSNiz49JOTcr81RjFw==")
         };
 
         var key = new RsaSecurityKey(rsa)
@@ -64,10 +74,25 @@ internal class LicenseAccessor
         var validateResult = handler.ValidateTokenAsync(licenseKey, parms).Result;
         if (!validateResult.IsValid)
         {
-            _logger.LogCritical(validateResult.Exception, "Error validating the Peshkov software license key");
+            _logger.LogError(validateResult.Exception, "Invalid Peshkov software license key. Please visit https://peshkov.biz to obtain a valid license.");
         }
 
         return validateResult.ClaimsIdentity?.Claims.ToArray() ?? Array.Empty<Claim>();
     }
 
+    /// <summary>
+    /// Validates that the token is in JWS (3 parts) or JWE (5 parts) Compact Serialization Format.
+    /// </summary>
+    private static bool IsValidJwtFormat(string? token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return false;
+        }
+
+        var parts = token.Split('.');
+        // JWS: EncodedHeader.EncodedPayload.EncodedSignature
+        // JWE: EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag
+        return parts.Length == 3 || parts.Length == 5;
+    }
 }

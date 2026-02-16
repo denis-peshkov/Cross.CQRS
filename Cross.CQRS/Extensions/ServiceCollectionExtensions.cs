@@ -93,7 +93,7 @@ public static class ServiceCollectionExtensions
         }
 
         // if True then check will be performed only once
-        LicenseChecked = true;
+        LicenseChecked = false;
     }
 
     internal static bool LicenseChecked { get; set; }
