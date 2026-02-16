@@ -9,6 +9,8 @@ internal class LicenseValidator
 
     public void Validate(License license)
     {
+        _logger.LogDebug("The Peshkov software license key details: {@License}", license);
+
         var errors = new List<string>();
 
         if (license is not { IsConfigured: true })
@@ -21,8 +23,6 @@ internal class LicenseValidator
             _logger.LogCritical(message);
             return;
         }
-
-        _logger.LogDebug("The Peshkov software license key details: {License}", license);
 
         var diff = DateTime.UtcNow.Date.Subtract(license.ExpirationDate!.Value.Date).TotalDays;
         if (diff > 0)
