@@ -1,6 +1,4 @@
-[![Nuget](https://img.shields.io/nuget/v/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/) [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/denis-peshkov/Cross.CQRS/wiki)
-
-# Cross.CQRS
+# Cross.CQRS [![Nuget](https://img.shields.io/nuget/v/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/) [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/denis-peshkov/Cross.CQRS/wiki)
 
 Simple .NET MediatR base Query, Command, Event, Validation and Filter.
 
@@ -41,19 +39,17 @@ Main Features:
   
   Source linking enabled and symbol package is published to nuget symbols server, making debugging easier.
 
-## Install with nuget.org:
+**Supported frameworks:** .NET 6, .NET 7, .NET 8, .NET 9, .NET 10
 
-https://www.nuget.org/packages/Cross.CQRS
+## Install NuGet package
 
-## Installation
+Install the package _Cross.CQRS_ [NuGet package](https://www.nuget.org/packages/Cross.CQRS/) into your ASP.NET Core project:
 
-You should install [Cross.CQRS with NuGet](https://www.nuget.org/packages/Cross.CQRS) package:
-```shell
+```powershell
 Install-Package Cross.CQRS
 ```
-
-Or via the .NET Core command line interface:
-```shell
+or
+```bash
 dotnet add package Cross.CQRS
 ```
 
