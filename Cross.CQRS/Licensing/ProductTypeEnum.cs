@@ -3,7 +3,7 @@
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 internal enum ProductTypeEnum
 {
-    Cross_CQRS_EF = 0,
     Cross_CQRS = 1,
-    Bundle = 2
+    Cross_CQRS_EF = 2,
+    Bundle = 3,
 }
