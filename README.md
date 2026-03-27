@@ -55,6 +55,7 @@ Main Features:
   
   Source linking enabled and symbol package is published to nuget symbols server, making debugging easier.
 
+
 ## Install NuGet package
 
 Install the _Cross.CQRS_ [NuGet package](https://www.nuget.org/packages/Cross.CQRS/) into your ASP.NET Core project:
@@ -130,9 +131,11 @@ The method returns `CqrsRegistrationSyntax` for fluent configuration (e.g. addin
 
 License keys are available at [peshkov.biz](https://peshkov.biz).
 
+
 ## Issues and Pull Request
 
 Contribution is welcomed. If you would like to provide a PR please add some testing.
+
 
 ## How To's
 
@@ -140,6 +143,7 @@ Please use [Wiki](https://github.com/denis-peshkov/Cross.CQRS/wiki) for document
 
 ### Complete usage examples can be found in the test project ###
 Note - test project is not a part of nuget package. You have to clone repository.
+
 
 ## Roadmap:
 - ~~Queries implementation~~

@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -11,6 +11,11 @@
     <NoWarn>1701;1702;1591;CS8618;NU1701;</NoWarn>
     <SuppressTfmSupportBuildErrors>true</SuppressTfmSupportBuildErrors>
     <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <!-- Cross.CQRS NS2.1 pulls Microsoft.Extensions 8.x; not officially tested on 3.1 but builds for API coverage. -->
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <ItemGroup>
