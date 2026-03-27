@@ -20,6 +20,7 @@ Simple .NET MediatR base Query, Command, Event, Validation and Filter.
 Event Queue, Validation and Filter behaviors written on C#.
 
 Main Features:
+
 * **Queries, and QueryHandlers**.
 
   Implemented base patterns to work with Queries. The Queries used just to get any data.
@@ -50,11 +51,9 @@ Main Features:
 
 * **.NET frameworks and Source Linking**.
 
-  The repository contains .NET Standard 2.0, .NET 6, .NET 7 and .NET 8 projects.
+  **Supported frameworks:** .NET 6, .NET 7, .NET 8, .NET 9, .NET 10
   
   Source linking enabled and symbol package is published to nuget symbols server, making debugging easier.
-
-**Supported frameworks:** .NET 6, .NET 7, .NET 8, .NET 9, .NET 10
 
 ## Install NuGet package
 
@@ -63,7 +62,9 @@ Install the _Cross.CQRS_ [NuGet package](https://www.nuget.org/packages/Cross.CQ
 ```powershell
 Install-Package Cross.CQRS
 ```
+
 or
+
 ```bash
 dotnet add package Cross.CQRS
 ```
