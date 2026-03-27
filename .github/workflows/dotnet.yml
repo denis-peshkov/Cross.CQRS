@@ -20,7 +20,7 @@ jobs:
 
     env:
       BUILD_CONFIG: 'Release'
-      SOLUTION: 'Cross.CQRS.sln'
+      SOLUTION: 'Cross.CQRS.slnx'
 
     runs-on: ubuntu-22.04 # ubuntu-latest
 
