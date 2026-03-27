@@ -1,4 +1,19 @@
-# Cross.CQRS [![Nuget](https://img.shields.io/nuget/v/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/) [![Documentation](https://img.shields.io/badge/docs-wiki-yellow.svg)](https://github.com/denis-peshkov/Cross.CQRS/wiki)
+[![License](https://img.shields.io/github/license/denis-peshkov/Cross.CQRS)](LICENSE)
+[![GitHub Release Date](https://img.shields.io/github/release-date/denis-peshkov/Cross.CQRS?label=released)](https://github.com/denis-peshkov/Cross.CQRS/releases)
+[![NuGetVersion](https://img.shields.io/nuget/v/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/)
+[![NugetDownloads](https://img.shields.io/nuget/dt/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Cross.CQRS&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Cross.CQRS)
+[![issues](https://img.shields.io/github/issues/denis-peshkov/Cross.CQRS)](https://github.com/denis-peshkov/Cross.CQRS/issues)
+[![.NET PR](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/dotnet.yml/badge.svg?event=pull_request)](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/dotnet.yml)
+
+![Size](https://img.shields.io/github/repo-size/denis-peshkov/Cross.CQRS)
+[![GitHub contributors](https://img.shields.io/github/contributors/denis-peshkov/Cross.CQRS)](https://github.com/denis-peshkov/Cross.CQRS/contributors)
+[![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/denis-peshkov/Cross.CQRS/latest?label=new+commits)](https://github.com/denis-peshkov/Cross.CQRS/commits/master)
+![Activity](https://img.shields.io/github/commit-activity/w/denis-peshkov/Cross.CQRS)
+![Activity](https://img.shields.io/github/commit-activity/m/denis-peshkov/Cross.CQRS)
+![Activity](https://img.shields.io/github/commit-activity/y/denis-peshkov/Cross.CQRS)
+
+# Cross.CQRS
 
 Simple .NET MediatR base Query, Command, Event, Validation and Filter.
 
@@ -43,7 +58,7 @@ Main Features:
 
 ## Install NuGet package
 
-Install the package _Cross.CQRS_ [NuGet package](https://www.nuget.org/packages/Cross.CQRS/) into your ASP.NET Core project:
+Install the _Cross.CQRS_ [NuGet package](https://www.nuget.org/packages/Cross.CQRS/) into your ASP.NET Core project:
 
 ```powershell
 Install-Package Cross.CQRS

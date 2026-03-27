@@ -1,0 +1,25 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/.github/">
+    <File Path=".github/workflows/dotnet.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="GitVersion.yml" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="ReleaseNotes.txt" />
+  </Folder>
+  <Folder Name="/_nuget/">
+    <File Path="_nuget/config.nuspec" />
+    <File Path="_nuget/pkg.bat" />
+    <File Path="_nuget/pushSymbols.bat" />
+  </Folder>
+  <Project Path="Cross.CQRS.Tests/Cross.CQRS.Tests.csproj" />
+  <Project Path="Cross.CQRS/Cross.CQRS.csproj" />
+  <Project Path="SampleWebApp/SampleWebApp.csproj" />
+</Solution>
