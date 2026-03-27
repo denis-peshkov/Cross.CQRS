@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Queries;
+﻿namespace Cross.CQRS.Queries;
 
 /// <summary>
 /// Base query handler.

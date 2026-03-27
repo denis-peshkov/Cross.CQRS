@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Behaviors;
+﻿namespace Cross.CQRS.Behaviors;
 
 /// <summary>
 /// Marker attribute to avoid register instance of class automatically in DI.

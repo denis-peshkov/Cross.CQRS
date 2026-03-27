@@ -1,4 +1,4 @@
-namespace SampleWebApp.Modules.TestQueryGeneric.Handlers;
+﻿namespace SampleWebApp.Modules.TestQueryGeneric.Handlers;
 
 public class TestGenericQueryHandler : QueryHandler<TestGenericQuery, int>
 {

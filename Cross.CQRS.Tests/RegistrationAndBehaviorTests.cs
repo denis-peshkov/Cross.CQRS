@@ -1,8 +1,8 @@
-namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests;
 
 public class RegistrationAndBehaviorTests
 {
-    [Fact]
+    [Test]
     public void AddCQRS_Throws_WhenNoAssembliesRegistered()
     {
         var services = new ServiceCollection();
@@ -11,7 +11,7 @@ public class RegistrationAndBehaviorTests
         act.Should().Throw<InvalidOperationException>();
     }
 
-    [Fact]
+    [Test]
     public void AddCQRS_RegistersCoreServicesAndPipelineOrder()
     {
         var services = new ServiceCollection();
@@ -42,7 +42,7 @@ public class RegistrationAndBehaviorTests
             "ResultFilterBehavior`2");
     }
 
-    [Fact]
+    [Test]
     public void BehaviorCollection_ReordersBehaviorsAndKeepsSingleDescriptors()
     {
         var services = new ServiceCollection();
@@ -60,14 +60,15 @@ public class RegistrationAndBehaviorTests
             .ToArray();
 
         pipeline.Select(t => t!.Name).Should().Equal(
-            [
+            new[]
+            {
                 "RequestFilterBehavior`2",
                 "ValidationBehavior`2",
                 "ResultFilterBehavior`2"
-            ]);
+            });
     }
 
-    [Fact]
+    [Test]
     public void HandlerLocator_FindsHandlerType_ForRegisteredRequest()
     {
         var services = new ServiceCollection();
@@ -80,7 +81,7 @@ public class RegistrationAndBehaviorTests
         handlerType.Should().Be(typeof(TestRequestHandler));
     }
 
-    [Fact]
+    [Test]
     public void HandlerLocator_Throws_ForNonRequestType()
     {
         var services = new ServiceCollection();
@@ -92,7 +93,7 @@ public class RegistrationAndBehaviorTests
         act.Should().Throw<ArgumentException>();
     }
 
-    [Fact]
+    [Test]
     public void HandlerLocator_Throws_WhenRequestHasNoRegisteredHandler()
     {
         var services = new ServiceCollection();

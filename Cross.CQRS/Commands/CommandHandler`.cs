@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Commands;
+﻿namespace Cross.CQRS.Commands;
 
 /// <summary>
 /// Base command handler.

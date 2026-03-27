@@ -1,18 +1,8 @@
-using Cross.CQRS.Behaviors;
-using Cross.CQRS.Commands;
-using Cross.CQRS.Events;
-using Cross.CQRS.Filters;
-using Cross.CQRS.Queries;
-using FluentAssertions;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Abstractions;
-
-namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests;
 
 public class BaseAbstractionsTests
 {
-    [Fact]
+    [Test]
     public async Task LicenseCheckBehavior_CallsNext()
     {
         var services = new ServiceCollection();
@@ -32,7 +22,7 @@ public class BaseAbstractionsTests
         result.Should().Be("ok");
     }
 
-    [Fact]
+    [Test]
     public void CqrsRegistrationSyntax_ExposesConstructorArguments()
     {
         var services = new ServiceCollection();
@@ -46,7 +36,7 @@ public class BaseAbstractionsTests
         syntax.Behaviors.Should().BeSameAs(behaviors);
     }
 
-    [Fact]
+    [Test]
     public void RequestFilter_ApplyFilter_UsesAsyncImplementation()
     {
         var filter = new TestRequestFilter();
@@ -57,7 +47,7 @@ public class BaseAbstractionsTests
         filter.Calls.Should().Be(1);
     }
 
-    [Fact]
+    [Test]
     public void ResultFilter_ApplyFilter_UsesAsyncImplementation()
     {
         var filter = new TestResultFilter();
@@ -68,7 +58,7 @@ public class BaseAbstractionsTests
         filter.Calls.Should().Be(1);
     }
 
-    [Fact]
+    [Test]
     public async Task CommandHandler_HandleAndInterfaceHandle_CallHandleAsync()
     {
         var queue = new CommandEventQueue();
@@ -83,7 +73,7 @@ public class BaseAbstractionsTests
         unit.Should().Be(Unit.Value);
     }
 
-    [Fact]
+    [Test]
     public async Task QueryHandler_Handle_ReturnsValue()
     {
         var handler = new TestQueryHandler(NullLogger<QueryHandler<TestQuery, int>>.Instance);
@@ -94,7 +84,7 @@ public class BaseAbstractionsTests
         handler.Calls.Should().Be(1);
     }
 
-    [Fact]
+    [Test]
     public async Task CommandEventHandler_Handle_CallsHandleAsync()
     {
         var handler = new TestEventHandler(NullLogger<CommandEventHandler<TestEvent>>.Instance);
@@ -130,11 +120,19 @@ public class BaseAbstractionsTests
         }
     }
 
-    private sealed class TestCommand : Command;
-
-    private sealed class TestCommandHandler(ICommandEventQueueWriter writer, Microsoft.Extensions.Logging.ILogger<CommandHandler<TestCommand>> logger)
-        : CommandHandler<TestCommand>(writer, logger)
+    private sealed class TestCommand : Command
     {
+    }
+
+    private sealed class TestCommandHandler : CommandHandler<TestCommand>
+    {
+        public TestCommandHandler(
+            ICommandEventQueueWriter writer,
+            Microsoft.Extensions.Logging.ILogger<CommandHandler<TestCommand>> logger)
+            : base(writer, logger)
+        {
+        }
+
         public int Calls { get; private set; }
 
         protected override Task HandleAsync(TestCommand command, CancellationToken cancellationToken)
@@ -144,11 +142,17 @@ public class BaseAbstractionsTests
         }
     }
 
-    private sealed class TestQuery : Query<int>;
-
-    private sealed class TestQueryHandler(Microsoft.Extensions.Logging.ILogger<QueryHandler<TestQuery, int>> logger)
-        : QueryHandler<TestQuery, int>(logger)
+    private sealed class TestQuery : Query<int>
     {
+    }
+
+    private sealed class TestQueryHandler : QueryHandler<TestQuery, int>
+    {
+        public TestQueryHandler(Microsoft.Extensions.Logging.ILogger<QueryHandler<TestQuery, int>> logger)
+            : base(logger)
+        {
+        }
+
         public int Calls { get; private set; }
 
         protected override Task<int> HandleAsync(TestQuery query, CancellationToken cancellationToken)
@@ -158,14 +162,23 @@ public class BaseAbstractionsTests
         }
     }
 
-    private sealed class TestEvent(Guid commandId) : ICommandEvent
+    private sealed class TestEvent : ICommandEvent
     {
-        public Guid CommandId { get; } = commandId;
+        public TestEvent(Guid commandId)
+        {
+            CommandId = commandId;
+        }
+
+        public Guid CommandId { get; }
     }
 
-    private sealed class TestEventHandler(Microsoft.Extensions.Logging.ILogger<CommandEventHandler<TestEvent>> logger)
-        : CommandEventHandler<TestEvent>(logger)
+    private sealed class TestEventHandler : CommandEventHandler<TestEvent>
     {
+        public TestEventHandler(Microsoft.Extensions.Logging.ILogger<CommandEventHandler<TestEvent>> logger)
+            : base(logger)
+        {
+        }
+
         public int Calls { get; private set; }
 
         protected override Task HandleAsync(TestEvent commandEvent, CancellationToken cancellationToken)

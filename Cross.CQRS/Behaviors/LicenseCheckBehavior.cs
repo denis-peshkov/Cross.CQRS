@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Behaviors;
+﻿namespace Cross.CQRS.Behaviors;
 
 internal sealed class LicenseCheckBehavior<TRequest, TResult> : IPipelineBehavior<TRequest, TResult>
     where TRequest : IRequest<TResult>

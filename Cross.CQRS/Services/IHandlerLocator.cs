@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Services;
+﻿namespace Cross.CQRS.Services;
 
 public interface IHandlerLocator
 {

@@ -1,8 +1,8 @@
-namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests;
 
 public class QueueAndExtensionsTests
 {
-    [Fact]
+    [Test]
     public void CommandEventQueue_Read_ReturnsOnlyMatchingEvents_AndKeepsOthers()
     {
         var queue = new CommandEventQueue();
@@ -20,7 +20,7 @@ public class QueueAndExtensionsTests
         rest.Should().ContainSingle();
     }
 
-    [Fact]
+    [Test]
     public void CommandEventQueue_Write_ThrowsOnNull()
     {
         var queue = new CommandEventQueue();
@@ -28,7 +28,7 @@ public class QueueAndExtensionsTests
         act.Should().Throw<ArgumentNullException>();
     }
 
-    [Fact]
+    [Test]
     public void GenericTypeExtensions_ReturnsExpectedNames()
     {
         typeof(string).GetGenericTypeName().Should().Be("String");
@@ -36,7 +36,7 @@ public class QueueAndExtensionsTests
         new List<int>().GetGenericTypeName().Should().Be("List<Int32>");
     }
 
-    [Fact]
+    [Test]
     public void ObjectExtensions_ReturnsSize_AndMaxValueForUnsupportedType()
     {
         var size = new { Name = "abc", Value = 12 }.GetObjectSize();
@@ -46,7 +46,7 @@ public class QueueAndExtensionsTests
         unsupported.Should().Be(int.MaxValue);
     }
 
-    [Fact]
+    [Test]
     public void StopwatchHelper_ReturnsNonNegativeElapsedMilliseconds()
     {
         var start = Stopwatch.GetTimestamp();
@@ -56,7 +56,7 @@ public class QueueAndExtensionsTests
         elapsed.Should().BeGreaterThanOrEqualTo(0);
     }
 
-    [Fact]
+    [Test]
     public void CommandAndQuery_HaveGeneratedIds()
     {
         var cmd = new TestCommand();
@@ -79,6 +79,11 @@ public class QueueAndExtensionsTests
         public CommandEventFlowTypeEnum EventFlowType() => _flow;
     }
 
-    private sealed class TestCommand : Command;
-    private sealed class TestQuery : Cross.CQRS.Queries.Query<int>;
+    private sealed class TestCommand : Command
+    {
+    }
+
+    private sealed class TestQuery : Cross.CQRS.Queries.Query<int>
+    {
+    }
 }

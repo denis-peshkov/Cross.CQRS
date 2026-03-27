@@ -1,4 +1,4 @@
-namespace Cross.CQRS;
+﻿namespace Cross.CQRS;
 
 /// <summary>
 /// Configuration options for Cross.CQRS registration.

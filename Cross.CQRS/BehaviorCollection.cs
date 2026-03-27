@@ -1,4 +1,4 @@
-namespace Cross.CQRS;
+﻿namespace Cross.CQRS;
 
 public sealed class BehaviorCollection
 {

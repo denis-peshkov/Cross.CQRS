@@ -1,19 +1,8 @@
-using Cross.CQRS.Behaviors;
-using Cross.CQRS.Commands;
-using Cross.CQRS.Events;
-using Cross.CQRS.Extensions;
-using Cross.CQRS.Filters;
-using FluentAssertions;
-using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Abstractions;
-
-namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests;
 
 public class BehaviorPipelineTests
 {
-    [Fact]
+    [Test]
     public async Task ValidationBehavior_CallsNext_WhenNoValidators()
     {
         var behavior = new ValidationBehavior<TestRequest, string>(Array.Empty<IValidator<TestRequest>>());
@@ -29,7 +18,7 @@ public class BehaviorPipelineTests
         result.Should().Be("done");
     }
 
-    [Fact]
+    [Test]
     public async Task ValidationBehavior_Throws_WhenValidationFails()
     {
         var validator = new TestRequestValidator();
@@ -40,7 +29,7 @@ public class BehaviorPipelineTests
         await act.Should().ThrowAsync<ValidationException>();
     }
 
-    [Fact]
+    [Test]
     public async Task RequestFilterBehavior_AppliesAllFilters_ThenCallsNext()
     {
         var trace = new List<string>();
@@ -61,7 +50,7 @@ public class BehaviorPipelineTests
         trace.Should().Equal("f1", "f2", "next");
     }
 
-    [Fact]
+    [Test]
     public async Task ResultFilterBehavior_AppliesAllFilters_InOrder()
     {
         var filters = new IResultFilter<IntRequest, int>[]
@@ -76,7 +65,7 @@ public class BehaviorPipelineTests
         result.Should().Be(6);
     }
 
-    [Fact]
+    [Test]
     public async Task CommandEventQueueProcessBehavior_PublishesStandardAndExceptionSafeEvents()
     {
         var queue = new CommandEventQueue();
@@ -94,7 +83,7 @@ public class BehaviorPipelineTests
         mediator.Published.Count.Should().Be(2);
     }
 
-    [Fact]
+    [Test]
     public async Task CommandEventQueueProcessBehavior_Continues_WhenPublishThrows()
     {
         var queue = new CommandEventQueue();
@@ -110,7 +99,7 @@ public class BehaviorPipelineTests
         await act.Should().NotThrowAsync();
     }
 
-    [Fact]
+    [Test]
     public void CheckLicense_Throws_WhenLoggerFactoryNotRegistered()
     {
         var services = new ServiceCollection();
@@ -121,7 +110,7 @@ public class BehaviorPipelineTests
         act.Should().Throw<InvalidOperationException>();
     }
 
-    [Fact]
+    [Test]
     public void CheckLicense_LeavesLicenseCheckedFalse_AfterCall_WhenLoggingRegistered()
     {
         var services = new ServiceCollection();
@@ -146,33 +135,59 @@ public class BehaviorPipelineTests
         }
     }
 
-    private sealed class TraceRequestFilter(string marker, List<string> trace) : IRequestFilter<TestRequest>
+    private sealed class TraceRequestFilter : IRequestFilter<TestRequest>
     {
+        private readonly string _marker;
+        private readonly List<string> _trace;
+
+        public TraceRequestFilter(string marker, List<string> trace)
+        {
+            _marker = marker;
+            _trace = trace;
+        }
+
         public TestRequest ApplyFilter(TestRequest result)
         {
-            trace.Add(marker);
+            _trace.Add(_marker);
             return result;
         }
 
         public Task<TestRequest> ApplyFilterAsync(TestRequest result, CancellationToken cancellationToken)
         {
-            trace.Add(marker);
+            _trace.Add(_marker);
             return Task.FromResult(result);
         }
     }
 
-    private sealed class AddResultFilter(int value) : IResultFilter<IntRequest, int>
+    private sealed class AddResultFilter : IResultFilter<IntRequest, int>
     {
-        public int ApplyFilter(int result) => result + value;
-        public Task<int> ApplyFilterAsync(int result, CancellationToken cancellationToken) => Task.FromResult(result + value);
+        private readonly int _value;
+
+        public AddResultFilter(int value)
+        {
+            _value = value;
+        }
+
+        public int ApplyFilter(int result) => result + _value;
+        public Task<int> ApplyFilterAsync(int result, CancellationToken cancellationToken) => Task.FromResult(result + _value);
     }
 
-    private sealed class TestCommand : Command<string>;
-
-    private sealed class TestCommandEvent(Guid commandId, CommandEventFlowTypeEnum flowType) : ICommandEvent
+    private sealed class TestCommand : Command<string>
     {
-        public Guid CommandId { get; } = commandId;
-        public CommandEventFlowTypeEnum EventFlowType() => flowType;
+    }
+
+    private sealed class TestCommandEvent : ICommandEvent
+    {
+        private readonly CommandEventFlowTypeEnum _flowType;
+
+        public TestCommandEvent(Guid commandId, CommandEventFlowTypeEnum flowType)
+        {
+            CommandId = commandId;
+            _flowType = flowType;
+        }
+
+        public Guid CommandId { get; }
+        public CommandEventFlowTypeEnum EventFlowType() => _flowType;
     }
 
     private sealed class FakeMediator : IMediator

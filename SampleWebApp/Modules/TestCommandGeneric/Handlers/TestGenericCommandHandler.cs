@@ -1,4 +1,4 @@
-namespace SampleWebApp.Modules.TestCommandGeneric.Handlers;
+﻿namespace SampleWebApp.Modules.TestCommandGeneric.Handlers;
 
 public class TestGenericCommandHandler : CommandHandler<TestGenericCommand, int>
 {

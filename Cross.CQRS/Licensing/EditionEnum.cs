@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Licensing;
+﻿namespace Cross.CQRS.Licensing;
 
 internal enum EditionEnum
 {

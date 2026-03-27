@@ -1,8 +1,8 @@
-namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests;
 
 public class LicensingTests
 {
-    [Fact]
+    [Test]
     public void License_IsConfigured_True_WhenAllClaimsPresent()
     {
         var now = DateTimeOffset.UtcNow;
@@ -24,14 +24,14 @@ public class LicensingTests
         license.ProductType.Should().Be(ProductTypeEnum.Cross_CQRS);
     }
 
-    [Fact]
+    [Test]
     public void License_IsConfigured_False_WhenClaimsMissing()
     {
         var license = new License(Array.Empty<Claim>());
         license.IsConfigured.Should().BeFalse();
     }
 
-    [Fact]
+    [Test]
     public void LicenseValidator_LogsCritical_WhenLicenseNotConfigured()
     {
         var sink = new TestLoggerProvider();
@@ -43,7 +43,7 @@ public class LicensingTests
         sink.Entries.Should().Contain(e => e.Level == LogLevel.Critical && e.Message.Contains("valid license key"));
     }
 
-    [Fact]
+    [Test]
     public void LicenseValidator_LogsInformation_WhenLicenseValid()
     {
         var now = DateTimeOffset.UtcNow;
@@ -67,7 +67,7 @@ public class LicensingTests
         sink.Entries.Should().Contain(e => e.Level == LogLevel.Information && e.Message.Contains("valid license key"));
     }
 
-    [Fact]
+    [Test]
     public void LicenseAccessor_ReturnsCachedInstance_AndLogsInvalidJwtFormat()
     {
         var sink = new TestLoggerProvider();

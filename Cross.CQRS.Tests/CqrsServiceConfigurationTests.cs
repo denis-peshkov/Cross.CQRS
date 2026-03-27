@@ -1,8 +1,8 @@
-namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests;
 
 public class CqrsServiceConfigurationTests
 {
-    [Fact]
+    [Test]
     public void RegisterFromAssemblies_AddsDistinctAssemblies()
     {
         var cfg = new CqrsServiceConfiguration();
@@ -13,7 +13,7 @@ public class CqrsServiceConfigurationTests
         cfg.Assemblies.Should().ContainSingle();
     }
 
-    [Fact]
+    [Test]
     public void RegisterFromAssemblyContaining_AddsAssembly()
     {
         var cfg = new CqrsServiceConfiguration();

@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Extensions;
+﻿namespace Cross.CQRS.Extensions;
 
 public static class StopwatchHelper
 {
