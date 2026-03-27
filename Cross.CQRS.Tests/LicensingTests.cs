@@ -55,7 +55,7 @@ public class LicensingTests
             new Claim("nbf", now.AddMinutes(-1).ToUnixTimeSeconds().ToString()),
             new Claim("exp", now.AddDays(10).ToUnixTimeSeconds().ToString()),
             new Claim("edition", EditionEnum.Enterprise.ToString()),
-            new Claim("type", ProductTypeEnum.Bundle.ToString())
+            new Claim("type", ProductTypeEnum.Cross_CQRS_EF.ToString())
         };
 
         var sink = new TestLoggerProvider();

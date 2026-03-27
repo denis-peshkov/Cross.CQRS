@@ -7,6 +7,9 @@ internal class LicenseValidator
     public LicenseValidator(ILoggerFactory loggerFactory)
         => _logger = loggerFactory.CreateLogger("Peshkov.Cross.CQRS.License");
 
+    /// <summary>
+    /// Validates license using only data from the key (JWT claims), including <see cref="License.ProductType"/>.
+    /// </summary>
     public void Validate(License license)
     {
         _logger.LogDebug("The Peshkov software license key details: {@License}", license);
@@ -31,9 +34,9 @@ internal class LicenseValidator
         }
 
         if (license.ProductType!.Value != ProductTypeEnum.Cross_CQRS
-            && license.ProductType.Value != ProductTypeEnum.Bundle)
+            && license.ProductType.Value != ProductTypeEnum.Cross_CQRS_EF)
         {
-            errors.Add("Your Peshkov software license does not include Cross.CQRS.");
+            errors.Add("Your Peshkov software license does not include Cross.CQRS (expected Cross_CQRS or Cross_CQRS_EF in the license type claim).");
         }
 
         if (errors.Count > 0)
