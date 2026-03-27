@@ -32,13 +32,13 @@
     <dependencies>
       <dependency id="FluentValidation" version="11.12.0" />
       <dependency id="FluentValidation.DependencyInjectionExtensions" version="11.12.0" />
+      <dependency id="JetBrains.Annotations" version="2021.2.0" />
       <dependency id="MediatR" version="11.1.0" />
       <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
       <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
-      <dependency id="Scrutor" version="4.2.2" />
       <dependency id="Microsoft.Extensions.Logging" version="8.0.1" />
       <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
-      <dependency id="JetBrains.Annotations" version="2021.2.0" />
+      <dependency id="Scrutor" version="4.2.2" />
     </dependencies>
   </metadata>
   <files>
