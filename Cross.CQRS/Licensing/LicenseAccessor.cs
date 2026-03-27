@@ -93,6 +93,6 @@ internal class LicenseAccessor
         var parts = token.Split('.');
         // JWS: EncodedHeader.EncodedPayload.EncodedSignature
         // JWE: EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag
-        return parts.Length == 3 || parts.Length == 5;
+        return parts.Length is 3 or 5;
     }
 }
