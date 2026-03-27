@@ -1,4 +1,4 @@
-﻿namespace Cross.CQRS.Extensions;
+namespace Cross.CQRS.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -32,8 +32,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<LicenseAccessor>();
         services.AddSingleton<LicenseValidator>();
 
-        // FluentValidations
-        services.AddValidatorsFromAssembly(assemblies.FirstOrDefault(), ServiceLifetime.Scoped, result =>
+        // FluentValidation: scan every assembly registered in configuration (same set as MediatR / filters)
+        services.AddValidatorsFromAssemblies(assemblies, ServiceLifetime.Scoped, result =>
         {
             var isNoRegisterAutomatically = result.ValidatorType
                 .GetCustomAttributes(typeof(NoRegisterAutomaticallyAttribute), inherit: false)
