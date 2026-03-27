@@ -71,7 +71,7 @@ internal class LicenseAccessor
             ValidateLifetime = false
         };
 
-        var validateResult = handler.ValidateTokenAsync(licenseKey, parms).Result;
+        var validateResult = handler.ValidateTokenAsync(licenseKey, parms).GetAwaiter().GetResult();
         if (!validateResult.IsValid)
         {
             _logger.LogError(validateResult.Exception, "Invalid Peshkov software license key. Please visit https://peshkov.biz to obtain a valid license.");
