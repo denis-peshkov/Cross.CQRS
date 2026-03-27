@@ -1,27 +1,29 @@
-﻿namespace Cross.CQRS.Licensing;
+namespace Cross.CQRS.Licensing;
 
 internal class LicenseValidator
 {
     private readonly ILogger _logger;
 
     public LicenseValidator(ILoggerFactory loggerFactory)
-        => _logger = loggerFactory.CreateLogger("Peshkov.Cross.CQRS.License");
+    {
+        _logger = loggerFactory.CreateLogger("Peshkov.Cross.CQRS.License");
+    }
 
     /// <summary>
     /// Validates license using only data from the key (JWT claims), including <see cref="License.ProductType"/>.
     /// </summary>
-    public void Validate(License license)
+    public void Validate(License license, ILicenseProductInfo licenseProductInfo)
     {
-        _logger.LogDebug("The Peshkov software license key details: {@License}", license);
+        _logger.LogDebug($"The {licenseProductInfo.Company} license key details: {{@License}}", license);
 
         var errors = new List<string>();
 
         if (license is not { IsConfigured: true })
         {
-            var message = "You do not have a valid license key for the Peshkov software Cross.CQRS. " +
+            var message = $"You do not have a valid license key for the {licenseProductInfo.Company} {licenseProductInfo.Product}. " +
                           "This is allowed for development and testing scenarios. " +
                           "If you are running in production you are required to have a licensed version. " +
-                          "Please visit https://peshkov.biz to obtain a valid license.";
+                          $"Please visit {licenseProductInfo.Site} to obtain a valid license.";
 
             _logger.LogCritical(message);
             return;
@@ -30,13 +32,12 @@ internal class LicenseValidator
         var diff = DateTime.UtcNow.Date.Subtract(license.ExpirationDate!.Value.Date).TotalDays;
         if (diff > 0)
         {
-            errors.Add($"Your license for the Peshkov software Cross.CQRS expired {diff} days ago.");
+            errors.Add($"Your license for the {licenseProductInfo.Company} {licenseProductInfo.Product} expired {diff} days ago.");
         }
 
-        if (license.ProductType!.Value != ProductTypeEnum.Cross_CQRS
-            && license.ProductType.Value != ProductTypeEnum.Cross_CQRS_EF)
+        if (licenseProductInfo.Types.All(x => x != license.ProductType!.Value))
         {
-            errors.Add("Your Peshkov software license does not include Cross.CQRS (expected Cross_CQRS or Cross_CQRS_EF in the license type claim).");
+            errors.Add(licenseProductInfo.LicenseTypesErrMessage);
         }
 
         if (errors.Count > 0)
@@ -46,11 +47,11 @@ internal class LicenseValidator
                 _logger.LogError(err);
             }
 
-            _logger.LogCritical("Please visit https://peshkov.biz to obtain a valid license for the Peshkov software Cross.CQRS.");
+            _logger.LogCritical($"Please visit {licenseProductInfo.Site} to obtain a valid license for the {licenseProductInfo.Company} {licenseProductInfo.Product}.");
         }
         else
         {
-            _logger.LogInformation("You have a valid license key for the Peshkov software {Type} {Edition} edition. The license expires on {LicenseExpiration}.",
+            _logger.LogInformation($"You have a valid license key for the {licenseProductInfo.Company} {{Type}} {{Edition}} edition. The license expires on {{LicenseExpiration}}.",
                 license.ProductType,
                 license.Edition,
                 license.ExpirationDate);

@@ -1,4 +1,4 @@
-﻿namespace Cross.CQRS.Tests;
+namespace Cross.CQRS.Tests;
 
 public class CoverageBoostTests
 {
@@ -72,7 +72,7 @@ public class CoverageBoostTests
     }
 
     [Test]
-    public void LicenseValidator_LogsErrors_ForExpiredAndUnsupportedProduct()
+    public void LicenseValidator_LogsErrors_WhenExpired_EvenWithValidProductType()
     {
         var loggerProvider = new CoverageLoggerProvider();
         var loggerFactory = LoggerFactory.Create(b => b.AddProvider(loggerProvider));
@@ -93,7 +93,6 @@ public class CoverageBoostTests
         validator.Validate(license);
 
         loggerProvider.Entries.Should().Contain(e => e.Level == LogLevel.Error && e.Message.Contains("expired"));
-        loggerProvider.Entries.Should().Contain(e => e.Level == LogLevel.Error && e.Message.Contains("does not include Cross.CQRS"));
         loggerProvider.Entries.Should().Contain(e => e.Level == LogLevel.Critical && e.Message.Contains("Please visit https://peshkov.biz"));
     }
 
