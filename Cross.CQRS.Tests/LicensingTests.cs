@@ -38,7 +38,7 @@ public class LicensingTests
         var factory = LoggerFactory.Create(b => b.AddProvider(sink));
         var validator = new LicenseValidator(factory);
 
-        validator.Validate(new License(Array.Empty<Claim>()));
+        validator.Validate(new License(Array.Empty<Claim>()), new LicenseProductInfo());
 
         sink.Entries.Should().Contain(e => e.Level == LogLevel.Critical && e.Message.Contains("valid license key"));
     }
@@ -62,26 +62,13 @@ public class LicensingTests
         var factory = LoggerFactory.Create(b => b.AddProvider(sink));
         var validator = new LicenseValidator(factory);
 
-        validator.Validate(new License(claims));
+        validator.Validate(new License(claims), new LicenseProductInfo());
 
         sink.Entries.Should().Contain(e => e.Level == LogLevel.Information && e.Message.Contains("valid license key"));
     }
 
     [Test]
-    public void LicenseValidator_ValidateForEfExtension_LogsCritical_WhenLicenseNotConfigured_AndDoesNotThrow()
-    {
-        var sink = new TestLoggerProvider();
-        var factory = LoggerFactory.Create(b => b.AddProvider(sink));
-        var validator = new LicenseValidator(factory);
-
-        var act = () => validator.ValidateForEfExtension(new License(Array.Empty<Claim>()));
-
-        act.Should().NotThrow();
-        sink.Entries.Should().Contain(e => e.Level == LogLevel.Critical && e.Message.Contains("valid license key"));
-    }
-
-    [Test]
-    public void LicenseValidator_ValidateForEfExtension_Throws_WhenProductIsCrossCqrsOnly()
+    public void LicenseValidator_LogsError_WhenProductNotAllowed_ForStrictEfProductInfo()
     {
         var now = DateTimeOffset.UtcNow;
         var claims = new[]
@@ -98,36 +85,11 @@ public class LicensingTests
         var sink = new TestLoggerProvider();
         var factory = LoggerFactory.Create(b => b.AddProvider(sink));
         var validator = new LicenseValidator(factory);
+        var efOnly = new EfOnlyLicenseProductInfo();
 
-        var act = () => validator.ValidateForEfExtension(new License(claims));
+        validator.Validate(new License(claims), efOnly);
 
-        act.Should().Throw<InvalidOperationException>().WithMessage("*Cross_CQRS_EF*");
-    }
-
-    [Test]
-    public void LicenseValidator_ValidateForEfExtension_DoesNotThrow_WhenProductIsCrossCqrsEf()
-    {
-        var now = DateTimeOffset.UtcNow;
-        var claims = new[]
-        {
-            new Claim("sub_id", Guid.NewGuid().ToString()),
-            new Claim("user_id", Guid.NewGuid().ToString()),
-            new Claim("iat", now.ToUnixTimeSeconds().ToString()),
-            new Claim("nbf", now.AddMinutes(-1).ToUnixTimeSeconds().ToString()),
-            new Claim("exp", now.AddDays(10).ToUnixTimeSeconds().ToString()),
-            new Claim("edition", EditionEnum.Enterprise.ToString()),
-            new Claim("type", ProductTypeEnum.Cross_CQRS_EF.ToString())
-        };
-
-        var sink = new TestLoggerProvider();
-        var factory = LoggerFactory.Create(b => b.AddProvider(sink));
-        var validator = new LicenseValidator(factory);
-
-        var act = () => validator.ValidateForEfExtension(new License(claims));
-
-        act.Should().NotThrow();
-        sink.Entries.Should().Contain(e =>
-            e.Level == LogLevel.Information && e.Message.Contains("Cross.CQRS.EF", StringComparison.Ordinal));
+        sink.Entries.Should().Contain(e => e.Level == LogLevel.Error && e.Message.Contains(efOnly.LicenseTypesErrMessage));
     }
 
     [Test]
@@ -144,6 +106,16 @@ public class LicensingTests
         first.Should().BeSameAs(second);
         first.IsConfigured.Should().BeFalse();
         sink.Entries.Should().Contain(e => e.Level == LogLevel.Error && e.Message.Contains("JWS or JWE"));
+    }
+
+    private sealed class EfOnlyLicenseProductInfo : ILicenseProductInfo
+    {
+        public string Company => "Peshkov software";
+        public string Product => "Cross.CQRS.EF";
+        public string Site => "https://peshkov.biz";
+        public ProductTypeEnum[] Types { get; } = { ProductTypeEnum.Cross_CQRS_EF };
+        public string LicenseTypesErrMessage =>
+            "Cross.CQRS.EF requires Cross_CQRS_EF in the license type claim.";
     }
 }
 

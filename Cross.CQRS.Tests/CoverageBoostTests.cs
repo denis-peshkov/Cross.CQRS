@@ -90,7 +90,7 @@ public class CoverageBoostTests
         };
         var license = new License(claims);
 
-        validator.Validate(license);
+        validator.Validate(license, new LicenseProductInfo());
 
         loggerProvider.Entries.Should().Contain(e => e.Level == LogLevel.Error && e.Message.Contains("expired"));
         loggerProvider.Entries.Should().Contain(e => e.Level == LogLevel.Critical && e.Message.Contains("Please visit https://peshkov.biz"));
