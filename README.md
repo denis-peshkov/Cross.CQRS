@@ -51,9 +51,13 @@ Main Features:
 
 * **.NET frameworks and Source Linking**.
 
-  **Supported frameworks:** .NET 6, .NET 7, .NET 8, .NET 9, .NET 10
-  
+  **Supported frameworks:** .NET Standard 2.1, .NET 6, .NET 7, .NET 8, .NET 9, .NET 10 (TFM-specific versions of `Microsoft.Extensions.*` are referenced in the package).
+
   Source linking enabled and symbol package is published to nuget symbols server, making debugging easier.
+
+* **Licensing (optional JWT)**.
+
+  You can set `LicenseKey` on `CqrsServiceConfiguration` to a Peshkov license JWT. Validation runs on **every** MediatR request via `LicenseCheckBehavior`. License keys: [peshkov.biz](https://peshkov.biz/cqrs).
 
 
 ## Install NuGet package
@@ -119,11 +123,12 @@ This registers (via MediatR with **Scoped** lifetime):
 - `IRequestExceptionHandler<,,>` and `IRequestExceptionAction<,>` implementations — scoped
 
 Additionally registered:
-- FluentValidation validators from the specified assemblies — scoped
+- FluentValidation validators scanned from **all** assemblies registered in `CqrsServiceConfiguration` (same set as MediatR and filters) — scoped
 - `IResultFilter<,>` and `IRequestFilter<>` — scoped
 - `IHandlerLocator` — singleton
+- `LicenseAccessor`, `LicenseValidator`, default `ILicenseProductInfo` (`LicenseProductInfo`) — singleton
 - `ICommandEventQueue` and its reader/writer — scoped
-- Pipeline behaviors: `LicenseCheckBehavior` (mandatory license check on first CQRS request), `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior` — scoped
+- Pipeline behaviors (scoped): `LicenseCheckBehavior` (mandatory license check on first CQRS request), `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior`
 
 The license check runs automatically on the first CQRS request — no additional code required.
 

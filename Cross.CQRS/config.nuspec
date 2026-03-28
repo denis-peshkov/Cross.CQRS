@@ -11,7 +11,7 @@
     <readme>README.md</readme>
     <copyright>Copyright 2026 Denis Peshkov</copyright>
     <license type="file">LICENSE</license>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. JWT license validation with pluggable product metadata (ILicenseProductInfo) for core and Cross.CQRS.EF. Written in C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior CQRS License JWT NetCore</tags>
     <releaseNotes><![CDATA[
