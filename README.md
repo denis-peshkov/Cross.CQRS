@@ -129,7 +129,7 @@ The license check runs automatically on the first CQRS request — no additional
 
 The method returns `CqrsRegistrationSyntax` for fluent configuration (e.g. adding custom behaviors).
 
-License keys are available at [peshkov.biz](https://peshkov.biz).
+License keys are available at [peshkov.biz](https://peshkov.biz/cqrs).
 
 
 ## Issues and Pull Request
