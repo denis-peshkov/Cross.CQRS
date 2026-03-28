@@ -7,13 +7,13 @@
     <owners>Denis Peshkov</owners>
     <projectUrl>https://github.com/denis-peshkov/Cross.CQRS</projectUrl>
     <repository type="git" url="https://github.com/denis-peshkov/Cross.CQRS.git" />
-    <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. JWT license validation with pluggable product metadata (ILicenseProductInfo) for core and Cross.CQRS.EF. Written in C#.</description>
-    <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior CQRS License JWT NetCore</tags>
     <icon>icon.png</icon>
     <readme>README.md</readme>
     <copyright>Copyright 2026 Denis Peshkov</copyright>
     <license type="file">LICENSE</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. JWT license validation with pluggable product metadata (ILicenseProductInfo) for core and Cross.CQRS.EF. Written in C#.</description>
+    <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior CQRS License JWT NetCore</tags>
     <releaseNotes><![CDATA[
 Licensing and pipeline
 - License validation uses ILicenseProductInfo (default LicenseProductInfo). CheckLicense runs Validate for all registered ILicenseProductInfo (extensions can register additional implementations).
