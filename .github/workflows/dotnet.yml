@@ -8,9 +8,17 @@ on:
       - master
       - release/*
       - hotfix/*
+      - dev
+      - feature/*
+      - fix/*
+      - chore/*
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - master
+      - dev
+      - release/*
+      - hotfix/*
   workflow_dispatch: # allows manual runs from the Actions tab
 
 jobs:
@@ -30,6 +38,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Disabling shallow clones is recommended for improving the relevancy of reporting
+          # Avoid persisting GITHUB_TOKEN so tag push can authenticate as TAGTOKEN (admin ruleset bypass).
+          persist-credentials: false
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4

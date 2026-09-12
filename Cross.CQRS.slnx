@@ -4,9 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/.github/">
-    <File Path=".github/workflows/dotnet.yml" />
-  </Folder>
   <Folder Name="/assets/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
