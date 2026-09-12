@@ -17,7 +17,7 @@ Historical renames before 11.0.0 (e.g. Event* → CommandEvent* in 9.1.0) are do
 
 ## From 10.1.x to 11.0.0
 
-Release: planned [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases) (branch `release/11.0.0-new-license-improve-functionality`).
+Release: [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.0.0).
 
 ### JWT licensing (new pipeline gate)
 

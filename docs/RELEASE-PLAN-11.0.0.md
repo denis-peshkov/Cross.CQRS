@@ -1,27 +1,14 @@
-# Release plan — Cross.CQRS `11.0.0`
+﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Version:** `11.0.0` · **branch:** `release/11.0.0-new-license-improve-functionality` · **base:** `origin/master` (`v10.1.3`) · **date:** `2026-09-12`
+> **Версия:** `11.0.0` · **ветка:** `release/11.0.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-12`
 >
-> **Release (when published):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.0.0
+> **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.0.0
 >
-> **Legend:** ⬜ open · ✅ done · 🟨 partial / accepted · ❌ blocker
+> **Легенда:** ⬜ open · ✅ done · 🟨 partial / принято · ❌ blocker
 >
-> **Previous plan:** —
+> **Предыдущий план:** —
 
-**Delta:** `origin/master...HEAD` — **47** commits · **94** files · **+3208 / −373**
-
----
-
-## Change summary
-
-| Area | Role in release |
-|------|-----------------|
-| Licensing | JWT `LicenseKey`, `LicenseAccessor`, `LicenseValidator`, `ILicenseProductInfo`, `LicenseCheckBehavior`, product filter for `Cross.CQRS` + `Cross.CQRS.EF` |
-| Registration | FluentValidation scan over full assembly set; pipeline order reserves EF slot |
-| TFMs / deps | `netstandard2.1` + net6–net10; Extensions versions per TFM |
-| Repo hygiene | `.editorconfig`, templates, `LICENSE.md`, CONTRIBUTING, workflows, GitVersion |
-| Tests | Zones: Licensing / Registration / Behaviors / Queue / Core / Coverage |
-| Packaging | `Cross.CQRS.slnx`, `config.nuspec`, remove `_nuget/` |
+Дельта: `origin/master...HEAD` — **49** коммитов · **130** файлов · **+6236 / −398**. Чеклист publish/Go — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md); открытый backlog вне дельты — [`TO-DO.md`](TO-DO.md).
 
 ---
 
@@ -29,40 +16,59 @@
 
 ---
 
-## Высокий (логика / licensing)
+## Высокий (логика / auth model)
 
 ---
 
-## Средний
+## Средний (противоречия / баги контрактов)
 
 ---
 
-## Низкий
+## Низкий (техдолг / несогласованности)
 
-| # | Item | Status |
-|---|------|--------|
-| L1 | Sync ReleaseNotes wording vs kept `netcoreapp3.1` test TFM | ✅ kept: exercises netstandard2.1 |
-| L2 | Fix `NUGET_API_KEY` (CI 403 on push) | ✅ ops updated |
+### L4. `config.nuspec` `releaseNotes` дублирует docs
 
----
-
-## Checklist (release gate)
-
-| # | Check | Status |
-|---|-------|--------|
-| 1 | `dotnet build Cross.CQRS.slnx` Release | 🟨 CI green on last code push; re-verify before tag |
-| 2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj` | 🟨 |
-| 3 | SonarCloud quality gate | 🟨 |
-| 4 | `docs/BREAKING.md` section 10.1.x → 11.0.0 complete | ✅ |
-| 5 | `docs/CHANGELOG.md` + nuspec `releaseNotes` link to BREAKING | 🟨 nuspec still embeds long notes — trim to link |
-| 6 | README licensing section | 🟨 verify |
-| 7 | Import `.github/rulesets` (optional) + `TAGTOKEN` / `NUGET_API_KEY` / `CURSOR_API_KEY` | 🟨 `NUGET_API_KEY` updated (L2); rulesets / other secrets — verify |
-| 8 | NuGet push from `release/*` succeeds | 🟨 unblocked after L2 — confirm on next CI run |
-| 9 | Tag `v11.0.0` + GitHub release | ⬜ |
-| 10 | Back-merge `master` → `dev` | ⬜ after master land |
+Длинный CDATA вместо короткой выжимки + ссылок на [`CHANGELOG.md`](CHANGELOG.md) / [`BREAKING.md`](BREAKING.md). В тексте ещё «netcoreapp3.1 dropped», хотя матрица тестов 3.1 сохранена для NS2.1.
 
 ---
 
-## Go / No-Go
+## Принято (осознанный trade-off / контракт хоста)
 
-**Conditional Go** after green build/test + Sonar and a successful NuGet push dry-run on `release/*`. L1/L2 closed; remaining: tests gate, confirm NuGet push, tag/release.
+- SampleWebApp / Tests: `CA2007` в `NoWarn` (host/test style); в библиотеке — `ConfigureAwait(false)`.
+- Cross.CQRS.EF — отдельный репозиторий/пакет; в core только `InternalsVisibleTo` + product filter `Cross.CQRS.EF`.
+- Матрица тестов держит **netcoreapp3.1**, чтобы гонять сборку библиотеки **netstandard2.1** (`SkipNetCoreApp31Tests` без x64 3.1 host).
+- Лицензия опциональна: без ключа — правила «optional license» из README (не жёсткий fail без ключа).
+- `CheckLicense` намеренно гоняет валидацию **на каждом** MediatR-запросе (`_licenseChecked` остаётся `false`) — не once-per-lifetime.
+
+---
+
+## Закрыто (проверено в коде)
+
+| # | Суть |
+|---|------|
+| ✅ #H1 LicenseCheck every request | accepted: by design — validate on every MediatR request |
+| ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
+| ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
+| ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
+| ✅ JWT licensing pipeline | `LicenseKey`, `LicenseAccessor`, `LicenseValidator.Validate(license, ILicenseProductInfo)`, `LicenseCheckBehavior` (−2), product metadata DI |
+| ✅ AddCQRS registration | `CqrsServiceConfiguration`; FluentValidation `AddValidatorsFromAssemblies` по полному набору сборок |
+| ✅ TFMs / deps | `netstandard2.1;net6–net10`; Extensions.* по TFM |
+| ✅ Solution / packaging | `Cross.CQRS.slnx`; `config.nuspec`; `_nuget` убран; `LICENSE.md` |
+| ✅ Docs consumers | `docs/BREAKING.md` From 10.1.x→11.0.0; `docs/CHANGELOG.md` `## v11.0.0`; root `ReleaseNotes.md` → CHANGELOG |
+| ✅ Tests NUnit | зоны Licensing / Registration / Behaviors / Queue / Core; матрица TFM + SkipNetCoreApp31 |
+
+---
+
+## Что в библиотеке уже нормально
+
+- MediatR pipeline: license (−2) / слот EF (−1) / filters / validation согласованы с README.
+- Публичный контракт breaking для апгрейда 10.1.x→11.0.0 описан только в `docs/BREAKING.md`.
+- Local `dotnet build -c Release` и тесты net6–net10 зелёные (2026-09-12).
+
+---
+
+## Приоритет фиксов
+
+1. **L4** — укоротить `config.nuspec` `releaseNotes` + ссылки на CHANGELOG/BREAKING.
+2. Publish gate (не severity plan): CI/Sonar, SampleWebApp smoke, tag/`NUGET` — см. [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+3. Кросс-версионный open backlog: [`TO-DO.md`](TO-DO.md) (сейчас пуст по C/H/M/L).
