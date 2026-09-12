@@ -11,15 +11,21 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 ### Licensing
 
 - Optional JWT license key on `CqrsServiceConfiguration`; `LicenseAccessor` exposes a cached `License` built from claims (subscription, user, edition, product type, dates).
+- JWT compact-format pre-check (`IsValidJwtFormat`) before token validation; invalid shape logs a clear JWS/JWE error.
 - `LicenseValidator.Validate(license, ILicenseProductInfo)` with default `LicenseProductInfo` (`Cross_CQRS` / `Cross_CQRS_EF`); extensions can register additional `ILicenseProductInfo` (e.g. Cross.CQRS.EF for stricter EF SKU rules).
-- `CheckLicense` resolves all `ILicenseProductInfo` from DI and runs validation for each product line.
-- `LicenseCheckBehavior` runs on every MediatR request; behavior order reserves a slot for Cross.CQRS.EF integration.
-- `InternalsVisibleTo` Cross.CQRS.EF for shared licensing types consumed by the EF package.
+- Validator messages use product metadata (`Company` / `Product` / `Site`) from `ILicenseProductInfo` (company text baked into the message template, not a separate structured log property).
+- `CheckLicense` resolves all `ILicenseProductInfo` from DI and validates when `Product` is `"Cross.CQRS"` or `"Cross.CQRS.EF"`.
+- `LicenseCheckBehavior` runs on every MediatR request; pipeline order **-2** for core license check, **-1** reserved for Cross.CQRS.EF.
+- `InternalsVisibleTo` Cross.CQRS.EF (and Cross.CQRS.Tests) for shared licensing / internals.
+- Dependency: `Microsoft.IdentityModel.JsonWebTokens` for JWT validation.
 
 ### Registration and MediatR pipeline
 
-- FluentValidation: `AddValidatorsFromAssemblies` uses the full assembly set from `CqrsServiceConfiguration` (handlers, validators, filters stay aligned).
+- New registration API: `services.AddCQRS(cfg => { … })` with `CqrsServiceConfiguration` (`LicenseKey`, `RegisterFromAssemblies`, `RegisterFromAssemblyContaining<T>`).
+- Returns `CqrsRegistrationSyntax` / `BehaviorCollection` for ordered custom pipeline behaviors.
+- FluentValidation: `AddValidatorsFromAssemblies` uses the **full** assembly set from `CqrsServiceConfiguration` (handlers, validators, filters stay aligned).
 - `AsyncRequestHandlerBase` removed; `CommandHandler<TCommand>` implements `IRequestHandler<TCommand>` (MediatR `Unit`) directly.
+- Library awaits use `ConfigureAwait(false)` (CA2007 addressed in library code).
 
 ### Target frameworks and dependencies
 
@@ -30,12 +36,16 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 - Solution format `Cross.CQRS.slnx` replaces `Cross.CQRS.sln`.
 - NuGet metadata in `Cross.CQRS/config.nuspec` with dependency groups per TFM; legacy `_nuget` scripts folder removed.
-- GitHub Actions workflow, GitVersion.yml, README, LICENSE, and SampleWebApp updated for the new layout and targets.
+- `LICENSE.md` replaces plain `LICENSE`; README updated for `AddCQRS` configuration, licensing, and TFMs.
+- Docs: `docs/BREAKING.md`, `docs/CHANGELOG.md` (canonical release notes; root `ReleaseNotes.md` points here), release plans, `docs/TO-DO.md`, `CONTRIBUTING.md`.
+- GitHub: issue/PR templates, branch-policy / back-merge workflows, rulesets under `.github/rulesets/`, CodeRabbit config, issue/PR triage workflow and Cursor triage skills (`.cursor/triage`, `.cursor/skills/triage*`).
+- GitVersion.yml and `.NET` CI workflow updated (incl. `netcoreapp3.1` / multi-TFM test matrix where configured).
 
 ### Tests
 
-- Cross.CQRS.Tests coverage expanded: licensing, `CqrsServiceConfiguration`, registration and pipeline behavior, command/event queue, coverage-oriented tests.
+- Cross.CQRS.Tests migrated to **NUnit**; coverage expanded and organized by zone (Licensing / Registration / Behaviors / Queue / Core / Coverage).
 - Test TFMs: `netcoreapp3.1` (exercises the library’s `netstandard2.1` asset), plus `net6.0`–`net10.0`; `SkipNetCoreApp31Tests` skips 3.1 when the host has no x64 3.1 runtime (e.g. Apple Silicon).
+- `IsExternalInit` shim for `netcoreapp3.1` record/`init` support in tests.
 
 ---
 

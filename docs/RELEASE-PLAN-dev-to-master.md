@@ -25,7 +25,7 @@
 | 1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ⬜ |
 | 2 | PR titles used `BREAKING:` where applicable | ⬜ |
 | 3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ⬜ |
-| 4 | `docs/CHANGELOG.md` updated in English | ⬜ |
+| 4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ⬜ |
 
 ---
 

@@ -141,6 +141,8 @@ License keys are available at [peshkov.biz](https://peshkov.biz/cqrs).
 
 Contribution is welcomed. See [CONTRIBUTING.md](CONTRIBUTING.md). If you would like to provide a PR please add some testing.
 
+Release history (newest first): [docs/CHANGELOG.md](docs/CHANGELOG.md). Breaking upgrades for NuGet consumers: [docs/BREAKING.md](docs/BREAKING.md).
+
 
 ## How To's
 

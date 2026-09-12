@@ -194,7 +194,7 @@ CodeRabbit (`.coderabbit.yaml`): comment `@coderabbitai full review` when a full
 |--------------|--------|
 | Public API / registration | `README.md` |
 | Breaking change for consumers | `docs/BREAKING.md` only |
-| Released behavior | `docs/CHANGELOG.md` and short `config.nuspec` `releaseNotes` (+ link to BREAKING) |
+| Released behavior | **`docs/CHANGELOG.md` (always on release work)** and short `config.nuspec` `releaseNotes` (+ link to BREAKING) |
 | Packaging / dependencies | `Cross.CQRS/config.nuspec` |
 | Release readiness | `docs/RELEASE-PLAN-*.md` |
 | Deferred findings | `docs/TO-DO.md` |
