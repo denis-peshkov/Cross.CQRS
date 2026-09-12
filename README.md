@@ -33,14 +33,14 @@ Main Features:
 
   Implemented base patterns to create CommandEvents, approach how to write a new CommandEvents from the Commands, consuming patterns and behavior to handle it.
 
-  The main idea is to do some actions after the Commands have to be finished, to avoid cases when one Command call another one. 
-  
+  The main idea is to do some actions after the Commands have to be finished, to avoid cases when one Command call another one.
+
   Added possibility to exclude the processing of some CommandEvents from Command transaction (even on throw Exception).
 
 * **Filters**.
 
   Here included filter behavior based on RequestFilter and ResultFilter.
-  
+
   The RequestFilter allow to filter Queries and Commands requests before their execution.
 
   The ResultFilter allow to filter Queries and Commands results after their execution.
