@@ -40,7 +40,7 @@ N/A
 - [ ] **One PR = one feature or one fix** — no unrelated refactors or drive-by formatting.
 - [ ] `.editorconfig` respected; no secrets committed.
 - [ ] If this PR changes public API or registration, update README / XML docs as needed.
-- [ ] If this PR is breaking for NuGet consumers, update `docs/CHANGELOG.md` / `config.nuspec` and prefix the **PR title** with `BREAKING:`.
+- [ ] If this PR is breaking for NuGet consumers, update [`docs/BREAKING.md`](../docs/BREAKING.md) (nuspec keeps a link, not a duplicate list) and prefix the **PR title** with `BREAKING:`.
 - [ ] If this PR touches licensing, the risks are described above and the diff contains no secrets.
 
 ---
