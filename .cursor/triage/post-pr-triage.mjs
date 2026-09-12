@@ -295,7 +295,7 @@ Return ONLY a single JSON object (no markdown prose) with this schema:
   "confidence": <integer 0-100>,
   "summary": "<2-4 sentences English: what the PR does and triage takeaway>",
   "maintainerHint": "<optional line, e.g. This looks like a simple fix suitable for quick review>",
-  "relevantFiles": ["path/from/diff.cs", "..."],
+  "relevantFiles": ["path/from/this-pr.cs", "..."],
   "securityNotes": "<optional; secrets/auth/licensing/token/PII/payment risks if applicable>"
 }
 

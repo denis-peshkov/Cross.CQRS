@@ -45,7 +45,7 @@ The agent fills JSON fields; `format-pr-comment.mjs` renders the layout (reposit
   "confidence": 85,
   "summary": "2-4 sentences in English.",
   "maintainerHint": "Optional one-line hint, e.g. simple fix / needs security review",
-  "relevantFiles": ["src/Library/Path/File.cs"],
+  "relevantFiles": ["path/from/this-pr.cs"],
   "securityNotes": "Optional; omit if N/A"
 }
 ```
