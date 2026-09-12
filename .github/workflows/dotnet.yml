@@ -78,7 +78,7 @@ jobs:
             -p:InformationalVersion="${GitVersion_InformationalVersion}" \
             -p:Company="Denis Peshkov" \
             -p:Product="Cross.CQRS" \
-            -p:Description="Simple .NET MediatR base Query and Command and CommandEvent. Event Queue and Validation behaviors. Published on Nuget at https://www.nuget.org/packages/Cross.CQRS" \
+            -p:Description='Simple .NET MediatR base Query%2C Command%2C CommandEvent and CommandEventQueueProcess behavior. RequestFilter%2C ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Optional JWT license validation with pluggable product metadata (ILicenseProductInfo).' \
             -p:RepositoryUrl="https://github.com/denis-peshkov/Cross.CQRS.git" \
             -p:RepositoryType=git \
             -p:CLSCompliant=true \
