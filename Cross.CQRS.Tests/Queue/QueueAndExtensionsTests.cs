@@ -15,9 +15,11 @@ public class QueueAndExtensionsTests
 
         var read = queue.Reader.Read(targetId, CommandEventFlowTypeEnum.StandardFlow);
         var rest = queue.Reader.Read(otherId, CommandEventFlowTypeEnum.StandardFlow);
+        var safeForTarget = queue.Reader.Read(targetId, CommandEventFlowTypeEnum.ExceptionSafeFlow);
 
         read.Should().ContainSingle();
         rest.Should().ContainSingle();
+        safeForTarget.Should().ContainSingle();
     }
 
     [Test]

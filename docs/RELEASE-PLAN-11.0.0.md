@@ -22,10 +22,6 @@
 
 ## Средний (противоречия / баги контрактов)
 
-### M6. QueueAndExtensionsTests — exception-safe event assertion
-
-После unmatched flow нужно assert’ить сохранение exception-safe event для targetId, не только otherId.
-
 ### M7. `post-pr-triage.mjs` — oversized patch stops loop
 
 При превышении `maxChars` лучше `continue` (пропуск куска), а не обрыв цикла — иначе теряются следующие мелкие patches.
@@ -65,6 +61,7 @@
 | ✅ #M3 release-plan-summary missing line | fixed: missing `**Checklist summary:**` → insert; «up to date» only when present+equal |
 | ✅ #M4 queue process continues after publish fail | fixed: two StandardFlow events, first Publish throws — both attempted/Published, handler result ok |
 | ✅ #M5 BehaviorCollection duplicate AddBehavior | fixed: re-Add same type updates order (`[type]=order`); test asserts single descriptor |
+| ✅ #M6 queue keeps exception-safe for targetId | fixed: after Standard read, assert ExceptionSafe for same targetId still readable |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
 | ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
@@ -91,8 +88,7 @@
 
 ## Приоритет фиксов
 
-1. **M6** — QueueAndExtensionsTests: exception-safe event assertion.
-2. **M7** — triage oversized patch: `continue` not break.
-3. **L4** — trim nuspec `releaseNotes`.
-4. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
-5. Ops: revoke JWT that was previously committed in SampleWebApp history.
+1. **M7** — triage oversized patch: `continue` not break.
+2. **L4** — trim nuspec `releaseNotes`.
+3. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+4. Ops: revoke JWT that was previously committed in SampleWebApp history.
