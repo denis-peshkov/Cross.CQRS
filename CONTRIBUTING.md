@@ -7,10 +7,16 @@ Thank you for your interest in the project.
 - [Report an issue](https://github.com/denis-peshkov/Cross.CQRS/issues/new/choose)
 - [Open PRs](https://github.com/denis-peshkov/Cross.CQRS/pulls)
 - [CI (.NET)](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/dotnet.yml)
+- [CI (back-merge master → dev)](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/backmerge-master-to-dev.yml)
+- [Branch policy](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/branch-policy.yml)
+- [Triage](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/triage.yml)
 - [SonarCloud](https://sonarcloud.io/summary/new_code?id=Cross.CQRS)
 - [NuGet](https://www.nuget.org/packages/Cross.CQRS/)
 - [README](README.md)
-- [Release notes](ReleaseNotes.txt)
+- [Release notes](docs/CHANGELOG.md) (shortcut: [ReleaseNotes.md](ReleaseNotes.md))
+- Breaking changes: [`docs/BREAKING.md`](docs/BREAKING.md)
+- Release readiness: [`docs/RELEASE-PLAN-dev-to-master.md`](docs/RELEASE-PLAN-dev-to-master.md)
+- Open backlog: [`docs/TO-DO.md`](docs/TO-DO.md)
 
 ---
 
@@ -35,7 +41,7 @@ Consumers call `AddCQRS` and send requests through MediatR (`IMediator` / `ISend
 | **Fix** | Pipeline behavior regression, registration bug, licensing validation |
 | **Build** | New filter/behavior, tests, SampleWebApp improvements |
 | **Review** | PR review, especially licensing and DI registration |
-| **Document** | README, `ReleaseNotes.txt`, `config.nuspec` release notes |
+| **Document** | README, `docs/CHANGELOG.md`, `docs/BREAKING.md`, release plans |
 
 ---
 
@@ -65,27 +71,40 @@ Do not commit real license JWTs, private keys, or production secrets. Prefer pla
 - `Cross.CQRS/` — library (commands, queries, events, behaviors, licensing, DI);
 - `Cross.CQRS.Tests/` — unit / pipeline / licensing tests;
 - `SampleWebApp/` — smoke host example;
-- `README.md`, `ReleaseNotes.txt`, `Cross.CQRS/config.nuspec`;
-- CI: `.github/workflows/dotnet.yml`.
+- `README.md`, `docs/CHANGELOG.md`, `docs/BREAKING.md`, `Cross.CQRS/config.nuspec`;
+- CI: `.github/workflows/dotnet.yml`, `branch-policy.yml`, `triage.yml`, `backmerge-master-to-dev.yml`.
 
 ### Out of scope (without maintainer discussion)
 
 - Large architecture refactors “for aesthetics”;
 - New external dependencies without a strong reason;
-- Consumer-breaking changes without release notes / README updates;
+- Consumer-breaking changes without a `docs/BREAKING.md` entry;
 - Secrets, keys, `.env` in commits.
 
 ---
 
 ## Branches and releases
 
-| Branch | Purpose |
-|--------|---------|
-| `master` | Stable line; release tags and NuGet publish |
-| `feature/*` / `fix/*` / `chore/*` | Contributor work → PR |
-| `release/*` / `hotfix/*` | Release / hotfixes (maintainer) |
+| Branch | Purpose | Who |
+|--------|---------|-----|
+| `dev` | Feature integration | **Default PR target** for contributors |
+| `master` | Stable release; GitVersion, tag, NuGet push | **Owner only** — direct push and PRs |
+| `feature/*` | New functionality | Contributors |
+| `fix/*` | Bug fixes | Contributors |
+| `chore/*` | CI, deps, docs-only, maintenance | Contributors |
+| `release/*` | Release preparation | **Owner only** |
+| `hotfix/*` | Urgent production patches | **Owner only** |
 
-Versioning: **GitVersion** (`GitVersion.yml`).
+**Access rules (enforced in CI via `.github/workflows/branch-policy.yml`):**
+
+- Contributors open PRs **only into `dev`** from `feature/*`, `fix/*`, or `chore/*`.
+- PRs targeting **`master`** — repository owner only (`denis-peshkov`).
+- Pushing to **`master`**, **`release/*`**, or **`hotfix/*`** — owner only.
+- After changes land on **`master`**, CI (`backmerge-master-to-dev.yml`) merges `master` into `dev` using secret **`TAGTOKEN`**.
+
+Optional GitHub Rulesets: import recipes from [`.github/rulesets/`](.github/rulesets/).
+
+Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`).
 
 ### Branch naming
 
@@ -109,6 +128,8 @@ Fix FluentValidation scan for multiple assemblies
 Update README licensing section
 ```
 
+For breaking changes, include `BREAKING:` in the commit body or PR title/description.
+
 ---
 
 ## Pull request process
@@ -116,8 +137,8 @@ Update README licensing section
 ### 1. Preparation
 
 ```bash
-git checkout master
-git pull origin master
+git checkout dev
+git pull origin dev
 git checkout -b feature/short-description
 ```
 
@@ -125,6 +146,7 @@ git checkout -b feature/short-description
 
 - Follow existing folder layout (`Behaviors/`, `Licensing/`, `Extensions/`, …).
 - Do not touch unrelated files.
+- Breaking change → `docs/BREAKING.md` only (nuspec keeps a link, not a duplicate list).
 
 ### 3. Tests (required)
 
@@ -135,8 +157,21 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
 
 ### 4. Open PR
 
-- Description: what, why, how to verify (**English**).
+- **Base branch:** `dev` (required for contributors)
+- Description: what, why, how to verify (**English** — for GitHub history and the triage bot).
 - For licensing / security — explicitly note risks.
+- Breaking consumer change → prefix title with `BREAKING:`.
+
+### 5. CI
+
+Must pass:
+
+- `.NET` workflow (build + tests)
+- Branch policy (`branch-policy.yml`)
+- SonarCloud quality gate (on PR)
+- Triage PR comment job when enabled (`CURSOR_API_KEY`)
+
+CodeRabbit (`.coderabbit.yaml`): comment `@coderabbitai full review` when a full pass is needed.
 
 ### One PR rule
 
@@ -149,7 +184,7 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
 - [ ] Tests added/updated for changed behavior
 - [ ] `dotnet test` — green locally
 - [ ] No secrets in code or samples
-- [ ] README / `ReleaseNotes.txt` / `config.nuspec` updated when the public surface changes
+- [ ] README / `docs/CHANGELOG.md` / `docs/BREAKING.md` / `config.nuspec` updated when the public surface changes
 
 ---
 
@@ -158,8 +193,11 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
 | What changed | Update |
 |--------------|--------|
 | Public API / registration | `README.md` |
-| Released behavior | `ReleaseNotes.txt` and/or `Cross.CQRS/config.nuspec` `releaseNotes` |
+| Breaking change for consumers | `docs/BREAKING.md` only |
+| Released behavior | `docs/CHANGELOG.md` and short `config.nuspec` `releaseNotes` (+ link to BREAKING) |
 | Packaging / dependencies | `Cross.CQRS/config.nuspec` |
+| Release readiness | `docs/RELEASE-PLAN-*.md` |
+| Deferred findings | `docs/TO-DO.md` |
 
 ---
 

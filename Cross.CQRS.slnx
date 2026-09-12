@@ -8,13 +8,19 @@
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
+    <File Path=".coderabbit.yaml" />
     <File Path="CONTRIBUTING.md" />
     <File Path="GitVersion.yml" />
     <File Path="LICENSE.md" />
     <File Path="README.md" />
-    <File Path="ReleaseNotes.txt" />
+    <File Path="ReleaseNotes.md" />
     <File Path="icon.png" />
     <File Path="icon.svg" />
+    <File Path="docs/BREAKING.md" />
+    <File Path="docs/CHANGELOG.md" />
+    <File Path="docs/TO-DO.md" />
+    <File Path="docs/RELEASE-PLAN-11.0.0.md" />
+    <File Path="docs/RELEASE-PLAN-dev-to-master.md" />
   </Folder>
   <Project Path="Cross.CQRS.Tests/Cross.CQRS.Tests.csproj" />
   <Project Path="Cross.CQRS/Cross.CQRS.csproj" />
