@@ -51,7 +51,7 @@ Workflow `.github/workflows/triage.yml`:
 - **Schedule**: Monday 06:00 UTC
 - **workflow_dispatch**: manual run
 - **issues opened**: data collection
-- **pull_request** opened/synchronize/reopened/edited: AI comment on the PR (wshm-style)
+- **pull_request** opened/synchronize/reopened: AI comment on the PR (wshm-style; same-repo, non-draft; needs `CURSOR_API_KEY`)
 
 ### Secrets
 
