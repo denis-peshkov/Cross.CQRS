@@ -26,10 +26,6 @@
 
 ## Низкий (техдолг / несогласованности)
 
-### L4. `config.nuspec` `releaseNotes` дублирует docs
-
-Длинный CDATA вместо короткой выжимки + ссылок на [`CHANGELOG.md`](CHANGELOG.md) / [`BREAKING.md`](BREAKING.md). Убрать «netcoreapp3.1 dropped» и маркетинг sibling EF-пакета из notes.
-
 ---
 
 ## Принято (осознанный trade-off)
@@ -59,6 +55,7 @@
 | ✅ #M5 BehaviorCollection duplicate AddBehavior | fixed: re-Add same type updates order (`[type]=order`); test asserts single descriptor |
 | ✅ #M6 queue keeps exception-safe for targetId | fixed: after Standard read, assert ExceptionSafe for same targetId still readable |
 | ✅ #M7 post-pr-triage oversized patch | fixed: skip too-large chunk (`continue`), keep packing smaller later patches |
+| ✅ #L4 nuspec releaseNotes trim | fixed: short v11 blurb + links to CHANGELOG/BREAKING; no «3.1 dropped» / EF marketing dump |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
 | ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
@@ -85,6 +82,5 @@
 
 ## Приоритет фиксов
 
-1. **L4** — trim nuspec `releaseNotes`.
-2. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
-3. Ops: revoke JWT that was previously committed in SampleWebApp history.
+1. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+2. Ops: revoke JWT that was previously committed in SampleWebApp history.

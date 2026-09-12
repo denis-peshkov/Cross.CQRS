@@ -7,7 +7,7 @@
 > **Related:** [`BREAKING.md`](BREAKING.md), [`CHANGELOG.md`](CHANGELOG.md), [`TO-DO.md`](TO-DO.md)  
 > **Updated:** 2026-09-12
 
-**Checklist summary:** **22** items — ✅ **10** (45%) · 🟨 **5** (23%) · ⬜ **7** (32%) · ❌ **0** (0%)
+**Checklist summary:** **22** items — ✅ **11** (50%) · 🟨 **4** (18%) · ⬜ **7** (32%) · ❌ **0** (0%)
 
 ---
 
@@ -28,7 +28,7 @@
 |---|------|--------|
 | B1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ From 10.1.x → 11.0.0; layout per template |
 | B2 | PR titles used `BREAKING:` where applicable | 🟨 verify on merge PRs if any |
-| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | 🟨 long CDATA remains — version-plan **L4** |
+| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ✅ short blurb + CHANGELOG/BREAKING URLs (version-plan **L4**) |
 | B4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ `## v11.0.0` |
 
 ---
@@ -49,7 +49,7 @@
 
 | # | Item | Status |
 |---|------|--------|
-| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ description OK; releaseNotes trim = **L4** / B3 |
+| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ description + trimmed releaseNotes |
 | N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 `NUGET_API_KEY` updated (L2 closed); `TAGTOKEN` not re-verified |
 | N3 | Tag push + NuGet push from CI succeed | ⬜ gates fixed (`master`/`release`/`hotfix`/`dev`); not run for `v11.0.0` |
 | N4 | GitHub Release notes published | ⬜ |
@@ -74,4 +74,4 @@
 | G2 | Publish blockers cleared (B3/L4, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | ⬜ |
 
 - **Date:** 2026-09-12  
-- **Notes:** Open = **L4** (nuspec `releaseNotes`). CI tag/NuGet gates + Sonar key + PR/issue templates closed in version plan. Before Go: L4 → CI/Sonar on **HEAD** → optional SampleWebApp → tag + NuGet. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
+- **Notes:** Version-plan open C/H/M/L empty (L4 closed). Before Go: tip CI/Sonar on **HEAD** → optional SampleWebApp → tag + NuGet. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
