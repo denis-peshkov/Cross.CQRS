@@ -14,8 +14,8 @@ body:
     id: package-version
     attributes:
       label: Cross.CQRS NuGet version
-      description: e.g. `10.1.4` from [nuget.org](https://www.nuget.org/packages/Cross.CQRS/)
-      placeholder: "10.1.4"
+      description: e.g. `11.0.0` from [nuget.org](https://www.nuget.org/packages/Cross.CQRS/)
+      placeholder: "x.y.z"
     validations:
       required: true
 

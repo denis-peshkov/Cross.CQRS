@@ -22,7 +22,7 @@ body:
     id: package-version
     attributes:
       label: Cross.CQRS NuGet version (if applicable)
-      placeholder: "10.1.4"
+      placeholder: "x.y.z"
     validations:
       required: false
 
