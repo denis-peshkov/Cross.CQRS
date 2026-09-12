@@ -39,7 +39,7 @@ function buildPrompt() {
   const collaborators = readDataFile('collaborators.txt') ?? '';
   const prFiles = readDataFile('pr-files.jsonl') ?? '';
 
-  return `You are running automated triage for the Cross.CQRS GitHub repository (${repo}).
+  return `You are running automated triage for this GitHub repository (${repo}). See README.md for project layout.
 
 Follow the workflow in the triage skill below.
 Mode: ${MODE} (audit = tables + cross-analysis only, no GitHub comments).
@@ -75,7 +75,7 @@ Write a complete markdown triage report in Russian with:
 5. Prioritized action list (top 10)
 
 Do NOT post to GitHub. Output only the markdown report body.
-Security focus: JWT licensing, MediatR pipeline, DI registration, secrets in samples.
+Security focus: JWT, OAuth, refresh tokens, auth flows.
 `;
 }
 
@@ -98,7 +98,7 @@ async function main() {
     }
 
     const body = result.result?.trim() || '# Triage\n\nNo output from agent.';
-    const report = `# Cross.CQRS CI Triage — ${DATE}\n\n${body}\n`;
+    const report = `# CI Triage — ${repo} — ${DATE}\n\n${body}\n`;
     writeFileSync(OUT, report, 'utf8');
     console.log(`Report written: ${OUT}`);
 

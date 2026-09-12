@@ -1,6 +1,6 @@
 # Automated Triage Reports
 
-Triage reports for the Cross.CQRS repository.
+Triage reports for the **current repository** (name and URL — from `gh repo view` / git remote).
 
 ## Locally (Cursor Agent + skills)
 
@@ -51,13 +51,13 @@ Workflow `.github/workflows/triage.yml`:
 - **Schedule**: Monday 06:00 UTC
 - **workflow_dispatch**: manual run
 - **issues opened**: data collection
-- **pull_request** opened/synchronize/reopened/edited: AI comment on PR (wshm-style)
+- **pull_request** opened/synchronize/reopened/edited: AI comment on the PR (wshm-style)
 
 ### Secrets
 
 | Secret | Required | Purpose |
 |--------|----------|---------|
-| `CURSOR_API_KEY` | Yes (for AI report) | Cursor SDK in CI |
+| `CURSOR_API_KEY` | Yes (for the AI report) | Cursor SDK in CI |
 | `GITHUB_TOKEN` | Auto | `gh` CLI |
 
 Create a key: [Cursor Dashboard → Integrations](https://cursor.com/dashboard/integrations)
@@ -69,15 +69,15 @@ Workflow `triage.yml` → job **PR automated comment**:
 - Cursor Agent analyzes the diff
 - Posts a wshm-style comment (category, priority, confidence, summary, files)
 - Applies GitHub labels: `{category}` and `priority:{priority}` (e.g. `enhancement`, `priority:medium`); on re-run replaces previous triage labels only
-- On a new push **updates** the same comment (marker `<!-- triage -->`; legacy `<!-- cross-cqrs-triage -->` still matched)
+- On a new push **updates** the same comment (marker `<!-- triage -->`; legacy `<!-- cross-identity-triage -->` is also matched)
 
 Manual test: **Actions → Triage → Run workflow** → `pr_number` field.
 
 ### Artifacts
 
 - `.cursor/triage/docs/ci-report-YYYY-MM-DD.md`
-- `.cursor/triage/docs/.data/*.json` (in artifact, not in git)
+- `.cursor/triage/docs/.data/*.json` (in the artifact, not in git)
 
 ### GitHub CLI
 
-Triage scripts call `.cursor/triage/gh-wrapper.sh`, which delegates to `gh` (preinstalled on GitHub Actions runners; install locally via `gh auth login`).
+Triage scripts call `.cursor/triage/gh-wrapper.sh`, which delegates to `gh` (preinstalled on GitHub Actions runners; locally via `gh auth login`).

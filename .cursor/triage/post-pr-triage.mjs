@@ -16,7 +16,8 @@ import { createLocalAgentOptions } from './cursor-agent-local.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '../..');
 const GH = join(ROOT, '.cursor/triage/gh-wrapper.sh');
-const CHECKLIST = join(ROOT, '.cursor/skills/triage-pr/references/dotnet-checklist.md');
+const DOTNET_CHECKLIST = join(ROOT, '.cursor/skills/triage-pr/references/dotnet-checklist.md');
+const ANGULAR_CHECKLIST = join(ROOT, '.cursor/skills/triage-pr/references/angular-checklist.md');
 
 const prNumber = process.env.PR_NUMBER || process.argv[2];
 const apiKey = process.env.CURSOR_API_KEY;
@@ -174,11 +175,29 @@ function fetchPrDiff(repo, prNumber, pr) {
   return { diff, files };
 }
 
+function loadReviewChecklists(files) {
+  const paths = files.map((f) => f.path ?? '');
+  const hasServer = paths.some((p) => p.startsWith('server/'));
+  const hasClient = paths.some((p) => p.startsWith('client/'));
+  const sections = [];
+
+  if (hasServer && existsSync(DOTNET_CHECKLIST)) {
+    sections.push(readFileSync(DOTNET_CHECKLIST, 'utf8'));
+  }
+  if (hasClient && existsSync(ANGULAR_CHECKLIST)) {
+    sections.push(readFileSync(ANGULAR_CHECKLIST, 'utf8'));
+  }
+  if (sections.length === 0 && existsSync(DOTNET_CHECKLIST)) {
+    return readFileSync(DOTNET_CHECKLIST, 'utf8');
+  }
+  return sections.join('\n\n---\n\n');
+}
+
 function buildPrompt(pr, diff, files) {
-  const checklist = existsSync(CHECKLIST) ? readFileSync(CHECKLIST, 'utf8') : '';
+  const checklist = loadReviewChecklists(files);
   const fileList = formatFileList(files);
 
-  return `You triage pull request #${pr.number} for Cross.CQRS (NuGet MediatR CQRS library: commands, queries, events, pipeline behaviors, JWT licensing).
+  return `You triage pull request #${pr.number} for this repository (see README.md for layout; prioritize auth, security, and payments if touched).
 
 ## PR metadata
 - Title: ${pr.title}
@@ -206,11 +225,11 @@ Return ONLY a single JSON object (no markdown prose) with this schema:
   "summary": "<2-4 sentences English: what the PR does and triage takeaway>",
   "maintainerHint": "<optional line, e.g. This looks like a simple fix suitable for quick review>",
   "relevantFiles": ["path/from/diff.cs", "..."],
-  "securityNotes": "<optional; JWT licensing / pipeline security risks for CQRS library>"
+  "securityNotes": "<optional; auth/token/PII/payment risks if applicable>"
 }
 
 Rules:
-- security + high/critical for license JWT bypass, secret leaks, pipeline tampering
+- security + high/critical for auth/token vulnerabilities
 - confidence reflects how clear the PR intent is from title/body/diff
 - relevantFiles: max 8 paths, only from this PR
 - English only

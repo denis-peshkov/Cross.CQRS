@@ -25,7 +25,7 @@ const LABEL_META = Object.freeze({
   feature: { color: '0e8a16', description: 'New capability or flow' },
   bug: { color: 'd73a4a', description: 'Something is broken' },
   enhancement: { color: 'a2eeef', description: 'Improvement without major behavior change' },
-  security: { color: 'b60205', description: 'Licensing / JWT / pipeline security' },
+  security: { color: 'b60205', description: 'Licensing / Auth / JWT / OAuth / token security' },
   docs: { color: '0075ca', description: 'Documentation only' },
   chore: { color: 'fef2c0', description: 'Build, CI, tooling, deps' },
   question: { color: 'd876e3', description: 'Question / clarification' },
