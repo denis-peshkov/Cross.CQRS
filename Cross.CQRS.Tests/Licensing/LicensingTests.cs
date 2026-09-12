@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Tests;
+namespace Cross.CQRS.Tests.Licensing;
 
 public class LicensingTests
 {

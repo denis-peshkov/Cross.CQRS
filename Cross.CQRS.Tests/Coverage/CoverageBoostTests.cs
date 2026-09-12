@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Tests;
+namespace Cross.CQRS.Tests.Coverage;
 
 public class CoverageBoostTests
 {

@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
         var assemblies = serviceConfiguration.Assemblies.ToArray();
         var behaviorCollection = new BehaviorCollection(services);
 
-        LicenseChecked = false;
+        LicenseCheckExtensions.ResetLicenseCheckForTests();
         services.AddSingleton(serviceConfiguration);
 
         services.AddSingleton<LicenseAccessor>();
@@ -83,24 +83,4 @@ public static class ServiceCollectionExtensions
 
         return new CqrsRegistrationSyntax(services, assemblies, behaviorCollection);
     }
-
-    internal static void CheckLicense(this IServiceProvider serviceProvider)
-    {
-        if (LicenseChecked == false)
-        {
-            var licenseAccessor = serviceProvider.GetRequiredService<LicenseAccessor>();
-            var licenseValidator = serviceProvider.GetRequiredService<LicenseValidator>();
-            var license = licenseAccessor.Current;
-
-            foreach (var licenseProductInfo in serviceProvider.GetServices<ILicenseProductInfo>())
-            {
-                licenseValidator.Validate(license, licenseProductInfo);
-            }
-        }
-
-        // if True then check will be performed only once
-        LicenseChecked = false;
-    }
-
-    internal static bool LicenseChecked { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace Cross.CQRS.Tests;
+﻿namespace Cross.CQRS.Tests.Behaviors;
 
 public class BehaviorPipelineTests
 {
@@ -118,10 +118,12 @@ public class BehaviorPipelineTests
         services.AddCQRS(cfg => cfg.RegisterFromAssemblyContaining<TestRequest>());
         var provider = services.BuildServiceProvider();
 
-        Cross.CQRS.Extensions.ServiceCollectionExtensions.LicenseChecked = false;
+        LicenseCheckExtensions.ResetLicenseCheckForTests();
         provider.CheckLicense();
 
-        Cross.CQRS.Extensions.ServiceCollectionExtensions.LicenseChecked.Should().BeFalse();
+        // flag stays false after each check (same as Identity) — next call can validate again
+        var act = () => provider.CheckLicense();
+        act.Should().NotThrow();
     }
 
     public sealed record TestRequest(string Value) : IRequest<string>;

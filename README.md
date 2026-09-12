@@ -57,7 +57,7 @@ Main Features:
 
 * **Licensing (optional JWT)**.
 
-  You can set `LicenseKey` on `CqrsServiceConfiguration` to a Peshkov license JWT. Validation runs on **every** MediatR request via `LicenseCheckBehavior`. License keys: [peshkov.biz](https://peshkov.biz/cqrs).
+  You can set `LicenseKey` on `CqrsServiceConfiguration` to a Peshkov license JWT. Validation runs on **every** MediatR request via `LicenseCheckBehavior` / `CheckLicense` (only `ILicenseProductInfo` with `Product == "Cross.CQRS"`). License keys: [peshkov.biz](https://peshkov.biz/cqrs).
 
 
 ## Install NuGet package

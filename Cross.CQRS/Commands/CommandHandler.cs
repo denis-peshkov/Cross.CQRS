@@ -18,7 +18,7 @@ public abstract class CommandHandler<TCommand> : IRequestHandler<TCommand>
     /// <inheritdoc />
     async Task<Unit> IRequestHandler<TCommand, Unit>.Handle(TCommand command, CancellationToken cancellationToken)
     {
-        await Handle(command, cancellationToken);
+        await Handle(command, cancellationToken).ConfigureAwait(false);
         return Unit.Value;
     }
 
@@ -32,7 +32,7 @@ public abstract class CommandHandler<TCommand> : IRequestHandler<TCommand>
     {
         Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has begun.", command.GetGenericTypeName(), command.CommandId);
         var start = Stopwatch.GetTimestamp();
-        await HandleAsync(command, cancellationToken);
+        await HandleAsync(command, cancellationToken).ConfigureAwait(false);
         var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
         Logger.InternalLogTrace<Unit>(command, "Handling of the CommandType: {CommandType} for CommandId: {CommandId} has completed successfully in {Elapsed} ms.", command.GetGenericTypeName(), command.CommandId, elapsed);
     }
