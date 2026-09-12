@@ -1,5 +1,5 @@
 {
-  "name": "@cross-cqrs/triage-ci",
+  "name": "triage-ci",
   "private": true,
   "type": "module",
   "description": "CI triage runner via Cursor SDK",
