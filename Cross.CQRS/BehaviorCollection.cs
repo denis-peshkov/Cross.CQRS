@@ -25,7 +25,7 @@ public sealed class BehaviorCollection
             _services.Remove(existingDescriptor);
         }
 
-        _orderedPipelineBehaviors.Add(behaviorType, order);
+        _orderedPipelineBehaviors[behaviorType] = order;
 
         var orderedBehaviors = _orderedPipelineBehaviors
             .Select(b => new { Type = b.Key, Order = b.Value })

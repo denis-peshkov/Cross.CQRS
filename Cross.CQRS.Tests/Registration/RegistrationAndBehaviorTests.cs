@@ -48,10 +48,16 @@ public class RegistrationAndBehaviorTests
         var services = new ServiceCollection();
         var behaviorCollection = new BehaviorCollection(services);
 
+        var validation = Type.GetType("Cross.CQRS.Behaviors.ValidationBehavior`2, Cross.CQRS")!;
+        var requestFilter = Type.GetType("Cross.CQRS.Behaviors.RequestFilterBehavior`2, Cross.CQRS")!;
+        var resultFilter = Type.GetType("Cross.CQRS.Behaviors.ResultFilterBehavior`2, Cross.CQRS")!;
+
         behaviorCollection
-            .AddBehavior(Type.GetType("Cross.CQRS.Behaviors.ValidationBehavior`2, Cross.CQRS")!, 2)
-            .AddBehavior(Type.GetType("Cross.CQRS.Behaviors.RequestFilterBehavior`2, Cross.CQRS")!, 1)
-            .AddBehavior(Type.GetType("Cross.CQRS.Behaviors.ResultFilterBehavior`2, Cross.CQRS")!, 3);
+            .AddBehavior(validation, 2)
+            .AddBehavior(requestFilter, 1)
+            .AddBehavior(resultFilter, 3)
+            // Same type again with a new order — must update, not duplicate / throw.
+            .AddBehavior(validation, 0);
 
         var pipeline = services
             .Where(d => d.ServiceType == typeof(IPipelineBehavior<,>))
@@ -59,13 +65,15 @@ public class RegistrationAndBehaviorTests
             .Where(t => t != null)
             .ToArray();
 
+        pipeline.Should().HaveCount(3);
         pipeline.Select(t => t!.Name).Should().Equal(
             new[]
             {
-                "RequestFilterBehavior`2",
                 "ValidationBehavior`2",
+                "RequestFilterBehavior`2",
                 "ResultFilterBehavior`2"
             });
+        pipeline.Count(t => t == validation).Should().Be(1);
     }
 
     [Test]
