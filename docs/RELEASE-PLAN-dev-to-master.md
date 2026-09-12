@@ -7,16 +7,18 @@
 > **Related:** [`BREAKING.md`](BREAKING.md), [`CHANGELOG.md`](CHANGELOG.md), [`TO-DO.md`](TO-DO.md)  
 > **Updated:** 2026-09-12
 
+**Checklist summary:** **22** items — ✅ **10** (45%) · 🟨 **5** (23%) · ⬜ **7** (32%) · ❌ **0** (0%)
+
 ---
 
 ## 1. Preconditions
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `v11.0.0` |
-| 2 | Version plan file `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md) |
-| 3 | Open backlog reviewed (`docs/TO-DO.md`) — no unexpected C/H blockers | ✅ |
-| 4 | Branch policy / rulesets understood (`CONTRIBUTING.md`, `.github/rulesets/`) | ✅ recipes in repo; optional import = ops |
+| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `v11.0.0` |
+| P2 | Version plan file `docs/RELEASE-PLAN-X.Y.Z.md` filled (severity template) | ✅ [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md) |
+| P3 | Open backlog reviewed (`docs/TO-DO.md`) — no unexpected C/H blockers | ✅ open C/H/M/L empty; **Принято** kept |
+| P4 | Branch policy / rulesets understood (`CONTRIBUTING.md`, `.github/rulesets/`) | ✅ recipes in repo; optional import = ops |
 
 ---
 
@@ -24,10 +26,10 @@
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ |
-| 2 | PR titles used `BREAKING:` where applicable | 🟨 |
-| 3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | 🟨 long body remains |
-| 4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ |
+| B1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ From 10.1.x → 11.0.0; layout per template |
+| B2 | PR titles used `BREAKING:` where applicable | 🟨 verify on merge PRs if any |
+| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | 🟨 long CDATA remains — version-plan **L4** |
+| B4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ `## v11.0.0` |
 
 ---
 
@@ -35,11 +37,11 @@
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ local 2026-09-12 |
-| 2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ local net6–net10 (43×); CI + netcoreapp3.1 TBD |
-| 3 | CI `.NET` workflow green on release branch | 🟨 |
-| 4 | SonarCloud / quality gate acceptable | 🟨 |
-| 5 | SampleWebApp still starts / smoke paths OK | ⬜ |
+| Q1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ local 2026-09-12 |
+| Q2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ local net6–net10 (43×); `SkipNetCoreApp31Tests` on Apple Silicon |
+| Q3 | CI `.NET` workflow green on release branch | 🟨 last green [`34708836618`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34708836618) @ `35c05ca`; HEAD ahead — re-confirm |
+| Q4 | SonarCloud / quality gate acceptable | 🟨 scan in `.NET` workflow; gate on tip not re-checked here |
+| Q5 | SampleWebApp still starts / smoke paths OK | ⬜ |
 
 ---
 
@@ -47,10 +49,10 @@
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ (trim releaseNotes still open) |
-| 2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 API key updated; TAGTOKEN confirm |
-| 3 | Tag push + NuGet push from CI succeed | ⬜ |
-| 4 | GitHub Release notes published | ⬜ |
+| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ metadata OK; releaseNotes trim = **L4** / B3 |
+| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 `NUGET_API_KEY` updated (L2 closed); `TAGTOKEN` not re-verified |
+| N3 | Tag push + NuGet push from CI succeed | ⬜ not run for `v11.0.0` |
+| N4 | GitHub Release notes published | ⬜ |
 
 ---
 
@@ -58,16 +60,18 @@
 
 | # | Item | Status |
 |---|------|--------|
-| 1 | Back-merge `master` → `dev` (`backmerge-master-to-dev.yml`) | ⬜ |
-| 2 | Cross.CQRS.EF (sibling repo) can consume published version when needed | ⬜ |
-| 3 | Close or defer leftover `TO-DO` items | ✅ |
+| A1 | Back-merge `master` → `dev` (`backmerge-master-to-dev.yml`) | ⬜ after master land |
+| A2 | Cross.CQRS.EF (sibling repo) can consume published version when needed | ⬜ after NuGet publish |
+| A3 | Close or defer leftover open `TO-DO` C/H/M/L items | ✅ none open; lasting trade-offs in **Принято** |
 
 ---
 
 ## 6. Go / No-Go
 
-Document decision and date here when ready:
+| # | Item | Status |
+|---|------|--------|
+| G1 | Go / No-Go decision recorded | ⬜ |
+| G2 | Publish blockers cleared (B3/L4, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | ⬜ |
 
-- **Decision:** ⬜ Go / ⬜ No-Go  
 - **Date:** 2026-09-12  
-- **Notes:** Local build/test OK. Version-plan open: L4 (nuspec trim) — [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md). H1 accepted (license check every request). Then CI/Sonar / SampleWebApp / tag+NuGet.
+- **Notes:** Version plan open = **L4** (nuspec trim). H1 accepted (license check every request). Local build/tests OK. Before Go: L4 → confirm CI/Sonar on **current HEAD** → optional SampleWebApp → tag + NuGet. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
