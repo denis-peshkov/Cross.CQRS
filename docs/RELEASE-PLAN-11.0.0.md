@@ -18,10 +18,6 @@
 
 ## Высокий (логика / auth model)
 
-### H6. `post-pr-triage.mjs` — labels из PR body/agent без gate
-
-Категория/priority из модели по `pr.body`+diff могут проставлять labels без детерминированной валидации / maintainer gate.
-
 ---
 
 ## Средний (противоречия / баги контрактов)
@@ -84,6 +80,7 @@
 | ✅ #H3 resolve-target-version bump rules | fixed: любая ветка → GitVersion `MajorMinorPatch`; ручной override `--version` |
 | ✅ #H4 collect-data.sh JSONL files | fixed: `gh --jq` → `{number, files: [paths]}` (JSON-safe array) |
 | ✅ #H5 post-pr-triage comment upsert | fixed: lookup by `TRIAGE_MARKER` + comment author (`gh api user` / `TRIAGE_COMMENT_AUTHOR`) |
+| ✅ #H6 post-pr-triage labels gate | fixed: `TRIAGE_APPLY_LABELS` default on (`1`), opt-out `false`; confidence floor (default 70) + allowlist; comment always suggests |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
 | ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
@@ -110,10 +107,9 @@
 
 ## Приоритет фиксов
 
-1. **H6** — triage bot: label gate.
-2. **M1** — выровнять README (every request).
-3. **M4–M6** — усилить тесты queue/registration.
-4. **M2** / **M3** / **M7** — release-plan/triage script polish.
-5. **L4** — trim nuspec `releaseNotes`.
-6. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
-7. Ops: revoke JWT that was previously committed in SampleWebApp history.
+1. **M1** — выровнять README (every request).
+2. **M4–M6** — усилить тесты queue/registration.
+3. **M2** / **M3** / **M7** — release-plan/triage script polish.
+4. **L4** — trim nuspec `releaseNotes`.
+5. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+6. Ops: revoke JWT that was previously committed in SampleWebApp history.

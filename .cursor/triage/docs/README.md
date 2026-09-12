@@ -68,8 +68,8 @@ Workflow `triage.yml` → job **PR automated comment**:
 
 - Cursor Agent analyzes the diff
 - Posts a wshm-style comment (category, priority, confidence, summary, files)
-- Applies GitHub labels: `{category}` and `priority:{priority}` (e.g. `enhancement`, `priority:medium`); on re-run replaces previous triage labels only
-- On a new push **updates** the same comment (marker `<!-- triage -->`)
+- Syncs GitHub labels `{category}` / `priority:{priority}` by default when confidence ≥ `TRIAGE_LABEL_MIN_CONFIDENCE` (default `70`); set `TRIAGE_APPLY_LABELS=false` to disable. Allowlisted values only
+- On a new push **updates** the same comment (marker `<!-- triage -->` + same GitHub actor)
 
 Manual test: **Actions → Triage → Run workflow** → `pr_number` field.
 
@@ -77,6 +77,9 @@ Optional env (CI / local):
 
 | Env | Purpose |
 |-----|---------|
+| `TRIAGE_APPLY_LABELS` | Sync GitHub labels from agent JSON (default: `1` / on; `false` / `0` / `no` / `off` to disable) |
+| `TRIAGE_LABEL_MIN_CONFIDENCE` | Min agent confidence (0–100) required when labels are enabled (default `70`) |
+| `TRIAGE_COMMENT_AUTHOR` | Override login used to find the bot’s prior comment |
 | `TRIAGE_ICON_REL_PATH` | Repo-relative icon for PR comment header (e.g. `icon.png`) |
 | `TRIAGE_ICON_BRANCH` | Branch for raw.githubusercontent icon URL (default `master`) |
 | `TRIAGE_PATCH_PRIORITY_PREFIXES` | Comma-separated top-level dirs to prefer in truncated diffs (else inferred from PR files) |

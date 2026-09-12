@@ -10,7 +10,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Agent, CursorAgentError } from '@cursor/sdk';
 import { formatPrTriageComment, parseAgentJson, TRIAGE_MARKER } from './format-pr-comment.mjs';
-import { applyPrTriageLabels } from './apply-pr-labels.mjs';
+import { applyPrTriageLabels, shouldApplyTriageLabels } from './apply-pr-labels.mjs';
 import { createLocalAgentOptions } from './cursor-agent-local.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -436,10 +436,15 @@ async function main() {
     upsertPrComment(repo, prNumber, comment);
 
     try {
-      const { added, removed } = applyPrTriageLabels(gh, prNumber, data);
-      console.log(
-        `Triage labels on PR #${prNumber}: +[${added.join(', ')}] -[${removed.join(', ')}]`
-      );
+      const gate = shouldApplyTriageLabels(data);
+      if (!gate.apply) {
+        console.log(`Skipping triage labels on PR #${prNumber}: ${gate.reason}`);
+      } else {
+        const { added, removed } = applyPrTriageLabels(gh, prNumber, data);
+        console.log(
+          `Triage labels on PR #${prNumber}: +[${added.join(', ')}] -[${removed.join(', ')}] (confidence=${gate.confidence})`
+        );
+      }
     } catch (labelErr) {
       console.error('Failed to apply triage labels:', labelErr.message ?? labelErr);
       process.exit(1);
