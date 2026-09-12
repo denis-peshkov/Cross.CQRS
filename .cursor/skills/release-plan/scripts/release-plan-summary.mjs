@@ -19,6 +19,7 @@ const PLAN = join(ROOT, 'docs/RELEASE-PLAN-dev-to-master.md');
 
 const ID_ROW = /^\| ([A-Z]+[0-9]+) \|/;
 const BULLET = /^- (✅|🟨|⬜|❌) /;
+const SUMMARY_RE = /^\*\*Checklist summary:\*\*.*$/m;
 
 function primaryStatus(cell) {
   return (cell.match(/^(✅|🟨|⬜|❌)/) ?? [])[1] ?? null;
@@ -86,20 +87,58 @@ export function formatSummaryLine(statuses) {
   );
 }
 
+/**
+ * Replace existing summary line, or insert before the first `---` / `##` if missing.
+ * @param {string} markdown
+ * @param {string} line
+ * @returns {{ markdown: string; status: 'up-to-date' | 'updated' | 'inserted' }}
+ */
+export function applySummaryLine(markdown, line) {
+  if (SUMMARY_RE.test(markdown)) {
+    const updated = markdown.replace(SUMMARY_RE, line);
+    if (updated === markdown) {
+      return { markdown, status: 'up-to-date' };
+    }
+    return { markdown: updated, status: 'updated' };
+  }
+
+  const hr = markdown.match(/\n---\r?\n/);
+  if (hr && hr.index != null) {
+    return {
+      markdown: `${markdown.slice(0, hr.index)}\n${line}${markdown.slice(hr.index)}`,
+      status: 'inserted',
+    };
+  }
+
+  const heading = markdown.match(/\n##\s/);
+  if (heading && heading.index != null) {
+    return {
+      markdown: `${markdown.slice(0, heading.index)}\n${line}\n${markdown.slice(heading.index)}`,
+      status: 'inserted',
+    };
+  }
+
+  return {
+    markdown: `${markdown.replace(/\s*$/, '')}\n\n${line}\n`,
+    status: 'inserted',
+  };
+}
+
 function main() {
   const markdown = readFileSync(PLAN, 'utf8');
   const line = formatSummaryLine(collectChecklistStatuses(markdown));
 
   if (process.argv.includes('--write')) {
-    const updated = markdown.replace(
-      /^\*\*Checklist summary:\*\*.*$/m,
-      line
-    );
-    if (updated === markdown) {
+    const { markdown: next, status } = applySummaryLine(markdown, line);
+    if (status === 'up-to-date') {
       console.log('Checklist summary is already up to date');
     } else {
-      writeFileSync(PLAN, updated, 'utf8');
-      console.log(`Updated ${PLAN}`);
+      writeFileSync(PLAN, next, 'utf8');
+      console.log(
+        status === 'inserted'
+          ? `Inserted checklist summary in ${PLAN}`
+          : `Updated ${PLAN}`
+      );
     }
   }
 
