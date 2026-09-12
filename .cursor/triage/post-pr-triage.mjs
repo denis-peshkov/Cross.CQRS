@@ -307,19 +307,39 @@ Rules:
 `;
 }
 
-function findExistingCommentId(repo, issueNumber) {
+/**
+ * Login that owns triage comments for upsert (PATCH only own comments).
+ * Override with TRIAGE_COMMENT_AUTHOR when the posting actor differs from `gh api user`.
+ */
+function resolveTriageCommentAuthor() {
+  const fromEnv = process.env.TRIAGE_COMMENT_AUTHOR?.trim();
+  if (fromEnv) {
+    return fromEnv;
+  }
+  return gh(['api', 'user', '-q', '.login']).trim();
+}
+
+/**
+ * Find our prior triage comment: marker + same author (ignore contributor copies of the marker).
+ * @param {string} repo
+ * @param {string|number} issueNumber
+ * @param {string} authorLogin
+ * @returns {number|undefined}
+ */
+function findExistingCommentId(repo, issueNumber, authorLogin) {
   try {
-    const id = execFileSync(
-      GH,
-      [
-        'api',
-        `repos/${repo}/issues/${issueNumber}/comments`,
-        '--jq',
-        `.[] | select(.body | contains(${JSON.stringify(TRIAGE_MARKER)})) | .id`,
-      ],
-      { cwd: ROOT, encoding: 'utf8' }
-    ).trim();
-    return id ? Number(id.split('\n')[0]) : undefined;
+    const comments = gh(
+      ['api', `repos/${repo}/issues/${issueNumber}/comments`, '--paginate'],
+      { json: true }
+    );
+    const list = Array.isArray(comments) ? comments : [];
+    const match = list.find(
+      (c) =>
+        typeof c?.body === 'string' &&
+        c.body.includes(TRIAGE_MARKER) &&
+        c.user?.login === authorLogin
+    );
+    return match?.id != null ? Number(match.id) : undefined;
   } catch {
     return undefined;
   }
@@ -344,11 +364,14 @@ function upsertPrComment(repo, issueNumber, body) {
     throw new Error('Generated comment body is empty');
   }
 
-  const existingId = findExistingCommentId(repo, issueNumber);
+  const authorLogin = resolveTriageCommentAuthor();
+  const existingId = findExistingCommentId(repo, issueNumber, authorLogin);
 
   if (existingId) {
     patchComment(repo, existingId, body);
-    console.log(`Updated triage comment ${existingId} on PR #${issueNumber}`);
+    console.log(
+      `Updated triage comment ${existingId} on PR #${issueNumber} (author=${authorLogin})`
+    );
     return;
   }
 

@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.0.0` · **ветка:** `release/11.0.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-12`
+> **Версия:** `11.0.0` · **ветка:** `release/11.0.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-13`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.0.0
 >
@@ -8,7 +8,7 @@
 >
 > **Предыдущий план:** —
 
-Дельта: `origin/master...HEAD` — **74** коммита · **139** файлов · **+7809 / −415**. Чеклист publish/Go — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md); открытый backlog вне дельты — [`TO-DO.md`](TO-DO.md).
+Дельта: `origin/master...HEAD` — **74** коммита · **139** файлов · **+7809 / −415**. CodeRabbit 2026-09-13: **13** findings (6 major / 7 minor); **#H1** skipped (уже в Закрыто). Чеклист publish/Go — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md); backlog — [`TO-DO.md`](TO-DO.md).
 
 ---
 
@@ -18,9 +18,41 @@
 
 ## Высокий (логика / auth model)
 
+### H6. `post-pr-triage.mjs` — labels из PR body/agent без gate
+
+Категория/priority из модели по `pr.body`+diff могут проставлять labels без детерминированной валидации / maintainer gate.
+
 ---
 
 ## Средний (противоречия / баги контрактов)
+
+### M1. README: every request vs «first CQRS request»
+
+В README расходятся формулировки частоты license check (every MediatR vs first request) — выровнять под фактическое поведение (every).
+
+### M2. `scaffold-breaking-section.sh` — лишний resolve
+
+Если переданы оба `--from` и `--to`, не нужно гонять tag/base resolve — сразу scaffold.
+
+### M3. `release-plan-summary.mjs` — missing vs up-to-date
+
+`replace` не отличает отсутствие строки `**Checklist summary:**` от «уже актуально»; при отсутствии — вставить или error.
+
+### M4. BehaviorPipelineTests — continue after publish fail
+
+Тест queue process: два event’а, первый publish fails — assert оба в Published / processing continues (сейчас покрытие слабое).
+
+### M5. RegistrationAndBehaviorTests — duplicate AddBehavior
+
+Тест порядка behaviors не регистрирует один тип дважды — не ловит duplicate descriptors.
+
+### M6. QueueAndExtensionsTests — exception-safe event assertion
+
+После unmatched flow нужно assert’ить сохранение exception-safe event для targetId, не только otherId.
+
+### M7. `post-pr-triage.mjs` — oversized patch stops loop
+
+При превышении `maxChars` лучше `continue` (пропуск куска), а не обрыв цикла — иначе теряются следующие мелкие patches.
 
 ---
 
@@ -28,18 +60,18 @@
 
 ### L4. `config.nuspec` `releaseNotes` дублирует docs
 
-Длинный CDATA вместо короткой выжимки + ссылок на [`CHANGELOG.md`](CHANGELOG.md) / [`BREAKING.md`](BREAKING.md). В тексте ещё «netcoreapp3.1 dropped» (матрица тестов 3.1 сохранена) и маркетинг sibling-пакета **Cross.CQRS.EF** (отдельная репа) — убрать из nuspec notes.
+Длинный CDATA вместо короткой выжимки + ссылок на [`CHANGELOG.md`](CHANGELOG.md) / [`BREAKING.md`](BREAKING.md). Убрать «netcoreapp3.1 dropped» и маркетинг sibling EF-пакета из notes.
 
 ---
 
 ## Принято (осознанный trade-off / контракт хоста)
 
 - SampleWebApp / Tests: `CA2007` в `NoWarn` (host/test style); в библиотеке — `ConfigureAwait(false)`.
-- Sibling EF-пакет (отдельный репозиторий): в core остаются только интеграционные хуки (`InternalsVisibleTo`, product claim / filter, pipeline −1) — не часть этого NuGet-описания.
+- Sibling EF-пакет (отдельный репозиторий): в core только интеграционные хуки (`InternalsVisibleTo`, product claim / filter, pipeline −1) — не часть NuGet description этого пакета.
 - Матрица тестов держит **netcoreapp3.1**, чтобы гонять сборку библиотеки **netstandard2.1** (`SkipNetCoreApp31Tests` без x64 3.1 host).
-- Лицензия опциональна: без ключа — правила «optional license» из README (не жёсткий fail без ключа).
-- `CheckLicense` намеренно гоняет валидацию **на каждом** MediatR-запросе (`_licenseChecked` остаётся `false`) — не once-per-lifetime.
-- Tag + NuGet Push только с `master` / `release/*` / `hotfix/*` / `dev` (не `feature`/`fix`/`chore`/PR).
+- Лицензия опциональна: без ключа — правила «optional license» из README.
+- `CheckLicense` намеренно на **каждом** MediatR-запросе (`_licenseChecked` остаётся `false`) — не once-per-lifetime.
+- Tag + NuGet Push только с `master` / `release/*` / `hotfix/*` / `dev`.
 
 ---
 
@@ -47,7 +79,11 @@
 
 | # | Суть |
 |---|------|
-| ✅ #H1 LicenseCheck every request | accepted: by design — validate on every MediatR request |
+| ✅ #H1 LicenseCheck every request | accepted: by design — validate on every MediatR request (CR major skipped as dup) |
+| ✅ #H2 SampleWebApp LicenseKey | fixed: placeholder `"<license key here>"` as in README; real JWT removed from sample |
+| ✅ #H3 resolve-target-version bump rules | fixed: любая ветка → GitVersion `MajorMinorPatch`; ручной override `--version` |
+| ✅ #H4 collect-data.sh JSONL files | fixed: `gh --jq` → `{number, files: [paths]}` (JSON-safe array) |
+| ✅ #H5 post-pr-triage comment upsert | fixed: lookup by `TRIAGE_MARKER` + comment author (`gh api user` / `TRIAGE_COMMENT_AUTHOR`) |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
 | ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
@@ -55,25 +91,29 @@
 | ✅ AddCQRS registration | `CqrsServiceConfiguration`; FluentValidation `AddValidatorsFromAssemblies` по полному набору сборок |
 | ✅ TFMs / deps | `netstandard2.1;net6–net10`; Extensions.* по TFM |
 | ✅ Solution / packaging | `Cross.CQRS.slnx`; `config.nuspec`; `_nuget` убран; `LICENSE.md` |
-| ✅ Docs consumers | `docs/BREAKING.md` From 10.1.x→11.0.0 (layout OK); `docs/CHANGELOG.md` `## v11.0.0`; root `ReleaseNotes.md` → CHANGELOG |
-| ✅ Tests NUnit | зоны Licensing / Registration / Behaviors / Queue / Core; матрица TFM + SkipNetCoreApp31 |
-| ✅ CI tag/NuGet gates | `startsWith` для `release/*`/`hotfix/*`; ветки publish = master/release/hotfix/dev |
-| ✅ Sonar key aligned | `projectKey=Cross.CQRS` в workflow + README/CONTRIBUTING badges |
-| ✅ PR / issues templates | breaking → `docs/BREAKING.md`; placeholders `x.y.z`; legacy `ISSUE_TEMPLATE.md` удалён |
-| ✅ Package description | nuspec + CI `-p:Description` без маркетинга sibling EF-пакета |
+| ✅ Docs consumers | `docs/BREAKING.md` From 10.1.x→11.0.0; `docs/CHANGELOG.md` `## v11.0.0` |
+| ✅ Tests NUnit | зоны Licensing / Registration / Behaviors / Queue / Core |
+| ✅ CI tag/NuGet gates | `startsWith` для release/hotfix; publish = master/release/hotfix/dev |
+| ✅ Sonar key aligned | `projectKey=Cross.CQRS` в workflow + README/CONTRIBUTING |
+| ✅ PR / issues templates | breaking → `docs/BREAKING.md`; placeholders `x.y.z`; legacy template удалён |
+| ✅ Package description | nuspec + CI Description без маркетинга sibling EF |
 
 ---
 
 ## Что в библиотеке уже нормально
 
-- MediatR pipeline: license (−2) / reserved −1 / filters / validation согласованы с README.
-- Публичный контракт breaking для апгрейда 10.1.x→11.0.0 описан только в `docs/BREAKING.md`.
-- Local `dotnet build -c Release` и тесты net6–net10 зелёные (ранее в этой ветке); tip CI — подтвердить на HEAD.
+- MediatR pipeline: license (−2) / reserved −1 / filters / validation согласованы с кодом.
+- Breaking 10.1.x→11.0.0 — только в `docs/BREAKING.md`.
+- Local Release build/tests (net6–net10) ранее зелёные на ветке.
 
 ---
 
 ## Приоритет фиксов
 
-1. **L4** — укоротить `config.nuspec` `releaseNotes` + ссылки на CHANGELOG/BREAKING; убрать EF-маркетинг и «3.1 dropped».
-2. Publish gate: CI/Sonar на **текущем HEAD**, SampleWebApp smoke, tag/`NUGET` — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
-3. Open backlog вне дельты: [`TO-DO.md`](TO-DO.md) (C/H/M/L пусты).
+1. **H6** — triage bot: label gate.
+2. **M1** — выровнять README (every request).
+3. **M4–M6** — усилить тесты queue/registration.
+4. **M2** / **M3** / **M7** — release-plan/triage script polish.
+5. **L4** — trim nuspec `releaseNotes`.
+6. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+7. Ops: revoke JWT that was previously committed in SampleWebApp history.
