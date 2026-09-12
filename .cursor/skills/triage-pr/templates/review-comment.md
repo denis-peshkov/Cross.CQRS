@@ -1,11 +1,11 @@
-# PR Review Comment Template — Cross.CQRS
+# PR Review Comment Template
 
-Comments in **English**.
+Comments in **English**. Resolve `{repository_name}` / `{repository_url}` from `gh repo view`.
 
 ```markdown
 ## Review
 
-**Scope**: Security (auth/JWT/tokens), .NET quality, process engine flows, test coverage
+**Scope**: Security (secrets/auth/licensing), .NET quality, pipeline/registration, test coverage
 
 ### Summary
 
@@ -13,7 +13,7 @@ Comments in **English**.
 
 ### Critical Issues 🔴
 
-{- `Cross.CQRS/Path/File.cs:42` — problem, impact, suggested fix.}
+{- `path/from/this-pr.cs:42` — problem, impact, suggested fix.}
 
 {If none: "None found."}
 
@@ -32,21 +32,21 @@ Comments in **English**.
 {At least one specific positive point.}
 
 ---
-*Automated review via [Cross.CQRS](https://github.com/denis-peshkov/Cross.CQRS) Cursor `/triage-pr`*
+*Automated review via [{repository_name}]({repository_url}) Cursor `/triage-pr`*
 ```
 
 ## Severity
 
-- 🔴 Critical: security (token leak, auth bypass), data loss, broken auth flow, missing tests for security fix
-- 🟠 Important: error handling gaps, breaking public API without docs, missing flow tests
+- 🔴 Critical: security (secret leak, auth/licensing bypass), data loss, broken registration/pipeline, missing tests for security fix
+- 🟠 Important: error handling gaps, breaking public API without docs, missing behavior tests
 - 🟡 Suggestion: naming, DRY, documentation
 
-## Cross.CQRS checks (mention when relevant)
+## Checks (mention when relevant)
 
-- No logging of passwords/tokens/codes (see `105-backend-security.mdc`)
-- License JWT / pipeline security
+- No logging of secrets / license keys (see `references/dotnet-checklist.md`)
+- Auth/licensing / pipeline security
 - `docs/BREAKING.md` / README updated for public API changes
-- `Cross.CQRS.Tests` coverage for new behavior
+- `*Tests*/` coverage for new behavior
 - `Nullable enable`, `Async` suffix, `.editorconfig`
 
 **Tone**: professional, constructive. 200–400 words.
