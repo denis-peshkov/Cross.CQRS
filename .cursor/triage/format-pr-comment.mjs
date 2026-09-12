@@ -5,8 +5,6 @@
 import { execFileSync } from 'node:child_process';
 
 export const TRIAGE_MARKER = '<!-- triage -->';
-/** Legacy marker still matched when updating existing PR comments. */
-export const TRIAGE_MARKER_LEGACY = '<!-- cross-identity-triage -->';
 
 const PRIORITY_EMOJI = {
   critical: '🔴',
@@ -54,7 +52,7 @@ export function displayRepoName(repo) {
 }
 
 /**
- * Optional icon via TRIAGE_ICON_REL_PATH (path in repo, e.g. client/src/assets/img/logo.png).
+ * Optional icon via TRIAGE_ICON_REL_PATH (path in repo, e.g. icon.png).
  *
  * @param {string} repo nameWithOwner
  * @param {string} branch default branch (master, dev, …)

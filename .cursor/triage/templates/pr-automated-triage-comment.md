@@ -6,7 +6,7 @@ The agent fills JSON fields; `format-pr-comment.mjs` renders the layout (reposit
 
 ```markdown
 > **{repository_name}** · Automated triage by AI
-> _(optional icon when `TRIAGE_ICON_REL_PATH` is set, e.g. `client/src/assets/img/logo.png`)_
+> _(optional icon when `TRIAGE_ICON_REL_PATH` is set, e.g. `icon.png`)_
 
 ## 🔍 Automated Triage
 
@@ -45,14 +45,14 @@ The agent fills JSON fields; `format-pr-comment.mjs` renders the layout (reposit
   "confidence": 85,
   "summary": "2-4 sentences in English.",
   "maintainerHint": "Optional one-line hint, e.g. simple fix / needs security review",
-  "relevantFiles": ["server/Web.Api/Path/File.cs"],
+  "relevantFiles": ["src/Library/Path/File.cs"],
   "securityNotes": "Optional; omit if N/A"
 }
 ```
 
 ## Category / priority rules
 
-- **security** + **critical/high** for auth bypass, token/PII leak, payment issues
+- **security** + **critical/high** for secret leaks, auth/licensing bypass, token misuse, PII exposure, payment issues
 - **bug** for regressions and failing tests
 - **feature** for new functionality
 - **enhancement** for refactors/perf without behavior change

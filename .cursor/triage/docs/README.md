@@ -69,9 +69,17 @@ Workflow `triage.yml` → job **PR automated comment**:
 - Cursor Agent analyzes the diff
 - Posts a wshm-style comment (category, priority, confidence, summary, files)
 - Applies GitHub labels: `{category}` and `priority:{priority}` (e.g. `enhancement`, `priority:medium`); on re-run replaces previous triage labels only
-- On a new push **updates** the same comment (marker `<!-- triage -->`; legacy `<!-- cross-identity-triage -->` is also matched)
+- On a new push **updates** the same comment (marker `<!-- triage -->`)
 
 Manual test: **Actions → Triage → Run workflow** → `pr_number` field.
+
+Optional env (CI / local):
+
+| Env | Purpose |
+|-----|---------|
+| `TRIAGE_ICON_REL_PATH` | Repo-relative icon for PR comment header (e.g. `icon.png`) |
+| `TRIAGE_ICON_BRANCH` | Branch for raw.githubusercontent icon URL (default `master`) |
+| `TRIAGE_PATCH_PRIORITY_PREFIXES` | Comma-separated top-level dirs to prefer in truncated diffs (else inferred from PR files) |
 
 ### Artifacts
 

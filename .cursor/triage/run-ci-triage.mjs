@@ -75,13 +75,14 @@ Write a complete markdown triage report in Russian with:
 5. Prioritized action list (top 10)
 
 Do NOT post to GitHub. Output only the markdown report body.
-Security focus: JWT, OAuth, refresh tokens, auth flows.
+Security focus: secrets, auth/licensing, PII, payments, and domain-critical paths from README.md.
 `;
 }
 
 async function main() {
   mkdirSync(join(ROOT, '.cursor/triage/docs'), { recursive: true });
 
+  const repo = readDataFile('repo.txt')?.trim() ?? 'unknown';
   const prompt = buildPrompt();
   console.log(`Running Cursor agent triage (${MODE})...`);
 
