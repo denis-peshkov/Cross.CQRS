@@ -10,7 +10,7 @@
     <icon>icon.png</icon>
     <readme>README.md</readme>
     <copyright>Copyright 2026 Denis Peshkov</copyright>
-    <license type="file">LICENSE</license>
+    <license type="file">LICENSE.md</license>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. JWT license validation with pluggable product metadata (ILicenseProductInfo) for core and Cross.CQRS.EF. Written in C#.</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior CQRS License JWT NetCore</tags>
@@ -114,7 +114,7 @@
     <file src="..\Cross.CQRS\bin\Release\net8.0\Cross.CQRS*.*" target="lib\net8.0" />
     <file src="..\Cross.CQRS\bin\Release\net9.0\Cross.CQRS*.*" target="lib\net9.0" />
     <file src="..\Cross.CQRS\bin\Release\net10.0\Cross.CQRS*.*" target="lib\net10.0" />
-    <file src="..\LICENSE" target="LICENSE" />
+    <file src="..\LICENSE.md" target="LICENSE.md" />
     <file src="..\README.md" target="" />
     <file src="..\icon.png" target="" />
   </files>

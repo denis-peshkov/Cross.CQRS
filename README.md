@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/github/license/denis-peshkov/Cross.CQRS)](LICENSE)
+[![License](https://img.shields.io/github/license/denis-peshkov/Cross.CQRS)](LICENSE.md)
 [![GitHub Release Date](https://img.shields.io/github/release-date/denis-peshkov/Cross.CQRS?label=released)](https://github.com/denis-peshkov/Cross.CQRS/releases)
 [![NuGetVersion](https://img.shields.io/nuget/v/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/)
 [![NugetDownloads](https://img.shields.io/nuget/dt/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/)
@@ -139,7 +139,7 @@ License keys are available at [peshkov.biz](https://peshkov.biz/cqrs).
 
 ## Issues and Pull Request
 
-Contribution is welcomed. If you would like to provide a PR please add some testing.
+Contribution is welcomed. See [CONTRIBUTING.md](CONTRIBUTING.md). If you would like to provide a PR please add some testing.
 
 
 ## How To's
