@@ -20,7 +20,7 @@ description: >-
 ## Defaults
 
 | Flag | Value |
-| --- | --- |
+|------|-------|
 | Base | `origin/master` (fallback `master`) |
 | Scope | committed branch delta (`--committed`) |
 | Output | `--agent` (JSONL findings for agents) |
@@ -72,7 +72,8 @@ bash .cursor/skills/coderabbit/scripts/run-coderabbit-review.sh \
 Optional:
 
 ```bash
-# Narrow scope (Free plan limit ~150 files) — path from the diff or README.md
+# Narrow scope (Free plan ~150 files). Pick <path> from the delta, e.g.:
+#   git diff --name-only origin/master...HEAD | awk -F/ 'NF{print $1}' | sort -u
 bash .cursor/skills/coderabbit/scripts/run-coderabbit-review.sh \
   --base origin/master --dir <path>
 
@@ -88,7 +89,7 @@ The script prints the log path under `.cursor/skills/coderabbit/.cache/`.
    - Table: severity · file · short gist
    - **Do not** invent issues that are not in the output
 
-Order: step **1** of Phase **1** may run before Phase **2** (plan first) or after step **2** of Phase **2** (create the plan after the summary, before Phase 3). Review and plan creation may run sequentially; **Phase 3 only after the plan file exists**.
+Order: Phase **1** step **1** may run before Phase **2** (plan first) or after Phase **2** step **2** (create the plan after the summary, before Phase 3). Review and plan creation may run sequentially; **Phase 3 only after the plan file exists**.
 
 ### Phase 3 — Sync with RELEASE-PLAN
 
@@ -129,7 +130,7 @@ When the user closes, rejects, or dismisses a C/H/M/L item from the current plan
 
 ## Limits
 
-- Free plan often caps **~150 files** per review. If the branch delta is larger — narrow scope with `--dir <subdirectory>` (several runs over change areas) or `--light`.
+- Free plan often caps **~150 files** per review. If the branch delta is larger: narrow with `--dir <path>` (path from the delta; split into several runs by top-level areas) or use `--light`.
 - Review may take several minutes — use a high Shell `block_until_ms` (e.g. 600000).
 
 ## Quality bar
