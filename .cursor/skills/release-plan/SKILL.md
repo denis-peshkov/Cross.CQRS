@@ -320,9 +320,9 @@ node .cursor/skills/release-plan/scripts/release-plan-summary.mjs --write
 
 | Область | Где в плане dev-to-master |
 |---------|---------------------------|
-| `docs/BREAKING.md` | DOC6, §2 breaking changes, §10 пункты 3 и 8, go/no-go |
-| SQL / EF migrations | §8 (M1–M4), release gate пункт 4 |
-| `config.nuspec` releaseNotes | DOC4 |
+| `docs/BREAKING.md` | §2 `B1`–`B4`, go/no-go `G2` |
+| `config.nuspec` releaseNotes | §2 `B3`, §4 `N1` (version-plan L#) |
+| Version plan / TO-DO | §1 `P2`–`P3`, §5 `A3` |
 
 Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 
