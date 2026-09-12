@@ -66,6 +66,20 @@ Skill [`release-plan`](SKILL.md) → **Section** · domain hint
 
 **Шапка — `Релиз (если есть):`** — `{{REPOSITORY_LINK}}/releases/tag/v{{VERSION}}` (не `—`; `{{REPOSITORY_LINK}}` из `git remote`, см. `resolve-target-version.sh` → `repository_link`).
 
+**Шапка — хвост (после «Предыдущий план»):**
+
+1. **Дельта** (в `>` blockquote, после пустой `>`):
+   `Дельта: \`{{BASE}}...HEAD\` — **{{N}}** коммита · **{{F}}** файлов · **{{+X}} / {{−Y}}**. {{OPEN_CHML_STATUS}}`
+   - Считать: `git rev-list --count {{BASE}}...HEAD`, `git diff --shortstat {{BASE}}...HEAD`.
+   - `{{OPEN_CHML_STATUS}}`: `Open C/H/M/L пустые.` **или** `Open: Cx Hy Mz Lw`.
+2. **CodeRabbit** (вне blockquote; если не гоняли — `не запускался.` / `—`):
+
+```markdown
+**CodeRabbit:** `YYYY-MM-DD` · log `.cursor/skills/coderabbit/.cache/cr-….jsonl` · N findings (C Critical, M Major, m Minor) → все закрыты в этом плане.
+```
+
+3. **PR** (вне blockquote): `**PR:** [#N]({{REPOSITORY_LINK}}/pull/N) (\`BREAKING:\` …).` — нет PR → `**PR:** —`.
+
 **Когда открывать существующий `docs/RELEASE-PLAN-X.Y.Z.md` / `docs/TO-DO.md`:**
 - **Обязательно (точечно):** перед любой **меняющей состояние** работой над ними — merge/open пунктов, close/dismiss, finalize, harvest leftovers, проверки renumber / dedupe. Всегда читать **текущий** план + `TO-DO.md` (только секции, которые правите).
 - **Также допустимо (точечно, в том же ходе):** при harvest leftovers, дедупликации или проверке, закрыт ли уже пункт — читать open severity-секции **предыдущего** плана и только релевантные строки «Закрыто» (по id / смыслу). **Не** загружать полную историю всех version plan.

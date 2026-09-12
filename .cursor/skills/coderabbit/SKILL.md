@@ -97,6 +97,18 @@ Order: Phase **1** step **1** may run before Phase **2** (plan first) or after P
 Immediately merge findings into that plan’s open severity sections **only as C/H/M/L** (no separate CR section).
 **Do not** write CR findings into [`docs/TO-DO.md`](../../../docs/TO-DO.md).
 
+**Also update the plan header** (Skill [`release-plan`](../release-plan/SKILL.md) → шапка / хвост):
+
+```markdown
+**CodeRabbit:** `YYYY-MM-DD` · log `.cursor/skills/coderabbit/.cache/cr-….jsonl` · N findings (C Critical, M Major, m Minor) → STATUS.
+```
+
+- Date = review day; log = path printed by `run-coderabbit-review.sh`.
+- Counts from this run (Critical/Major/Minor; Trivial/Info fold into Minor count **or** note separately if non-zero).
+- `STATUS`: `все закрыты в этом плане.` / `K открыты в плане (#H…, #M…).` after merge.
+- Keep **`**PR:**`** line as-is unless the user/PR context changed.
+- Refresh the blockquote **Дельта:** line (`{{BASE}}...HEAD` counts + `Open C/H/M/L …`) when open C/H/M/L change in the same turn.
+
 | CodeRabbit | Plan section |
 |------------|--------------|
 | Critical | `## Критично` → `C…` |

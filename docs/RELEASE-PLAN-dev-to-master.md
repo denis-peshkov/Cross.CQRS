@@ -5,7 +5,7 @@
 > **Current target:** `11.0.0` / branch `release/11.0.0-new-license-improve-functionality` (see [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md))  
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker  
 > **Related:** [`BREAKING.md`](BREAKING.md), [`CHANGELOG.md`](CHANGELOG.md), [`TO-DO.md`](TO-DO.md)  
-> **Updated:** 2026-09-12
+> **Updated:** 2026-09-13
 
 **Checklist summary:** **22** items — ✅ **11** (50%) · 🟨 **4** (18%) · ⬜ **7** (32%) · ❌ **0** (0%)
 
@@ -28,7 +28,7 @@
 |---|------|--------|
 | B1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ From 10.1.x → 11.0.0; layout per template |
 | B2 | PR titles used `BREAKING:` where applicable | 🟨 verify on merge PRs if any |
-| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ✅ short blurb + CHANGELOG/BREAKING URLs (version-plan **L4**) |
+| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ✅ short blurb + CHANGELOG/BREAKING URLs (version-plan **L4**/**L5**) |
 | B4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ `## v11.0.0` |
 
 ---
@@ -39,7 +39,7 @@
 |---|------|--------|
 | Q1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ local 2026-09-12 |
 | Q2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ local net6–net10 (43×); `SkipNetCoreApp31Tests` on Apple Silicon |
-| Q3 | CI `.NET` workflow green on release branch | 🟨 last green [`34708836618`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34708836618) @ `35c05ca`; HEAD ahead — re-confirm |
+| Q3 | CI `.NET` workflow green on release branch | 🟨 last green [`34719217394`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34719217394) @ `0e80f05`; local HEAD `cb85e15` ahead (~16) — re-confirm after push |
 | Q4 | SonarCloud / quality gate acceptable | 🟨 `projectKey=Cross.CQRS` aligned in CI/docs; gate on tip not re-checked |
 | Q5 | SampleWebApp still starts / smoke paths OK | ⬜ |
 
@@ -49,7 +49,7 @@
 
 | # | Item | Status |
 |---|------|--------|
-| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ description + trimmed releaseNotes |
+| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ description + tags + trimmed releaseNotes |
 | N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 `NUGET_API_KEY` updated (L2 closed); `TAGTOKEN` not re-verified |
 | N3 | Tag push + NuGet push from CI succeed | ⬜ gates fixed (`master`/`release`/`hotfix`/`dev`); not run for `v11.0.0` |
 | N4 | GitHub Release notes published | ⬜ |
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|------|--------|
 | G1 | Go / No-Go decision recorded | ⬜ |
-| G2 | Publish blockers cleared (B3/L4, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | ⬜ |
+| G2 | Publish blockers cleared (B3/L4–L5, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | ⬜ |
 
-- **Date:** 2026-09-12  
-- **Notes:** Version-plan open C/H/M/L empty (L4 closed). Before Go: tip CI/Sonar on **HEAD** → optional SampleWebApp → tag + NuGet. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
+- **Date:** 2026-09-13  
+- **Notes:** Version-plan open C/H/M/L empty (**L5** nuspec tags closed). Before Go: push tip → CI/Sonar on **HEAD** → optional SampleWebApp → tag + NuGet. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).

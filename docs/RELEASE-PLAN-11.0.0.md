@@ -7,8 +7,12 @@
 > **Легенда:** ⬜ open · ✅ done · 🟨 partial / принято · ❌ blocker
 >
 > **Предыдущий план:** —
+>
+> Дельта: `origin/master...HEAD` — **93** коммита · **140** файлов · **+8021 / −416**. Open C/H/M/L пустые.
 
-Дельта: `origin/master...HEAD` — **74** коммита · **139** файлов · **+7809 / −415**. CodeRabbit 2026-09-13: **13** findings (6 major / 7 minor); **#H1** skipped (уже в Закрыто). Чеклист publish/Go — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md); backlog — [`TO-DO.md`](TO-DO.md).
+**CodeRabbit:** `2026-09-13` · log `.cursor/skills/coderabbit/.cache/cr-release-11.0.0-new-license-improve-functionality-vs-origin-master-all-20260913-001057.jsonl` · 13 findings (0 Critical, 6 Major, 7 Minor) → все закрыты в этом плане.
+
+**PR:** [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) (`BREAKING:` Cross.CQRS 11.0.0 — JWT licensing, pipeline/docs hygiene, CI & triage).
 
 ---
 
@@ -55,6 +59,7 @@
 | ✅ #M5 BehaviorCollection duplicate AddBehavior | fixed: re-Add same type updates order (`[type]=order`); test asserts single descriptor |
 | ✅ #M6 queue keeps exception-safe for targetId | fixed: after Standard read, assert ExceptionSafe for same targetId still readable |
 | ✅ #M7 post-pr-triage oversized patch | fixed: skip too-large chunk (`continue`), keep packing smaller later patches |
+| ✅ #L5 nuspec tags + releaseNotes | fixed: tags clarify JWT/AddCQRS; short v11 blurb + CHANGELOG/BREAKING links |
 | ✅ #L4 nuspec releaseNotes trim | fixed: short v11 blurb + links to CHANGELOG/BREAKING; no «3.1 dropped» / EF marketing dump |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
@@ -77,10 +82,11 @@
 - MediatR pipeline: license (−2) / reserved −1 / filters / validation согласованы с кодом.
 - Breaking 10.1.x→11.0.0 — только в `docs/BREAKING.md`.
 - Local Release build/tests (net6–net10) ранее зелёные на ветке.
+- Open C/H/M/L пустые; tip CI/Sonar на remote — перед Go после push локального ahead.
 
 ---
 
 ## Приоритет фиксов
 
-1. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+1. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md) (tip CI/Sonar → Sample smoke → Go → tag/NuGet).
 2. Ops: revoke JWT that was previously committed in SampleWebApp history.
