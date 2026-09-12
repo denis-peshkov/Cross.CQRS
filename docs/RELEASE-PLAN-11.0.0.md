@@ -48,7 +48,7 @@
 
 ---
 
-## Принято (осознанный trade-off / контракт хоста)
+## Принято (осознанный trade-off)
 
 - SampleWebApp / Tests: `CA2007` в `NoWarn` (host/test style); в библиотеке — `ConfigureAwait(false)`.
 - Sibling EF-пакет (отдельный репозиторий): в core только интеграционные хуки (`InternalsVisibleTo`, product claim / filter, pipeline −1) — не часть NuGet description этого пакета.
