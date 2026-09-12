@@ -22,10 +22,6 @@
 
 ## Средний (противоречия / баги контрактов)
 
-### M4. BehaviorPipelineTests — continue after publish fail
-
-Тест queue process: два event’а, первый publish fails — assert оба в Published / processing continues (сейчас покрытие слабое).
-
 ### M5. RegistrationAndBehaviorTests — duplicate AddBehavior
 
 Тест порядка behaviors не регистрирует один тип дважды — не ловит duplicate descriptors.
@@ -71,6 +67,7 @@
 | ✅ #M1 README license check frequency | fixed: removed redundant «first/every» pipeline blurb; frequency only in LicenseKey section |
 | ✅ #M2 scaffold-breaking-section skip resolve | fixed: both `--from` + `--to`/`--version` → scaffold without GitVersion |
 | ✅ #M3 release-plan-summary missing line | fixed: missing `**Checklist summary:**` → insert; «up to date» only when present+equal |
+| ✅ #M4 queue process continues after publish fail | fixed: two StandardFlow events, first Publish throws — both attempted/Published, handler result ok |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
 | ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
@@ -97,7 +94,7 @@
 
 ## Приоритет фиксов
 
-1. **M4–M6** — усилить тесты queue/registration.
+1. **M5–M6** — усилить тесты registration / queue exception-safe.
 2. **M7** — triage oversized patch: `continue` not break.
 3. **L4** — trim nuspec `releaseNotes`.
 4. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).

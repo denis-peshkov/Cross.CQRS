@@ -87,16 +87,26 @@ public class BehaviorPipelineTests
     public async Task CommandEventQueueProcessBehavior_Continues_WhenPublishThrows()
     {
         var queue = new CommandEventQueue();
-        var mediator = new FakeMediator { ThrowOnPublish = true };
+        var mediator = new FakeMediator { FailNextPublishes = 1 };
         var logger = NullLogger<CommandEventQueueProcessBehavior<TestCommand, string>>.Instance;
         var behavior = new CommandEventQueueProcessBehavior<TestCommand, string>(queue.Reader, mediator, logger);
         var command = new TestCommand();
 
-        queue.Writer.Write(new TestCommandEvent(command.CommandId, CommandEventFlowTypeEnum.StandardFlow));
+        var first = new TestCommandEvent(command.CommandId, CommandEventFlowTypeEnum.StandardFlow);
+        var second = new TestCommandEvent(command.CommandId, CommandEventFlowTypeEnum.StandardFlow);
+        queue.Writer.Write(first);
+        queue.Writer.Write(second);
 
-        var act = () => behavior.Handle(command, () => Task.FromResult("ok"), CancellationToken.None);
+        string? result = null;
+        var act = async () =>
+        {
+            result = await behavior.Handle(command, () => Task.FromResult("ok"), CancellationToken.None);
+        };
 
         await act.Should().NotThrowAsync();
+        result.Should().Be("ok");
+        mediator.PublishAttempts.Should().Be(2);
+        mediator.Published.Should().Equal(first, second);
     }
 
     [Test]
@@ -194,18 +204,22 @@ public class BehaviorPipelineTests
 
     private sealed class FakeMediator : IMediator
     {
-        public bool ThrowOnPublish { get; set; }
+        public int FailNextPublishes { get; set; }
+        public int PublishAttempts { get; private set; }
         public List<INotification> Published { get; } = new();
 
         public Task Publish(object notification, CancellationToken cancellationToken = default)
         {
+            PublishAttempts++;
+
             if (notification is INotification n)
             {
                 Published.Add(n);
             }
 
-            if (ThrowOnPublish)
+            if (FailNextPublishes > 0)
             {
+                FailNextPublishes--;
                 throw new InvalidOperationException("publish failed");
             }
 
