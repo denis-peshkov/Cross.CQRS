@@ -153,8 +153,10 @@ bash .cursor/skills/release-plan/scripts/resolve-target-version.sh --json
 
 | Ветка | Bump | Пример (после `2.2.0`) |
 |-------|------|-------------------------|
+| `master` | по тегу / inherit | n/a |
 | `release/*` | **minor** (+0.1.0) | `2.3.0` |
 | `hotfix/*` | **patch** (+0.0.1) | `2.2.1` |
+| `dev` | pre-release (`-dev.N`) | n/a |
 | merge **`dev` → `master`** | **спросить пользователя** — minor vs patch vs major; не угадывать | n/a (сначала спросить) |
 
 База bump — последний `v*` tag. Порядок: user / `--version` → script → `test -f` на `plan_path`. Поля скрипта для BREAKING: `breaking_from`, `breaking_to`.
