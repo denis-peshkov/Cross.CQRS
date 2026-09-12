@@ -129,7 +129,7 @@ function buildDiffFromFilePatches(files, maxChars = MAX_DIFF_CHARS) {
 
     const chunk = `diff --git a/${file.filename} b/${file.filename}\n${file.patch}\n`;
     if (used + chunk.length > maxChars) {
-      break;
+      continue;
     }
 
     parts.push(chunk);
