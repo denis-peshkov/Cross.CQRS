@@ -45,15 +45,12 @@ jobs:
     runs-on: ubuntu-22.04
     # Same-repo only (fork PRs do not receive CURSOR_API_KEY). Skip drafts.
     if: >
-      secrets.CURSOR_API_KEY != '' &&
       (
-        (
-          github.event_name == 'pull_request' &&
-          github.event.pull_request.draft == false &&
-          github.event.pull_request.head.repo.full_name == github.repository
-        ) ||
-        (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
-      )
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.draft == false &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      ) ||
+      (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
 
     steps:
       - name: Checkout
@@ -108,10 +105,7 @@ jobs:
         run: bash .cursor/triage/collect-data.sh
 
       - name: Setup Node.js
-        if: >
-          secrets.CURSOR_API_KEY != '' &&
-          (github.event_name == 'schedule' ||
-           (github.event_name == 'workflow_dispatch' && inputs.pr_number == ''))
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.pr_number == '')
         uses: actions/setup-node@v4
         with:
           node-version: '20.19.4'
@@ -119,30 +113,17 @@ jobs:
           cache-dependency-path: .cursor/triage/yarn.lock
 
       - name: Install triage dependencies
-        if: >
-          secrets.CURSOR_API_KEY != '' &&
-          (github.event_name == 'schedule' ||
-           (github.event_name == 'workflow_dispatch' && inputs.pr_number == ''))
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.pr_number == '')
         working-directory: .cursor/triage
         run: yarn install --frozen-lockfile --ignore-engines || yarn install --ignore-engines
 
       - name: Run Cursor triage agent
-        if: >
-          secrets.CURSOR_API_KEY != '' &&
-          (github.event_name == 'schedule' ||
-           (github.event_name == 'workflow_dispatch' && inputs.pr_number == ''))
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.pr_number == '')
         env:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: .cursor/triage
         run: yarn triage
-
-      - name: Skip AI when CURSOR_API_KEY missing
-        if: >
-          secrets.CURSOR_API_KEY == '' &&
-          (github.event_name == 'schedule' ||
-           (github.event_name == 'workflow_dispatch' && inputs.pr_number == ''))
-        run: echo '::warning::CURSOR_API_KEY is not set; collected data only (no AI report).'
 
       - name: Upload triage artifacts
         uses: actions/upload-artifact@v4
@@ -164,5 +145,5 @@ jobs:
           if [ -n "$REPORT" ]; then
             echo "- Report: $REPORT" >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "- Data collected (issues event, missing key, or PR-only run)" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Data collected (issues event or PR-only run)" >> "$GITHUB_STEP_SUMMARY"
           fi
