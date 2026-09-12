@@ -87,13 +87,13 @@ Do not commit real license JWTs, private keys, or production secrets. Prefer pla
 
 | Branch | Purpose | Who |
 |--------|---------|-----|
-| `dev` | Feature integration | **Default PR target** for contributors |
 | `master` | Stable release; GitVersion, tag, NuGet push | **Owner only** — direct push and PRs |
-| `feature/*` | New functionality | Contributors |
-| `fix/*` | Bug fixes | Contributors |
-| `chore/*` | CI, deps, docs-only, maintenance | Contributors |
-| `release/*` | Release preparation | **Owner only** |
-| `hotfix/*` | Urgent production patches | **Owner only** |
+| `release/*` | Release preparation; tag + NuGet | **Owner only** |
+| `hotfix/*` | Urgent production patches; tag + NuGet | **Owner only** |
+| `dev` | Feature integration; tag + NuGet (pre-release) | **Default PR target** for contributors |
+| `feature/*` | New functionality (build/test only — no tag/NuGet) | Contributors |
+| `fix/*` | Bug fixes (build/test only — no tag/NuGet) | Contributors |
+| `chore/*` | CI, deps, docs-only, maintenance (no tag/NuGet) | Contributors |
 
 **Access rules (enforced in CI via `.github/workflows/branch-policy.yml`):**
 
@@ -111,6 +111,8 @@ Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`).
 Prefix + kebab-case:
 
 ```
+release/11.0.0-short-name
+hotfix/critical-license-check
 feature/license-product-info-docs
 fix/validation-behavior-order
 chore/editorconfig-and-templates
