@@ -5,8 +5,8 @@
 #     [--base origin/master] [--version 2.2.0] [--out PATH] \
 #     [--focus PATH]... [--no-default-focus]
 #
-# By default appends diff for docs/BREAKING.md. Extra hot paths — repeatable --focus
-# (paths from README / name-status; no repo layout hardcoded in the script body).
+# Version defaults from resolve-target-version.sh (GitVersion); optional --version overrides.
+# By default appends diff for docs/BREAKING.md. Extra hot paths — repeatable --focus.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
@@ -98,11 +98,18 @@ fi
 BRANCH="$(git branch --show-current 2>/dev/null || echo DETACHED)"
 DATE="$(date +%Y-%m-%d)"
 REPOSITORY_LINK="$(repository_link "$(git remote get-url origin 2>/dev/null || true)")"
+if [[ -z "$VERSION" ]]; then
+  VERSION="$("$SCRIPT_DIR/resolve-target-version.sh" --base "$BASE" --json | python3 -c 'import json,sys; print(json.load(sys.stdin).get("target_version") or "")')"
+fi
+if [[ -z "$VERSION" ]]; then
+  echo "error: could not resolve target_version (GitVersion or --version)" >&2
+  exit 1
+fi
 CACHE_DIR="$ROOT/.cursor/skills/release-plan/.cache"
 mkdir -p "$CACHE_DIR"
 SAFE_BRANCH="${BRANCH//\//-}"
 if [[ -z "$OUT" ]]; then
-  OUT="$CACHE_DIR/delta-${VERSION:-unknown}-${SAFE_BRANCH}.md"
+  OUT="$CACHE_DIR/delta-${VERSION}-${SAFE_BRANCH}.md"
 fi
 
 MB="$(git merge-base "$BASE" HEAD)"
@@ -112,7 +119,7 @@ FILES="$(git diff --name-only "${BASE}...HEAD" | wc -l | tr -d ' ')"
 {
   echo "# Release delta cache"
   echo
-  echo "- **version:** ${VERSION:-_(unset)_}"
+  echo "- **version:** $VERSION"
   echo "- **repository_link:** $REPOSITORY_LINK"
   echo "- **branch:** \`$BRANCH\`"
   echo "- **base:** \`$BASE\`"

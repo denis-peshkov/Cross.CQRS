@@ -6,6 +6,7 @@
 #   bash .cursor/skills/release-plan/scripts/scaffold-breaking-section.sh --version 2.3.0 --out .cursor/skills/release-plan/.cache/breaking-2.3.0.md
 #   bash .cursor/skills/release-plan/scripts/scaffold-breaking-section.sh --from 2.2.0 --to 2.3.0 --pr 42
 #
+# FROM/TO default from resolve-target-version.sh (GitVersion). Optional --version / --from / --to override.
 # Does not edit docs/BREAKING.md — output only (agent pastes + fills body + TOC row).
 set -euo pipefail
 
@@ -77,10 +78,8 @@ fi
 
 JSON="$("$RESOLVE" "${RESOLVE_ARGS[@]}")" || {
   code=$?
-  if [[ $code -eq 2 ]]; then
-    echo "error: target version unknown — pass --to X.Y.Z or use release/* / hotfix/* branch" >&2
-    echo "$JSON" >&2
-  fi
+  echo "error: resolve-target-version failed (exit $code) — check GitVersion CLI / GitVersion.yml / tags, or pass --version" >&2
+  echo "$JSON" >&2
   exit "$code"
 }
 

@@ -3,10 +3,11 @@
 repository_link() {
   python3 - "${1:-}" <<'PY'
 import re, subprocess, sys
+from typing import Optional
 
 u = (sys.argv[1] or "").strip()
 
-def from_remote(url: str) -> str | None:
+def from_remote(url: str) -> Optional[str]:
     m = re.match(r"(?:git@github\.com:|ssh://git@github\.com/)(.+?)(?:\.git)?/?$", url)
     if m:
         return f"https://github.com/{m.group(1)}"

@@ -136,30 +136,24 @@ bash .cursor/skills/release-plan/scripts/resolve-target-version.sh
 bash .cursor/skills/release-plan/scripts/resolve-target-version.sh --json
 ```
 
-Использовать `plan_path` / `target_version` из вывода. Exit **2** → спросить у пользователя `X.Y.Z`, повторить с `--version`.
+Использовать `plan_path` / `target_version` из вывода (GitVersion `MajorMinorPatch`, либо `--version`). Exit **1** → починить GitVersion / теги, или передать `--version`.
 
 | Ситуация | Действие |
 |----------|----------|
 | Текущий `docs/RELEASE-PLAN-X.Y.Z.md` **существует** | Использовать его (`test -f` / читать **только этот файл** + `docs/TO-DO.md` при необходимости); `plan_path` из вывода скрипта |
 | **Нет** текущего плана для целевой версии (файл отсутствует) | **Обязательно** прогнать этот skill **полностью** (собрать delta → записать план) в этой же сессии, **затем** продолжить |
-| Версия неизвестна | Спросить у пользователя `X.Y.Z`, или вывести из `--version` / ветки / `**Версия:**` в одном candidate-файле — **не** листингом всех планов |
+| Версия неизвестна | `resolve-target-version.sh` (GitVersion) или явный `--version X.Y.Z` |
 
 **Запрещено:**
 - `ls` / glob / read-all `docs/RELEASE-PLAN-*.md` (вкл. `dev-to-master`), чтобы «найти текущий»
 - изобретать stub-план без workflow этого skill; пропускать создание плана, когда его нет
 - рутинно открывать исторические version plan (только текущий + TO-DO; ссылка на предыдущий план — только при черновике шапки **нового** плана)
 
-**Правила bump** (скрипт зеркалит это; не копировать в другие skills):
+**Правила версии** (скрипт зеркалит это; не копировать в другие skills):
 
-| Ветка | Bump | Пример (после `2.2.0`) |
-|-------|------|-------------------------|
-| `master` | по тегу / inherit | n/a |
-| `release/*` | **minor** (+0.1.0) | `2.3.0` |
-| `hotfix/*` | **patch** (+0.0.1) | `2.2.1` |
-| `dev` | pre-release (`-dev.N`) | n/a |
-| merge **`dev` → `master`** | **спросить пользователя** — minor vs patch vs major; не угадывать | n/a (сначала спросить) |
+`target_version` = **GitVersion** `MajorMinorPatch` на **текущей** ветке (`GitVersion.yml` + история). Любая ветка.
 
-База bump — последний `v*` tag. Порядок: user / `--version` → script → `test -f` на `plan_path`. Поля скрипта для BREAKING: `breaking_from`, `breaking_to`.
+Ручной override: `--version X.Y.Z`. Скрипт: `dotnet-gitversion` (`PATH` / `~/.dotnet/tools`). `from_version` — последний стабильный `vX.Y.Z` tag. Поля BREAKING: `breaking_from`, `breaking_to`.
 
 **Текущий** `docs/RELEASE-PLAN-X.Y.Z.md` = план **целевой** версии (`target_version` / user / `**Версия:**` в файле). Писать закрытия только в **текущий** plan — не в shipped historical plans. Не использовать `RELEASE-PLAN-dev-to-master.md`.
 
@@ -253,7 +247,7 @@ bash .cursor/skills/release-plan/scripts/collect-release-delta.sh \
   --version X.Y.Z
 ```
 
-По умолчанию в cache попадает diff `docs/BREAKING.md`. Дополнительные «горячие» пути — из `README` / `name-status`, repeatable `--focus PATH` (без hardcode layout в скрипте). Отключить default: `--no-default-focus`.
+По умолчанию в cache попадает diff `docs/BREAKING.md`. Дополнительные «горячие» пути — из `README` / `name-status`, repeatable `--focus PATH` (без hardcode layout в скрипте). Отключить default: `--no-default-focus`. Опционально: `--version X.Y.Z`.
 
 ```bash
 bash .cursor/skills/release-plan/scripts/collect-release-delta.sh \
@@ -332,7 +326,7 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 
 | Скрипт | Назначение |
 |--------|------------|
-| [`resolve-target-version.sh`](scripts/resolve-target-version.sh) | `target_version`, `plan_path`, `repository_link`, `breaking_from`/`breaking_to` из ветки + последнего `v*` tag |
+| [`resolve-target-version.sh`](scripts/resolve-target-version.sh) | `target_version` = GitVersion `MajorMinorPatch` (или `--version`); `plan_path`, `repository_link`, `breaking_from`/`breaking_to` |
 | [`scaffold-breaking-section.sh`](scripts/scaffold-breaking-section.sh) | Строка TOC + блок `From X to Y` (только cache; агент правит `docs/BREAKING.md`) |
 | [`collect-release-delta.sh`](scripts/collect-release-delta.sh) | Cache delta ветки для черновика плана; default focus `docs/BREAKING.md`; `--focus PATH` (repeatable) |
 | [`release-plan-summary.mjs`](scripts/release-plan-summary.mjs) | Строка Checklist Summary в `RELEASE-PLAN-dev-to-master.md` |
