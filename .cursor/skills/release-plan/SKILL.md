@@ -257,8 +257,8 @@ bash .cursor/skills/release-plan/scripts/collect-release-delta.sh \
 bash .cursor/skills/release-plan/scripts/collect-release-delta.sh \
   --base origin/master \
   --version X.Y.Z \
-  --focus 'server/Web.Api/' \
-  --focus 'compose/'
+  --focus '<library-or-src-path>/' \
+  --focus '<tests-path>/'
 ```
 
 Cache попадает под `.cursor/skills/release-plan/.cache/` (скрипт печатает путь). Использовать при черновике; не включать в `docs/RELEASE-PLAN-X.Y.Z.md`.

@@ -1,15 +1,15 @@
 ---
 name: triage-issue
 description: >-
-  Issue triage for Cross.CQRS: audit open issues, categorization,
-  duplicates, cross-ref with PRs, risk assessment (auth/JWT/security), draft comments.
-  Args: "all" — deep analysis of all; numbers "42 57" — focus; "ru"/"fr" — table
+  Issue triage: audit open issues, categorization, duplicates, cross-ref with
+  PRs, risk assessment (auth/secrets/licensing), draft comments.
+  Args: "all" — deep analysis of all; numbers "42 57" — focus; "ru"/"en" — table
   language (default en).
 ---
 
-# Issue Triage — Cross.CQRS
+# Issue Triage
 
-GitHub issue triage for the **Cross.CQRS** repository (NuGet MediatR CQRS library: commands, queries, events, pipeline, JWT licensing).
+GitHub issue triage for the **current repository** (name/layout from `gh repo view` / README).
 
 ## When to use
 
@@ -117,12 +117,12 @@ After tables — copy to clipboard (`pbcopy` / `xclip` / `wl-copy`).
 
 For selected issues — `Task` with `subagent_type: generalPurpose` in parallel.
 
-Cross.CQRS context for the agent:
+Repository context for the agent (from README / tree, not hard-coded paths):
 
-- Library: `Cross.CQRS/` — MediatR CQRS, licensing, pipeline behaviors
-- Tests: `Cross.CQRS.Tests/`
-- Documentation: `README.md`, `docs/BREAKING.md`, `docs/CHANGELOG.md`
-- Rules: `.cursor/rules/104-backend-auth.mdc`, `105-backend-security.mdc`
+- Library / `src/` — public API, DI, pipeline
+- `*Tests*/` — automated tests
+- Documentation: `README.md`, `docs/BREAKING.md`, `docs/CHANGELOG.md` (when present)
+- Checklist: `.cursor/skills/triage-pr/references/dotnet-checklist.md`
 
 Comment template: `templates/issue-comment.md`.
 
@@ -134,14 +134,14 @@ Comment template: `templates/issue-comment.md`.
 
 **Never** post/close without `AskQuestion`.
 
-## Cross.CQRS — specifics in comments
+## Comment specifics
 
 For bug reports request:
 
-- NuGet version / commit
-- Target framework (net8/net10)
-- Flow name (`main.Token`, `main.Register`, etc.)
-- Reproduction steps without real tokens/passwords
+- Package / NuGet version or git commit
+- Target framework (e.g. net8.0)
+- Area (from README / folder layout)
+- Reproduction steps without real secrets/tokens/license keys
 
 ## Edge cases
 

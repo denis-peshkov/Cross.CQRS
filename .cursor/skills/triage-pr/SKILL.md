@@ -1,13 +1,12 @@
 ---
 name: triage-pr
 description: >-
-  PR triage for Cross.CQRS: audit open PRs, deep review, draft review
-  comments; local/branch review vs master|dev without a PR. Args: "all",
-  PR numbers, "branch <name>", "local", "base master|dev", "offline",
-  "ru"/"en" for table language (default en).
+  PR triage: audit open PRs, deep review, draft review comments; local/branch
+  review vs master|dev without a PR. Args: "all", PR numbers, "branch <name>",
+  "local", "base master|dev", "offline", "ru"/"en" for table language (default en).
 ---
 
-# PR Triage — Cross.CQRS
+# PR Triage
 
 ## When to use
 
@@ -95,15 +94,14 @@ Sections: Our PRs / External ready / External problematic + Summary.
 
 0 PRs → finish (or offer Phase 1b if user is on a feature/hotfix branch).
 
-### Cross.CQRS file hotspots
+### File hotspots
 
-On overlap/review pay attention to:
+Prefer paths from the PR / branch delta (`git diff --name-status`) and README layout. Examples of areas to prioritize when present:
 
-- `Cross.CQRS/Licensing/` — JWT license validation
-- `Cross.CQRS/Behaviors/` — pipeline behaviors
-- `Cross.CQRS/Commands|Queries|Events/` — request contracts
-- `Cross.CQRS/Entities/` — EF configurations
-- `Cross.CQRS.Tests/` — coverage
+- library / `src/` — public API, DI registration, pipeline
+- `*Tests*/` — coverage for new behavior
+- sample / host app — smoke usage only
+- `.github/workflows/`, `docs/` — CI and consumer docs
 
 ## Phase 1b — Branch / local (no PR)
 
@@ -210,7 +208,7 @@ git diff "$BASE_REF...$BRANCH_REF"
 # or uncommitted: git diff && git diff --cached
 ```
 
-Checklist: `references/dotnet-checklist.md` + `.cursor/rules/105-backend-security.mdc`.
+Checklist: `references/dotnet-checklist.md` (and `docs/BREAKING.md` when public API changes).
 
 Response structure: Critical 🔴 / Important 🟠 / Suggestions 🟡 / What's Good ✅.
 
