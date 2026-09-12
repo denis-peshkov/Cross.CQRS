@@ -4,7 +4,7 @@
  *
  * Includes:
  * - table rows with IDs like P1, B1, Q1, N1, A1, G1 (status — last emoji in the table row);
- * - §10 markers (legacy release gate + go/no-go bullets), if present.
+ * - §10 markers (release gate + go/no-go bullets), if present.
  *
  * Usage:
  *   node .cursor/skills/release-plan/scripts/release-plan-summary.mjs           # print the line
