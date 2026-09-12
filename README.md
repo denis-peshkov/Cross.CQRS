@@ -128,9 +128,7 @@ Additionally registered:
 - `IHandlerLocator` — singleton
 - `LicenseAccessor`, `LicenseValidator`, default `ILicenseProductInfo` (`LicenseProductInfo`) — singleton
 - `ICommandEventQueue` and its reader/writer — scoped
-- Pipeline behaviors (scoped): `LicenseCheckBehavior` (mandatory license check on first CQRS request), `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior`
-
-The license check runs automatically on the first CQRS request — no additional code required.
+- Pipeline behaviors (scoped): `LicenseCheckBehavior`, `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior`
 
 The method returns `CqrsRegistrationSyntax` for fluent configuration (e.g. adding custom behaviors).
 

@@ -22,10 +22,6 @@
 
 ## Средний (противоречия / баги контрактов)
 
-### M1. README: every request vs «first CQRS request»
-
-В README расходятся формулировки частоты license check (every MediatR vs first request) — выровнять под фактическое поведение (every).
-
 ### M2. `scaffold-breaking-section.sh` — лишний resolve
 
 Если переданы оба `--from` и `--to`, не нужно гонять tag/base resolve — сразу scaffold.
@@ -66,7 +62,6 @@
 - Sibling EF-пакет (отдельный репозиторий): в core только интеграционные хуки (`InternalsVisibleTo`, product claim / filter, pipeline −1) — не часть NuGet description этого пакета.
 - Матрица тестов держит **netcoreapp3.1**, чтобы гонять сборку библиотеки **netstandard2.1** (`SkipNetCoreApp31Tests` без x64 3.1 host).
 - Лицензия опциональна: без ключа — правила «optional license» из README.
-- `CheckLicense` намеренно на **каждом** MediatR-запросе (`_licenseChecked` остаётся `false`) — не once-per-lifetime.
 - Tag + NuGet Push только с `master` / `release/*` / `hotfix/*` / `dev`.
 
 ---
@@ -81,6 +76,7 @@
 | ✅ #H4 collect-data.sh JSONL files | fixed: `gh --jq` → `{number, files: [paths]}` (JSON-safe array) |
 | ✅ #H5 post-pr-triage comment upsert | fixed: lookup by `TRIAGE_MARKER` + comment author (`gh api user` / `TRIAGE_COMMENT_AUTHOR`) |
 | ✅ #H6 post-pr-triage labels gate | fixed: `TRIAGE_APPLY_LABELS` default on (`1`), opt-out `false`; confidence floor (default 70) + allowlist; comment always suggests |
+| ✅ #M1 README license check frequency | fixed: removed redundant «first/every» pipeline blurb; frequency only in LicenseKey section |
 | ✅ #L3 CA2007 library | `ConfigureAwait(false)` на await в библиотеке |
 | ✅ #L2 NuGet publish secret | `NUGET_API_KEY` обновлён (ops); CI push больше не блокируется этим 403 |
 | ✅ #L1 ReleaseNotes vs test TFMs | Notes: netcoreapp3.1 kept to exercise netstandard2.1 (not dropped) |
@@ -107,9 +103,8 @@
 
 ## Приоритет фиксов
 
-1. **M1** — выровнять README (every request).
-2. **M4–M6** — усилить тесты queue/registration.
-3. **M2** / **M3** / **M7** — release-plan/triage script polish.
-4. **L4** — trim nuspec `releaseNotes`.
-5. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
-6. Ops: revoke JWT that was previously committed in SampleWebApp history.
+1. **M4–M6** — усилить тесты queue/registration.
+2. **M2** / **M3** / **M7** — release-plan/triage script polish.
+3. **L4** — trim nuspec `releaseNotes`.
+4. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+5. Ops: revoke JWT that was previously committed in SampleWebApp history.
