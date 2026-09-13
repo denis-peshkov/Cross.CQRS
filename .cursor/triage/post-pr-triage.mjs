@@ -12,6 +12,7 @@ import { Agent, CursorAgentError } from '@cursor/sdk';
 import { formatPrTriageComment, parseAgentJson, TRIAGE_MARKER } from './format-pr-comment.mjs';
 import { applyPrTriageLabels, shouldApplyTriageLabels } from './apply-pr-labels.mjs';
 import { createLocalAgentOptions } from './cursor-agent-local.mjs';
+import { formatPrScopeSection } from './pr-scope.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '../..');
@@ -267,22 +268,26 @@ function loadReviewChecklists(files) {
 function buildPrompt(pr, diff, files) {
   const checklist = loadReviewChecklists(files);
   const fileList = formatFileList(files);
+  const scope = formatPrScopeSection(pr);
 
   return `You triage pull request #${pr.number} for this repository (see README.md for layout).
+
+${scope}
 
 ## PR metadata
 - Title: ${pr.title}
 - Author: ${pr.author?.login ?? 'unknown'}
+- Base → head: ${pr.baseRefName} → ${pr.headRefName}
 - +${pr.additions}/-${pr.deletions}, ${pr.changedFiles} files
 - Draft: ${pr.isDraft}
 
 ## Body
 ${pr.body || '(empty)'}
 
-## Changed files (${files.length})
+## Changed files (full PR, ${files.length})
 ${fileList}
 
-## Diff (may be truncated)
+## Diff (full PR base...head; may be truncated for size — still classify whole PR)
 ${diff}
 
 ## Review checklist
@@ -304,6 +309,7 @@ Rules:
 - confidence reflects how clear the PR intent is from title/body/diff
 - relevantFiles: max 8 paths, only from this PR
 - English only
+- category/priority/summary MUST describe the cumulative PR (all commits/files), never the tip commit alone
 `;
 }
 
@@ -390,7 +396,7 @@ async function main() {
       'view',
       String(prNumber),
       '--json',
-      'number,title,body,author,additions,deletions,changedFiles,isDraft,files,headRefName,baseRefName',
+      'number,title,body,author,additions,deletions,changedFiles,isDraft,files,headRefName,baseRefName,commits',
     ],
     { json: true }
   );
@@ -401,6 +407,10 @@ async function main() {
   }
 
   const { diff, files } = fetchPrDiff(repo, prNumber, pr);
+  const commitCount = Array.isArray(pr.commits) ? pr.commits.length : 0;
+  console.log(
+    `PR #${prNumber} scope: ${pr.baseRefName}...${pr.headRefName}, ${commitCount} commit(s), ${files.length} file(s)`
+  );
 
   console.log(`Running agent triage for PR #${prNumber}...`);
 

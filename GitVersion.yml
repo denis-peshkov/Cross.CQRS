@@ -108,7 +108,8 @@ branches:
     is-release-branch: false
 
   pull-request:
-    regex: ^(pull|pull\-requests|pr|merge)[/-]
+    # GitHub Actions uses refs like pull/22/merge — capture Number or label stays literal `pr{Number}` (invalid NuGet).
+    regex: ^(pull|pull\-requests|pr|merge)[/-](?<Number>\d+)
     mode: ContinuousDelivery
     label: pr{Number}
     source-branches:

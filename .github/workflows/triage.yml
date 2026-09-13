@@ -62,17 +62,20 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
 
     steps:
-      # Same-repo / manual: default checkout (merge commit or current ref).
+      # Same-repo / manual: full history so local agent tools see base...head, not tip-only.
       - name: Checkout
         if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # Fork path: ONLY base SHA — never head.sha. Diff comes from gh API in yarn pr-triage.
+      # Fork path: ONLY base SHA — never head.sha. Diff/commits come from gh API in yarn pr-triage.
       - name: Checkout base only (fork PR)
         if: github.event_name == 'pull_request_target'
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Node.js

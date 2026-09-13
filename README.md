@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/github/license/denis-peshkov/Cross.CQRS)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-RPL%201.5-blue)](LICENSE.md)
 [![GitHub Release Date](https://img.shields.io/github/release-date/denis-peshkov/Cross.CQRS?label=released)](https://github.com/denis-peshkov/Cross.CQRS/releases)
 [![NuGetVersion](https://img.shields.io/nuget/v/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/)
 [![NugetDownloads](https://img.shields.io/nuget/dt/Cross.CQRS.svg)](https://nuget.org/packages/Cross.CQRS/)
