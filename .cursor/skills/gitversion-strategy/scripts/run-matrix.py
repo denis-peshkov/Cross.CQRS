@@ -86,8 +86,13 @@ def run_gv(gv: str, cwd: Path) -> str:
     )
     data = parse_json_blob(p.stdout)
     if not data:
-        err = ((p.stderr or "") + (p.stdout or ""))[-200:].replace("\n", " ")
-        return f"FAIL:{err}"
+        err = ((p.stderr or "") + (p.stdout or ""))
+        # keep table cells short
+        if "No base versions" in err:
+            return "FAIL:no-base-versions"
+        if "orphaned" in err.lower():
+            return "FAIL:orphaned-branch"
+        return "FAIL"
     return str(data.get("SemVer") or "?")
 
 
@@ -131,6 +136,10 @@ def commit_work(path: Path, branch: str) -> None:
     git(path, "commit", "-qm", f"work on {branch}")
 
 
+def master_merge_message(branch: str) -> str:
+    return f"Merge branch '{branch}'"
+
+
 def run_matrix(
     *,
     gv: str,
@@ -157,9 +166,10 @@ def run_matrix(
         d_sq = work_root / f"sq_{branch.replace('/', '_')}"
         init_repo(d_sq, branch_cfg, base_tag)
         commit_work(d_sq, branch)
+        merge_msg = master_merge_message(branch)
         git(d_sq, "checkout", "-q", "master")
         git(d_sq, "merge", "--squash", branch, capture=True)
-        git(d_sq, "commit", "-qm", f"Merge branch '{branch}'")
+        git(d_sq, "commit", "-qm", merge_msg)
         after_squash = run_gv(gv, d_sq)
 
         # merge --no-ff → master
@@ -172,7 +182,7 @@ def run_matrix(
             "merge",
             "--no-ff",
             "-m",
-            f"Merge branch '{branch}'",
+            merge_msg,
             branch,
             check=False,
             capture=True,
@@ -189,10 +199,9 @@ def run_matrix(
             }
         )
 
-    # Direct push on master: ContinuousDeployment + Patch =
-    # one Patch after the last tag, same SemVer for N commits until CI tags, then next Patch.
+    # Direct push: Inherit needs sibling refs in the fixture (real clones have them after fetch).
     d = work_root / "direct"
-    init_repo(d, cfg_text, base_tag, siblings=False)
+    init_repo(d, cfg_text, base_tag, siblings=True)
     at_tag = run_gv(gv, d)
 
     # push #1 with 1 commit
@@ -201,16 +210,18 @@ def run_matrix(
     git(d, "commit", "-qm", "push1 one commit")
     push1_one = run_gv(gv, d)
 
-    # push #1 with 10 commits (fresh from tag) — still one Patch
+    # push #1 with 10 commits — keep sibling tips at HEAD for Inherit
     d10 = work_root / "direct_10"
-    init_repo(d10, cfg_text, base_tag, siblings=False)
+    init_repo(d10, cfg_text, base_tag, siblings=True)
     for i in range(1, 11):
         (d10 / "f.txt").write_text(f"push1-c{i}\n", encoding="utf-8")
         git(d10, "add", "-A")
         git(d10, "commit", "-qm", f"push1 commit {i}/10")
+        for b in ("dev", "release/placeholder", "hotfix/placeholder"):
+            git(d10, "branch", "-f", b, "HEAD")
     push1_ten = run_gv(gv, d10)
 
-    # push #2: CI tagged SemVer from push #1 tip, then one more commit
+    # push #2 after CI tag
     if push1_one.startswith("FAIL") or "-" in push1_one:
         push2 = push1_one
     else:
@@ -218,6 +229,8 @@ def run_matrix(
         (d / "f.txt").write_text("push2-c1\n", encoding="utf-8")
         git(d, "add", "-A")
         git(d, "commit", "-qm", "push2 one commit")
+        for b in ("dev", "release/placeholder", "hotfix/placeholder"):
+            git(d, "branch", "-f", b, "HEAD")
         push2 = run_gv(gv, d)
 
     return {
@@ -248,7 +261,7 @@ def render_markdown(result: dict) -> str:
     lines.extend(
         [
             "",
-            "**Direct push в `master`:** (Patch один раз после тега; следующий Patch — после CI-тега. N коммитов в одном push = один номер.)",
+            "**Direct push в `master`:** (один bump после тега; N коммитов в одном push = один номер; следующий bump — после CI-тега.)",
             "",
             "| Состояние | SemVer |",
             "|---|---|",

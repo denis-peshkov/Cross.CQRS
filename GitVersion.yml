@@ -1,8 +1,13 @@
 # GitVersion 6.x (CI: versionSpec 6.8.2+)
 # https://gitversion.net/docs/reference/configuration
 #
-# Digits in release/* names are ignored — release/11.0.0-… == release/test (auto Minor).
+# Digits in release/* names are ignored — release/11.0.0-… == release/test (auto Minor on the branch).
 # YAML keys are GV6 built-ins (`main`, `develop`); git branches may still be `master` / `dev`.
+#
+# master: Inherit — release→Minor, hotfix→Patch on merge/squash.
+# Direct push inherits develop (Minor) unless pinned elsewhere.
+
+commit-message-incrementing: Disabled
 
 next-version: 1.0.0 #
 
@@ -26,10 +31,8 @@ branches:
       - release
       - hotfix
       - develop
-    # Patch once after the last stable tag; further commits keep the same SemVer until CI tags.
-    # → 1 push (1 or N commits) = one Patch; next push after tag vX.Y.Z = next Patch.
-    # Trade-off: release→master is also Patch (not Minor).
-    increment: Patch
+    # Inherit: release→Minor, hotfix→Patch on master after merge/squash.
+    increment: Inherit
     prevent-increment:
       of-merged-branch: true
       when-current-commit-tagged: true

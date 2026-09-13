@@ -106,7 +106,7 @@ Git tags are created only when `semVer` has **no** pre-release suffix (no `-prev
 
 Optional GitHub Rulesets: import recipes from [`.github/rulesets/`](.github/rulesets/).
 
-Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`).
+Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`). `commit-message-incrementing: Disabled`.
 
 ### Branch naming
 

@@ -30,15 +30,13 @@ description: >-
 
 | Source | На ветке | На `master` (squash/merge/push) |
 |---|---|---|
-| `release/*` (любое имя, в т.ч. с цифрами) | next **Minor** + `-preview.N` | тот же MMP **без** pre-release |
-| `hotfix/*` | next **Patch** + `-preview.N` | **Patch** MMP без pre-release |
-| `dev` | next **manual** (`next-version`, matrix: `11.3.3-dev.N`) | MMP без `-dev` (Inherit) |
-| direct push на `master` | — | на теге = tag; +N коммитов = один **Patch** вверх, SemVer стабилен до нового тега (`ContinuousDeployment`) |
+| `release/*` (любое имя, в т.ч. с цифрами) | next **Minor** + `-preview.N` | **Minor** MMP (`main.increment: Inherit`) |
+| `hotfix/*` | next **Patch** + `-preview.N` | **Patch** MMP (`Inherit`) |
+| `dev` | next **manual** (`next-version`, matrix: `11.3.3-dev.N`) | MMP без `-dev` |
+| direct push на `master` | — | один bump после тега (сейчас **Minor** от develop); N коммитов = один номер |
 
-Конфликт: `main.increment: Patch` → hotfix/direct push Patch OK, но **release→master тоже Patch** (Minor с release теряется).
-`main.increment: Inherit` → release Minor / hotfix Patch на squash; direct push находит increment у source-веток по истории/refs (в реальном клоне после fetch это обычно уже так).
-`main.increment: Minor` → ломает hotfix→Patch.
-Подбор = явный trade-off; зафиксировать в ответе.
+`commit-message-incrementing: Disabled`.  
+`main.increment: Inherit` — release Minor / hotfix Patch на merge. Direct push→Patch чистым YAML вместе с release→Minor не получается.
 
 ## Workflow
 
@@ -57,15 +55,14 @@ description: >-
 
 | Цель | Рычаг |
 |---|---|
-| Игнор цифр в имени ветки | Убрать `VersionInBranchName` из `strategies`; `version-in-branch-pattern` → заглушка; `track-merge-message: false` на `main`/`release`/`hotfix` |
-| release auto-Minor | `release.increment: Minor`, `label: preview` |
-| hotfix Patch на ветке | `hotfix.increment: Patch`, `label: preview` |
-| hotfix Patch **на master** | `main.increment: Patch` или `Inherit` + `of-merged-branch: true` |
-| master direct push = Patch | `main.increment: Patch` (не Inherit-from-develop) |
-| master direct push = Minor | `main.increment: Minor` (ломает hotfix→Patch) |
-| release Minor **на master** | `main.increment: Inherit` (не `Patch`/`Minor` на main) |
-| стабильный SemVer без `-1` | `main.mode: ContinuousDeployment`, `label: ''`, `when-current-commit-tagged: true` |
+| hotfix Patch **на master** | `main.increment: Inherit` + `hotfix.increment: Patch` |
+| release Minor **на master** | `main.increment: Inherit` + `release.increment: Minor` |
+| master direct push = Patch | чистым YAML конфликтует с release→Minor; не через `+semver` (`commit-message-incrementing: Disabled`) |
+| игнор цифр в имени ветки | Убрать `VersionInBranchName`; pattern-заглушка; `track-merge-message: false` |
+| release auto-Minor **на ветке** | `release.increment: Minor`, `label: preview` |
+| hotfix Patch **на ветке** | `hotfix.increment: Patch`, `label: preview` |
 | `dev` label | ключ `develop`, `label: dev`, `mode: ContinuousDelivery` |
+| стабильный SemVer без `-1` | `main.mode: ContinuousDeployment`, `label: ''`, `when-current-commit-tagged: true` |
 
 Детали / грабли: [reference.md](reference.md).
 
@@ -105,7 +102,7 @@ python3 .cursor/skills/gitversion-strategy/scripts/run-matrix.py --config GitVer
 | `hotfix/test` | `10.1.4-preview.1` | `10.1.4-preview.2` | `10.1.4` | `10.1.4` |
 | `dev` | `11.3.3-dev.1` | `11.3.3-dev.2` | `11.3.3` | `11.3.3` |
 
-**Direct push в `master`:** (Patch один раз после тега; следующий Patch — после CI-тега. N коммитов в одном push = один номер.)
+**Direct push в `master`:** (Patch один раз после тега; N коммитов в одном push = один номер; следующий Patch — после CI-тега.)
 
 | Состояние | SemVer |
 |---|---|
