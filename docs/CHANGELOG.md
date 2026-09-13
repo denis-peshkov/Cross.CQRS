@@ -1,8 +1,18 @@
-# Changelog — Cross.CQRS
+﻿# Changelog — Cross.CQRS
 
 Newest releases first. GitHub releases: <https://github.com/denis-peshkov/Cross.CQRS/releases>
 
 Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
+
+---
+
+## v11.1.0 — 13 Sep 2026
+
+### CI / release process
+
+- Git tags (`vX.Y.Z`) are created only for **stable** SemVer (no pre-release suffix such as `-preview` / `-dev`).
+- NuGet may still publish pre-release packages from eligible branches (`master` / `release/*` / `hotfix/*` / `dev`); those builds no longer create matching git tags.
+- `CONTRIBUTING.md` updated to match the tag policy.
 
 ---
 

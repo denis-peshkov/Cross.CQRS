@@ -403,3 +403,5 @@ FodyWeavers.xsd
 
 # CodeRabbit skill review logs
 .cursor/skills/coderabbit/.cache/
+
+.tmp-*

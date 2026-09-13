@@ -87,13 +87,15 @@ Do not commit real license JWTs, private keys, or production secrets. Prefer pla
 
 | Branch | Purpose | Who |
 |--------|---------|-----|
-| `master` | Stable release; GitVersion, tag, NuGet push | **Owner only** — direct push and PRs |
-| `release/*` | Release preparation; tag + NuGet | **Owner only** |
-| `hotfix/*` | Urgent production patches; tag + NuGet | **Owner only** |
-| `dev` | Feature integration; tag + NuGet (pre-release) | **Default PR target** for contributors |
+| `master` | Stable release; GitVersion, **stable** git tag (`vX.Y.Z`), NuGet push | **Owner only** — direct push and PRs |
+| `release/*` | Release preparation; NuGet (may be `-preview.*`); **no** git tag for pre-releases | **Owner only** |
+| `hotfix/*` | Urgent production patches; same tag/NuGet rules as `release/*` | **Owner only** |
+| `dev` | Feature integration; NuGet pre-release (`-dev.*`); **no** git tag for pre-releases | **Default PR target** for contributors |
 | `feature/*` | New functionality (build/test only — no tag/NuGet) | Contributors |
 | `fix/*` | Bug fixes (build/test only — no tag/NuGet) | Contributors |
 | `chore/*` | CI, deps, docs-only, maintenance (no tag/NuGet) | Contributors |
+
+Git tags are created only when `semVer` has **no** pre-release suffix (no `-preview` / `-dev` / …) — i.e. stable `X.Y.Z` on eligible branches.
 
 **Access rules (enforced in CI via `.github/workflows/branch-policy.yml`):**
 
@@ -104,7 +106,7 @@ Do not commit real license JWTs, private keys, or production secrets. Prefer pla
 
 Optional GitHub Rulesets: import recipes from [`.github/rulesets/`](.github/rulesets/).
 
-Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`).
+Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`). `commit-message-incrementing: Disabled`.
 
 ### Branch naming
 
