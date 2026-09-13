@@ -111,22 +111,28 @@ jobs:
       - name: Nuget Pack
         run: nuget pack Cross.CQRS/config.nuspec -Symbols -Version ${{ env.semVer }}
 
-      # Tag + NuGet push: master, release/*, hotfix/*, dev only (not feature/fix/chore/PR).
+      # Git tags: only stable SemVer (no -preview / -dev / …). NuGet may still push pre-releases.
       - name: Create git Tag
         if: >
-          github.ref == 'refs/heads/master' ||
-          startsWith(github.ref, 'refs/heads/release/') ||
-          startsWith(github.ref, 'refs/heads/hotfix/') ||
-          github.ref == 'refs/heads/dev'
+          !contains(env.semVer, '-') &&
+          (
+            github.ref == 'refs/heads/master' ||
+            startsWith(github.ref, 'refs/heads/release/') ||
+            startsWith(github.ref, 'refs/heads/hotfix/') ||
+            github.ref == 'refs/heads/dev'
+          )
         run: |
           git tag v${{ env.semVer }}
 
       - name: Push git Tag
         if: >
-          github.ref == 'refs/heads/master' ||
-          startsWith(github.ref, 'refs/heads/release/') ||
-          startsWith(github.ref, 'refs/heads/hotfix/') ||
-          github.ref == 'refs/heads/dev'
+          !contains(env.semVer, '-') &&
+          (
+            github.ref == 'refs/heads/master' ||
+            startsWith(github.ref, 'refs/heads/release/') ||
+            startsWith(github.ref, 'refs/heads/hotfix/') ||
+            github.ref == 'refs/heads/dev'
+          )
         run: |
           git config --global user.name 'Denis Peshkov'
           git config --global user.email 'denis.peshkov@outlook.com'

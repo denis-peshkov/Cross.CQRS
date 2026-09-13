@@ -1,0 +1,38 @@
+mode: Mainline
+next-version: 1.0.0
+branches:
+  master:
+    regex: ^master$|^main$
+    mode: Mainline
+    tag: ''
+    source-branches: [release, hotfix, dev]
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: true
+    tracks-release-branches: true
+    is-release-branch: false
+    pre-release-weight: 0
+  release:
+    regex: ^release(s)?[/-]
+    mode: ContinuousDelivery
+    tag: preview
+    source-branches: [master, release, dev]
+    increment: Minor
+    is-release-branch: true
+    pre-release-weight: 30000
+  hotfix:
+    regex: ^hotfix(es)?[/-]
+    mode: ContinuousDelivery
+    tag: preview
+    source-branches: [master, hotfix]
+    increment: Patch
+    is-release-branch: true
+    pre-release-weight: 30000
+  dev:
+    regex: ^dev(elop)?(ment)?$
+    mode: ContinuousDeployment
+    tag: dev
+    source-branches: [master]
+    increment: Minor
+    is-release-branch: false
+    pre-release-weight: 40000

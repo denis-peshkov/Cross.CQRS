@@ -29,3 +29,4 @@
 - Test matrix keeps **netcoreapp3.1** to run against the library **netstandard2.1** build (`SkipNetCoreApp31Tests` for hosts without x64 3.1).
 - Лицензия опциональна: без ключа — правила «optional license» из README.
 - Tag + NuGet Push только с `master` / `release/*` / `hotfix/*` / `dev`.
+- Git tags только для **stable** SemVer (без `-preview` / `-dev` / …); NuGet по-прежнему может пушить pre-release пакеты с тех же eligible веток.
