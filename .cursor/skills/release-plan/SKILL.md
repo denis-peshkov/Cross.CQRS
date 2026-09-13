@@ -125,7 +125,7 @@ Downstream triage **coderabbit** по-прежнему пишет только �
 | Источник | leftover plan / audit вне дельты / … — сразу в C/H/M/L |
 | Harvest | Open с предыдущего плана, не вошедшее в дельту → добавить сюда (если ещё нет) |
 | Close | См. **Close from TO-DO** — сначала «Закрыто» текущего плана, потом удалить из **open** C/H/M/L TO-DO (**Принято** не чистить при close open-пункта) |
-| Принято sync | Осознанный lasting trade-off → добавить в **Принято** текущего version plan **и** (merge/dedupe) в **Принято** `TO-DO.md` |
+| Принято sync | **Только при finalize.** Во время релиза lasting trade-off → **только** «Принято» текущего version plan. В `TO-DO.md` «Принято» — **запрещено** mid-release |
 | Не класть | Work **этой** дельты в open C/H/M/L (оно в version plan); таблицу «Закрыто»; копипаст всего TO-DO в version plan (только ссылка) |
 
 ```markdown
@@ -217,8 +217,8 @@ bash .cursor/skills/release-plan/scripts/scaffold-breaking-section.sh \
 4. Обновить **Приоритет** в TO-DO / плане при необходимости.
 5. **Запрещено:** удалить из TO-DO open без строки в «Закрыто» текущего плана.
 
-Осознанный **контрактный** lasting trade-off без id → **Принято** текущего плана **и** merge в **Принято** `TO-DO.md` (не «Закрыто»).
-Id’шный backlog, который отклонили как trade-off → **Закрыто** с `✅ #Id …` **и** при lasting-контракте — bullet в **Принято** плана + `TO-DO.md`.
+Осознанный **контрактный** lasting trade-off без id → **только** «Принято» текущего плана (**не** в `TO-DO.md` до finalize).
+Id’шный backlog, который отклонили как trade-off → **Закрыто** с `✅ #Id …` **и** при lasting-контракте — bullet в **Принято** плана (**не** в `TO-DO.md` до finalize).
 
 ## Re-check (закрытие пунктов в version plan)
 
@@ -226,7 +226,7 @@ Id’шный backlog, который отклонили как trade-off → **
 2. Добавить в `## Закрыто` (тот же формат `✅ #M13 …` / `✅ #H3 …`).
 3. Id **сохранить**; title короткий.
 4. Обновить **Приоритет фиксов** плана (только work этой дельты).
-5. **Удалить** тот же пункт из **open** C/H/M/L `docs/TO-DO.md`, если он там был (после шага 2; **Принято** не трогать, кроме отдельного sync lasting trade-off).
+5. **Удалить** тот же пункт из **open** C/H/M/L `docs/TO-DO.md`, если он там был (после шага 2; секцию **Принято** в `TO-DO.md` **не** трогать).
 6. То же правило, что **Close from TO-DO**: нельзя только выкинуть из TO-DO.
 
 ## Finalize version plan (закрытие релиза)
@@ -236,15 +236,16 @@ Id’шный backlog, который отклонили как trade-off → **
 1. **Собрать весь ⬜ open** из секций Критично / Высокий / Средний / Низкий этого плана.
 2. **Перенести** каждый пункт в [`docs/TO-DO.md`](../../../docs/TO-DO.md) (merge **по id** — один id = одна задача; формат TO-DO **без** `⬜`; open-секции C/H/M/L сохранить; **Принято** TO-DO не затирать).
    Не класть их в «Закрыто» — это не done/dismiss, а leftover.
-3. **Обновить `Id high-water`** в шапке `TO-DO.md` (**единственный** момент записи HW в этом релизе): для каждой группы `max(текущий high-water, все id релиза)` — leftovers + строки «Закрыто» вида `✅ #H9 …` / `✅ #M49 …` / ….
-4. **Привести план к завершённому шаблону** [`templates/RELEASE-PLAN-FINALIZED.md`](templates/RELEASE-PLAN-FINALIZED.md):
+3. **Синхронизировать «Принято»** этого плана → «Принято» `TO-DO.md` (merge/dedupe **по смыслу**; **единственный** момент записи lasting trade-off’ов релиза в TO-DO).
+4. **Обновить `Id high-water`** в шапке `TO-DO.md` (**единственный** момент записи HW в этом релизе): для каждой группы `max(текущий high-water, все id релиза)` — leftovers + строки «Закрыто» вида `✅ #H9 …` / `✅ #M49 …` / ….
+5. **Привести план к завершённому шаблону** [`templates/RELEASE-PLAN-FINALIZED.md`](templates/RELEASE-PLAN-FINALIZED.md):
    - header: версия **published / closed** (+ release URL если есть);
    - C/H/M/L — **пустые** (только заголовок + `---`);
    - **Принято** / **Закрыто** / **Что в библиотеке уже нормально** — сохранить содержимое этого релиза;
    - **Приоритет фиксов** — пустая отсылка к `TO-DO.md` (как в finalized template).
-5. Обновить **Приоритет** в `TO-DO.md` при необходимости (новые leftovers).
-6. UTF-8 BOM на изменённых docs.
-7. В ответе пользователю: список **перенесённых в TO-DO** id, новый high-water, подтверждение что план = finalized shape.
+6. Обновить **Приоритет** в `TO-DO.md` при необходимости (новые leftovers).
+7. UTF-8 BOM на изменённых docs.
+8. В ответе пользователю: список **перенесённых в TO-DO** id, факт sync «Принято», новый high-water, подтверждение что план = finalized shape.
 
 **Запрещено:** оставить ⬜ open в «закрытом» плане; удалить open без переноса в TO-DO; заново сканировать все historical plans без нужды.
 
@@ -282,7 +283,7 @@ Cache попадает под `.cursor/skills/release-plan/.cache/` (скрип�
 | Корзина | Куда класть |
 |---------|-------------|
 | Критично / Высокий / Средний / Низкий | Open issues **только в этой дельте** |
-| Принято | Trade-offs, принятые **в этом релизе** (+ sync lasting → `TO-DO.md` Принято) |
+| Принято | Trade-offs **этого** релиза — **только** в version plan; в `TO-DO.md` «Принято» — **только при finalize** |
 | Закрыто | Fixes/features **в этой дельте** |
 | Что в библиотеке уже нормально | Краткие bullets **про инварианты этой дельты** |
 | Приоритет фиксов | Оставшаяся работа **только этого релиза** (+ ссылка на `TO-DO.md`) |
@@ -362,10 +363,10 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 - [ ] Version plan **без** backlog чужих релизов (он живёт в `TO-DO.md`)
 - [ ] `TO-DO.md` — open C/H/M/L + **Принято** (без «Закрыто» / без review-tool секции); закрытые open-пункты из C/H/M/L удалены
 - [ ] Каждое удаление из open `TO-DO.md` имеет парную строку `✅ #Id …` в «Закрыто» **текущего** плана
-- [ ] Lasting trade-off’ы есть и в **Принято** текущего плана, и (dedupe) в **Принято** `TO-DO.md`
+- [ ] Во время открытого релиза lasting trade-off’ы **только** в «Принято» version plan — **не** в `TO-DO.md`
 - [ ] «Закрыто» `#` вида `✅ #M13 …` / `✅ #H3 …` (или legacy `✅ #34 …`)
 - [ ] Каждая строка «Закрыто» опирается на evidence дельты **или** явную причину dismiss
-- [ ] Finalize: leftovers в `TO-DO.md`; **`Id high-water`** обновлён один раз (`≥` все id релиза); план = `RELEASE-PLAN-FINALIZED`
+- [ ] Finalize: leftovers в open `TO-DO.md`; «Принято» плана → merge/dedupe в «Принято» `TO-DO.md`; **`Id high-water`** обновлён один раз (`≥` все id релиза); план = `RELEASE-PLAN-FINALIZED`
 - [ ] Новые id C/H/M/L = max(TO-DO HW, current plan ids) + 1; **без** mid-release правок HW в `TO-DO.md`
 - [ ] UTF-8 BOM на записанных plan / TO-DO, если новые
 - [ ] Новые секции `BREAKING.md` следуют [`templates/BREAKING-SECTION.md`](templates/BREAKING-SECTION.md) (layout не дублируется во intro для потребителей)

@@ -22,14 +22,14 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ### Documentation
 
-- `CONTRIBUTING.md` aligned with stable-only git tag policy.
-- README license badge: static `RPL 1.5` (GitHub cannot identify dual RPL/commercial `LICENSE.md`).
+- `CONTRIBUTING.md` / README aligned with stable-only git tag policy and static `RPL 1.5` license badge.
+- Root `ReleaseNotes.md` removed; release notes live in `docs/CHANGELOG.md`.
 
 ### Repository tooling
 
-- GitVersion strategy skill with Node matrix runner and golden tests.
-- `update-changelog.mjs` (+ tests): auto CHANGELOG section from release delta; `--dry-run` wins over `--write`.
-- CodeRabbit skill: pasted findings / explain → open C/H/M/L in current RELEASE-PLAN same turn; fix closes with `✅ #Id`.
+- `update-changelog.mjs` (+ tests): auto CHANGELOG from release delta; `--dry-run` wins; repo-agnostic `categorizePath`.
+- CodeRabbit skill: pasted findings / explain → open C/H/M/L in current RELEASE-PLAN same turn.
+- Removed obsolete `gitversion-strategy` skill (matrix runner); GitVersion policy remains in `GitVersion.yml`.
 
 ---
 
