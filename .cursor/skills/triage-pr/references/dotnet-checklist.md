@@ -6,7 +6,7 @@ Use for deep review of PRs in `triage-pr` and `bugbot`. Paths below are examples
 
 - No logging of real license JWTs, private keys, or production secrets
 - License validation: product metadata (name, type, edition, dates) matches the registered product info
-- `LicenseCheckBehavior` order and reserved slot for Cross.CQRS.EF
+- License-check behavior order and any reserved pipeline slots for sibling packages
 - Input validation (FluentValidation) stays aligned with registered assemblies
 - See `docs/BREAKING.md` when changing public licensing / registration surface
 
@@ -20,13 +20,13 @@ Use for deep review of PRs in `triage-pr` and `bugbot`. Paths below are examples
 
 ## Pipeline & Registration
 
-- Behavior order: license → (EF reserved) → filters / validation / event queue as designed
-- `AddCQRS` / `CqrsServiceConfiguration`: assemblies, validators, filters, optional `LicenseKey`
+- Behavior order: license → (reserved extension slots) → filters / validation / event queue as designed
+- DI / CQRS registration: assemblies, validators, filters, optional `LicenseKey`
 - Command / Query / CommandEvent contracts remain MediatR-compatible
 
 ## Tests
 
-- New behavior covered in the test project (e.g. zones `Licensing/`, `Registration/`, `Behaviors/`, `Queue/`, `Core/`, `Coverage/`)
+- New behavior covered in the test project (zones from the solution layout)
 - Prefer clear Given/When/Then style names; async tests end with `Async`
 - Run: `dotnet test <TestProject>/<TestProject>.csproj` (path from the solution)
 - **Do not** require XML `/// <summary>` on test methods
