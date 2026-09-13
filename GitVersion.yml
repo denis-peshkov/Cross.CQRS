@@ -1,11 +1,5 @@
 # GitVersion 6.x (CI: versionSpec 6.8.2+)
 # https://gitversion.net/docs/reference/configuration
-#
-# Digits in release/* names are ignored — release/11.0.0-… == release/test (auto Minor on the branch).
-# YAML keys are GV6 built-ins (`main`, `develop`); git branches may still be `master` / `dev`.
-#
-# master: Inherit — release→Minor, hotfix→Patch on merge/squash.
-# Direct push inherits develop (Minor) unless pinned elsewhere.
 
 commit-message-incrementing: Disabled
 

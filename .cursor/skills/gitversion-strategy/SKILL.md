@@ -23,20 +23,25 @@ description: >-
 2. **Не гонять `dotnet-gitversion` на полном клоне** без нужды — зависает. Только fixture через скрипт.
 3. Не коммитить / не пушить GitHub без явной команды пользователя.
 4. Фикстуры класть под `.tmp-gvfind/` (уже в ignore / локальный мусор).
+5. **Отчёт матрицы:** источник структуры — [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md).
+   `scripts/run-matrix.py` меряет фикстуры по `GitVersion.yml` и **подставляет** placeholders.
+   - Улучшать коллектор/фикстуры — можно, когда меняется контракт прогона.
+   - Форму отчёта менять в **шаблоне**, не хардкодить в чате.
+   - Не переписывать скрипт каждый раз ради «нужных» цифр — править `GitVersion.yml` и прогнать снова.
+   - Ответ пользователю = **stdout скрипта as-is**.
 
 ## Целевая матрица (default desired)
 
-Пока пользователь не задал иное, целевое поведение:
+Пока пользователь не задал иное:
 
-| Source | На ветке | На `master` (squash/merge/push) |
+| Source | На ветке | На `master` |
 |---|---|---|
-| `release/*` (любое имя, в т.ч. с цифрами) | next **Minor** + `-preview.N` | **Minor** MMP (`main.increment: Inherit`) |
-| `hotfix/*` | next **Patch** + `-preview.N` | **Patch** MMP (`Inherit`) |
-| `dev` | next **manual** (`next-version`, matrix: `11.3.3-dev.N`) | MMP без `-dev` |
-| direct push на `master` | — | один bump после тега (сейчас **Minor** от develop); N коммитов = один номер |
+| `release/*` (цифры в имени игнор) | Minor + `-preview.N` | Minor MMP (**merge `--no-ff`**); squash может отличаться |
+| `hotfix/*` | Patch + `-preview.N` | Patch MMP |
+| `dev` | manual `next-version` (matrix: `11.3.3-dev.N`) | MMP без `-dev` |
+| direct push на `master` | — | **Patch** после тега; N коммитов в одном push = один номер |
 
-`commit-message-incrementing: Disabled`.  
-`main.increment: Inherit` — release Minor / hotfix Patch на merge. Direct push→Patch чистым YAML вместе с release→Minor не получается.
+`commit-message-incrementing: Disabled`.
 
 ## Workflow
 
@@ -51,20 +56,7 @@ description: >-
 
 ### Phase 2 — Кандидат конфига
 
-Править только `GitVersion.yml` (или временную копию для сравнения). Ориентиры:
-
-| Цель | Рычаг |
-|---|---|
-| hotfix Patch **на master** | `main.increment: Inherit` + `hotfix.increment: Patch` |
-| release Minor **на master** | `main.increment: Inherit` + `release.increment: Minor` |
-| master direct push = Patch | чистым YAML конфликтует с release→Minor; не через `+semver` (`commit-message-incrementing: Disabled`) |
-| игнор цифр в имени ветки | Убрать `VersionInBranchName`; pattern-заглушка; `track-merge-message: false` |
-| release auto-Minor **на ветке** | `release.increment: Minor`, `label: preview` |
-| hotfix Patch **на ветке** | `hotfix.increment: Patch`, `label: preview` |
-| `dev` label | ключ `develop`, `label: dev`, `mode: ContinuousDelivery` |
-| стабильный SemVer без `-1` | `main.mode: ContinuousDeployment`, `label: ''`, `when-current-commit-tagged: true` |
-
-Детали / грабли: [reference.md](reference.md).
+Править **только** `GitVersion.yml` (или временную копию). Ориентиры: [reference.md](reference.md).
 
 ### Phase 3 — Прогон
 
@@ -74,52 +66,17 @@ description: >-
 python3 .cursor/skills/gitversion-strategy/scripts/run-matrix.py --config GitVersion.yml --base-tag v10.1.3
 ```
 
-Сравнение двух конфигов:
+Скрипт меряет фикстуры → заполняет шаблон отчёта. Цифры в ячейках — только из прогона.
 
-```bash
-python3 .cursor/skills/gitversion-strategy/scripts/run-matrix.py --config /tmp/candidate.yml
-python3 .cursor/skills/gitversion-strategy/scripts/run-matrix.py --config GitVersion.yml --json
-```
-
-Нужен `dotnet-gitversion` (global tool `GitVersion.Tool`).
-Запуск скрипта — с полными правами на `git init` в фикстурах (sandbox иначе падает на `.git/config`).
+Нужен `dotnet-gitversion` (`GitVersion.Tool`). Запуск вне sandbox, если `git init` в фикстурах падает.
 
 ### Phase 4 — Отчёт пользователю
 
-**Всегда** отдавать прогон **целиком** в формате ниже (без урезания колонок).
-Если подобрали стратегию — кратко: какой trade-off, затем таблицы.
-
-Скопировать вывод скрипта as-is. Канон:
-
-```markdown
-База: **`v10.1.3`**. Merge = `--no-ff`. Колонка **push** = +1 коммит на **source**-ветке. Отдельно — Direct push в `master`.
-
-| Ветка (source) | SemVer на source | после push (+1) | после squash | после merge |
-|---|---|---|---|---|
-| `release/11.0.0-new` | `10.2.0-preview.1` | `10.2.0-preview.2` | `10.2.0` | `10.2.0` |
-| `release/test-12-new` | `10.2.0-preview.1` | `10.2.0-preview.2` | `10.2.0` | `10.2.0` |
-| `release/test` | `10.2.0-preview.1` | `10.2.0-preview.2` | `10.2.0` | `10.2.0` |
-| `hotfix/test` | `10.1.4-preview.1` | `10.1.4-preview.2` | `10.1.4` | `10.1.4` |
-| `dev` | `11.3.3-dev.1` | `11.3.3-dev.2` | `11.3.3` | `11.3.3` |
-
-**Direct push в `master`:** (Patch один раз после тега; N коммитов в одном push = один номер; следующий Patch — после CI-тега.)
-
-| Состояние | SemVer |
-|---|---|
-| на теге `v10.1.3` | `10.1.3` |
-| push #1 = 1 коммит | `10.1.4` |
-| push #1 = 10 коммитов | `10.1.4` |
-| push #2 = 1 коммит (после CI-тега `v10.1.4`) | `10.1.5` |
-```
-
-Числа в примере — иллюстрация целевой матрицы; в ответе подставлять **фактический** вывод `run-matrix.py`.
+Скопировать **весь** stdout. Структура: [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md) (как `release-plan` → `templates/RELEASE-PLAN.md`).
 
 ### Phase 5 — Сверка с целью
 
-После прогона одной строкой:
-
-- совпало / не совпало по hotfix→master, release digits, direct push;
-- если не совпало — следующий рычаг из Phase 2 (не гадать без нового прогона).
+Одной строкой: совпало / не совпало. Если нет — править `GitVersion.yml`, снова Phase 3.
 
 ## Args (пользователь / чат)
 

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """GitVersion strategy matrix runner for Cross.CQRS fixtures.
 
-Prints the canonical markdown report (source / squash / merge / push + direct push).
+Collects SemVer measurements from GitVersion.yml fixtures, then fills
+templates/MATRIX-REPORT.md (structure lives in the template; cells are measured).
+
+Improving the collector/fixtures is OK when the contract needs it.
+Do not rewrite the script mid-session just to force desired numbers — change
+GitVersion.yml and re-run.
 
 Usage:
   python3 .cursor/skills/gitversion-strategy/scripts/run-matrix.py
@@ -106,7 +111,13 @@ def git(cwd: Path, *args: str, check: bool = True, capture: bool = False) -> sub
     )
 
 
-def init_repo(path: Path, cfg_text: str, base_tag: str, siblings: bool = False) -> None:
+def init_repo(path: Path, cfg_text: str, base_tag: str, *, with_dev: bool = True) -> None:
+    """Minimal clone: tagged master + optional `dev` tip at the same commit.
+
+    Fixture contract (stable — do not tweak per-run to force SemVer):
+    - always seed `dev` when with_dev=True (real repos have it after fetch);
+    - never seed leftover `release/*` / `hotfix/*` placeholders.
+    """
     if path.exists():
         shutil.rmtree(path)
     path.mkdir(parents=True)
@@ -124,13 +135,16 @@ def init_repo(path: Path, cfg_text: str, base_tag: str, siblings: bool = False) 
     git(path, "add", "-A")
     git(path, "commit", "-qm", "init")
     git(path, "tag", base_tag)
-    if siblings:
-        for b in ("dev", "release/placeholder", "hotfix/placeholder"):
-            git(path, "branch", b)
+    if with_dev:
+        git(path, "branch", "dev")
 
 
 def commit_work(path: Path, branch: str) -> None:
-    git(path, "checkout", "-qb", branch)
+    existing = git(path, "show-ref", "--verify", "--quiet", f"refs/heads/{branch}", check=False)
+    if existing.returncode == 0:
+        git(path, "checkout", "-q", branch)
+    else:
+        git(path, "checkout", "-qb", branch)
     (path / "f.txt").write_text(f"{branch}\n", encoding="utf-8")
     git(path, "add", "-A")
     git(path, "commit", "-qm", f"work on {branch}")
@@ -199,26 +213,26 @@ def run_matrix(
             }
         )
 
-    # Direct push: Inherit needs sibling refs in the fixture (real clones have them after fetch).
+    # Direct push scenarios (same fixture contract as row repos).
     d = work_root / "direct"
-    init_repo(d, cfg_text, base_tag, siblings=True)
+    init_repo(d, cfg_text, base_tag, with_dev=True)
     at_tag = run_gv(gv, d)
 
     # push #1 with 1 commit
     (d / "f.txt").write_text("push1-c1\n", encoding="utf-8")
     git(d, "add", "-A")
     git(d, "commit", "-qm", "push1 one commit")
+    git(d, "branch", "-f", "dev", "HEAD")
     push1_one = run_gv(gv, d)
 
-    # push #1 with 10 commits — keep sibling tips at HEAD for Inherit
+    # push #1 with 10 commits
     d10 = work_root / "direct_10"
-    init_repo(d10, cfg_text, base_tag, siblings=True)
+    init_repo(d10, cfg_text, base_tag, with_dev=True)
     for i in range(1, 11):
         (d10 / "f.txt").write_text(f"push1-c{i}\n", encoding="utf-8")
         git(d10, "add", "-A")
         git(d10, "commit", "-qm", f"push1 commit {i}/10")
-        for b in ("dev", "release/placeholder", "hotfix/placeholder"):
-            git(d10, "branch", "-f", b, "HEAD")
+    git(d10, "branch", "-f", "dev", "HEAD")
     push1_ten = run_gv(gv, d10)
 
     # push #2 after CI tag
@@ -229,8 +243,7 @@ def run_matrix(
         (d / "f.txt").write_text("push2-c1\n", encoding="utf-8")
         git(d, "add", "-A")
         git(d, "commit", "-qm", "push2 one commit")
-        for b in ("dev", "release/placeholder", "hotfix/placeholder"):
-            git(d, "branch", "-f", b, "HEAD")
+        git(d, "branch", "-f", "dev", "HEAD")
         push2 = run_gv(gv, d)
 
     return {
@@ -245,34 +258,36 @@ def run_matrix(
     }
 
 
+# Canonical report shape: templates/MATRIX-REPORT.md (filled by render_markdown).
+
+
+def load_report_template() -> str:
+    path = Path(__file__).resolve().parent.parent / "templates" / "MATRIX-REPORT.md"
+    return path.read_text(encoding="utf-8")
+
+
 def render_markdown(result: dict) -> str:
+    """Fill templates/MATRIX-REPORT.md with measured matrix cells."""
     tag = result["base_tag"]
-    lines = [
-        f"База: **`{tag}`**. Merge = `--no-ff`. Колонка **push** = +1 коммит на **source**-ветке. Отдельно — Direct push в `master`.",
-        "",
-        "| Ветка (source) | SemVer на source | после push (+1) | после squash | после merge |",
-        "|---|---|---|---|---|",
-    ]
-    for row in result["rows"]:
-        lines.append(
-            f"| `{row['branch']}` | `{row['source']}` | `{row['push']}` | `{row['squash']}` | `{row['merge']}` |"
-        )
-    d = result["direct"]
-    lines.extend(
-        [
-            "",
-            "**Direct push в `master`:** (один bump после тега; N коммитов в одном push = один номер; следующий bump — после CI-тега.)",
-            "",
-            "| Состояние | SemVer |",
-            "|---|---|",
-            f"| на теге `{tag}` | `{d['at_tag']}` |",
-            f"| push #1 = 1 коммит | `{d['push1_one']}` |",
-            f"| push #1 = 10 коммитов | `{d['push1_ten']}` |",
-            f"| push #2 = 1 коммит (после CI-тега `v{d['push1_one']}`) | `{d['push2']}` |",
-            "",
-        ]
+    branch_rows = "\n".join(
+        f"| `{row['branch']}` | `{row['source']}` | `{row['push']}` | `{row['squash']}` | `{row['merge']}` |"
+        for row in result["rows"]
     )
-    return "\n".join(lines)
+    d = result["direct"]
+    text = load_report_template()
+    replacements = {
+        "{{BASE_TAG}}": tag,
+        "{{BRANCH_ROWS}}": branch_rows,
+        "{{DIRECT_AT_TAG}}": d["at_tag"],
+        "{{DIRECT_PUSH1_ONE}}": d["push1_one"],
+        "{{DIRECT_PUSH1_TEN}}": d["push1_ten"],
+        "{{DIRECT_PUSH2}}": d["push2"],
+    }
+    for key, value in replacements.items():
+        text = text.replace(key, value)
+    if not text.endswith("\n"):
+        text += "\n"
+    return text
 
 
 def main() -> int:
