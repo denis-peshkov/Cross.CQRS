@@ -158,12 +158,20 @@ export function pathBullet(category, paths) {
   return [`${prefix}: ${list}${more}.`];
 }
 
-function collectDelta(fromVersion) {
-  const range = `v${fromVersion}..HEAD`;
-  const names = run('git', ['diff', '--name-only', range], { check: false });
-  const paths = names.status === 0
-    ? names.stdout.split('\n').map((s) => s.trim()).filter(Boolean)
-    : [];
+export function collectDelta(fromVersion) {
+  if (!fromVersion || typeof fromVersion !== 'string') {
+    throw new Error('collectDelta: fromVersion is required');
+  }
+  const tag = fromVersion.startsWith('v') ? fromVersion : `v${fromVersion}`;
+  // Fail hard if the baseline tag is missing — never invent an empty delta.
+  run('git', ['rev-parse', '--verify', `${tag}^{commit}`]);
+
+  const range = `${tag}..HEAD`;
+  const names = run('git', ['diff', '--name-only', range]);
+  const paths = names.stdout
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   // Uncommitted / index paths also count for the working tree release draft.
   const wt = run('git', ['status', '--porcelain', '-u'], { check: false });
@@ -174,14 +182,11 @@ function collectDelta(fromVersion) {
     }
   }
 
-  const log = run(
-    'git',
-    ['log', range, '--pretty=format:%s'],
-    { check: false },
-  );
-  const subjects = log.status === 0
-    ? log.stdout.split('\n').map((s) => s.trim()).filter(Boolean)
-    : [];
+  const log = run('git', ['log', range, '--pretty=format:%s']);
+  const subjects = log.stdout
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   return { paths: [...new Set(paths)], subjects };
 }

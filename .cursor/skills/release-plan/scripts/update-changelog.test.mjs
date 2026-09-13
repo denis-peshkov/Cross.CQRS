@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   buildGroupedBullets,
+  collectDelta,
   formatSection,
   parseArgs,
   pathBullet,
@@ -66,6 +67,21 @@ describe('buildGroupedBullets', () => {
     assert.match(tool[0], /gitversion-strategy/);
     assert.match(docs[0], /CONTRIBUTING\.md/);
     assert.doesNotMatch(all, /v4\.7\.0|never creates git tags|Inherit|stable-only|golden tests/i);
+  });
+});
+
+describe('collectDelta', () => {
+  it('throws when baseline tag does not resolve', () => {
+    assert.throws(
+      () => collectDelta('0.0.0-no-such-tag-for-changelog-test'),
+      /rev-parse|failed/i,
+    );
+  });
+
+  it('returns paths/subjects when baseline tag exists', () => {
+    const delta = collectDelta('11.1.0');
+    assert.ok(Array.isArray(delta.paths));
+    assert.ok(Array.isArray(delta.subjects));
   });
 });
 
