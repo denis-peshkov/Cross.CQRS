@@ -7,3 +7,4 @@ v2_docs	release/11.0.0-new-license	FAIL	FAIL	FAIL
 v2_docs	release/test	FAIL	FAIL	FAIL
 v2_docs	hotfix/test	FAIL	FAIL	FAIL
 v2_docs	dev	FAIL	FAIL	FAIL
+v3_mainline	release/11.0.0-new-license	FAIL	FAIL	FAIL
