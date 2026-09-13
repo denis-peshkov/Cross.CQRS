@@ -1,8 +1,8 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.0.0` (published / closed) · **ветка:** `release/11.0.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-13`
+> **Версия:** `11.1.0` (published / closed) · **ветка:** `release/11.1.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-13`
 >
-> **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.0.0
+> **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.1.0
 >
 > **Легенда:** ⬜ open · ✅ done · 🟨 partial / принято · ❌ blocker
 >
@@ -10,9 +10,9 @@
 >
 > Дельта: `origin/master...HEAD` — **98** коммита · **140** файлов · **+8061 / −416**. Open C/H/M/L пустые (план закрыт).
 
-**CodeRabbit:** `2026-09-13` · log `.cursor/skills/coderabbit/.cache/cr-release-11.0.0-new-license-improve-functionality-vs-origin-master-all-20260913-001057.jsonl` · 13 findings (0 Critical, 6 Major, 7 Minor) → все закрыты в этом плане.
+**CodeRabbit:** `2026-09-13` · log `.cursor/skills/coderabbit/.cache/cr-release-11.1.0-new-license-improve-functionality-vs-origin-master-all-20260913-001057.jsonl` · 13 findings (0 Critical, 6 Major, 7 Minor) → все закрыты в этом плане.
 
-**PR:** [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) (`BREAKING:` Cross.CQRS 11.0.0 — JWT licensing, pipeline/docs hygiene, CI & triage).
+**PR:** [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) (`BREAKING:` Cross.CQRS 11.1.0 — JWT licensing, pipeline/docs hygiene, CI & triage).
 
 ---
 
@@ -68,7 +68,7 @@
 | ✅ AddCQRS registration | `CqrsServiceConfiguration`; FluentValidation `AddValidatorsFromAssemblies` по полному набору сборок |
 | ✅ TFMs / deps | `netstandard2.1;net6–net10`; Extensions.* по TFM |
 | ✅ Solution / packaging | `Cross.CQRS.slnx`; `config.nuspec`; `_nuget` убран; `LICENSE.md` |
-| ✅ Docs consumers | `docs/BREAKING.md` From 10.1.x→11.0.0; `docs/CHANGELOG.md` `## v11.0.0` |
+| ✅ Docs consumers | `docs/BREAKING.md` From 10.1.x→11.1.0; `docs/CHANGELOG.md` `## v11.1.0` |
 | ✅ Tests NUnit | зоны Licensing / Registration / Behaviors / Queue / Core |
 | ✅ CI tag/NuGet gates | `startsWith` для release/hotfix; publish = master/release/hotfix/dev |
 | ✅ Sonar key aligned | `projectKey=Cross.CQRS` в workflow + README/CONTRIBUTING |
@@ -81,12 +81,12 @@
 ## Что в библиотеке уже нормально
 
 - MediatR pipeline: license (−2) / reserved −1 / filters / validation согласованы с кодом.
-- Breaking 10.1.x→11.0.0 — только в `docs/BREAKING.md`.
+- Breaking 10.1.x→11.1.0 — только в `docs/BREAKING.md`.
 - Local Release build/tests (net6–net10) ранее зелёные на ветке.
-- Version plan `11.0.0` закрыт; publish gate остаётся в [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+- Version plan `11.1.0` закрыт; publish gate остаётся в [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
 
 ---
 
 ## Приоритет фиксов
 
-_(пусто — релиз `11.0.0` опубликован; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
+_(пусто — релиз `11.1.0` опубликован; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
