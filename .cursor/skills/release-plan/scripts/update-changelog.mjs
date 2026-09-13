@@ -165,17 +165,46 @@ function ensureBom(text) {
 }
 
 /**
+ * True when a path looks like a test project / test tree (repo-agnostic).
+ * @param {string} path Repo-relative path.
+ * @returns {boolean}
+ */
+function isTestPath(path) {
+  return /(^|\/)[^/]*\.?Tests(\/|$)/.test(path) || /(^|\/)tests?\//i.test(path);
+}
+
+/**
+ * True when a path looks like product/library source (not tests/samples/docs/CI).
+ * @param {string} path Repo-relative path.
+ * @returns {boolean}
+ */
+function isLibraryPath(path) {
+  if (isTestPath(path)) return false;
+  const top = path.split('/')[0] || '';
+  if (/^(Sample|samples?|demo|examples?)/i.test(top)) return false;
+  if (path.startsWith('docs/') || path.startsWith('.github/') || path.startsWith('.cursor/')) return false;
+  return /\.(cs|csproj|fs|fsproj|vb|vbproj|nuspec)$/i.test(path);
+}
+
+/**
  * Map a repo-relative path to a CHANGELOG category, or null to skip.
+ * Heuristics only — no hard-coded product folder names.
  * @param {string} path File path relative to the repository root.
  * @returns {string|null} Category name from {@link CATEGORY_ORDER}, or null.
  */
-function categorizePath(path) {
+export function categorizePath(path) {
   if (!path || path === 'docs/CHANGELOG.md') return null;
   if (path.startsWith('.github/workflows/') || path.startsWith('.github/')) return 'CI / release process';
   if (path === 'GitVersion.yml') return 'Versioning';
-  if (path.startsWith('Cross.CQRS.Tests/') || path.includes('.Tests/')) return 'Tests';
-  if (path.startsWith('Cross.CQRS/')) return 'Library';
-  if (path === 'CONTRIBUTING.md' || path.startsWith('docs/')) return 'Documentation';
+  if (isTestPath(path)) return 'Tests';
+  if (isLibraryPath(path)) return 'Library';
+  if (
+    path === 'CONTRIBUTING.md' ||
+    path === 'README.md' ||
+    path.startsWith('docs/')
+  ) {
+    return 'Documentation';
+  }
   if (path.startsWith('.cursor/') || path === '.gitignore') return 'Repository tooling';
   return 'Repository tooling';
 }

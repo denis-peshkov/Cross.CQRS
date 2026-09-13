@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   buildGroupedBullets,
+  categorizePath,
   collectDelta,
   formatSection,
   parseArgs,
@@ -35,6 +36,19 @@ describe('parseArgs', () => {
   });
 });
 
+describe('categorizePath', () => {
+  it('uses repo-agnostic heuristics (no product folder names)', () => {
+    assert.equal(categorizePath('Acme.Lib/Foo.cs'), 'Library');
+    assert.equal(categorizePath('Acme.Lib/Acme.Lib.csproj'), 'Library');
+    assert.equal(categorizePath('Acme.Lib.Tests/Bar.cs'), 'Tests');
+    assert.equal(categorizePath('tests/unit/x.cs'), 'Tests');
+    assert.equal(categorizePath('SampleWebApp/Program.cs'), 'Repository tooling');
+    assert.equal(categorizePath('.github/workflows/ci.yml'), 'CI / release process');
+    assert.equal(categorizePath('GitVersion.yml'), 'Versioning');
+    assert.equal(categorizePath('docs/BREAKING.md'), 'Documentation');
+  });
+});
+
 describe('buildGroupedBullets', () => {
   it('groups paths into changelog categories', () => {
     const groups = buildGroupedBullets({
@@ -44,6 +58,8 @@ describe('buildGroupedBullets', () => {
         'CONTRIBUTING.md',
         '.cursor/skills/gitversion-strategy/scripts/run-matrix.mjs',
         'docs/CHANGELOG.md',
+        'Lib/Thing.cs',
+        'Lib.Tests/ThingTests.cs',
       ],
       subjects: ['init', 'work', 'update GitVersion configuration'],
     });
@@ -51,7 +67,8 @@ describe('buildGroupedBullets', () => {
     assert.ok(groups.Versioning?.length);
     assert.ok(groups.Documentation?.length);
     assert.ok(groups['Repository tooling']?.length);
-    assert.equal(groups.Library, undefined);
+    assert.ok(groups.Library?.length);
+    assert.ok(groups.Tests?.length);
   });
 
   it('pathBullet stays path-neutral (no hardcoded release claims)', () => {
