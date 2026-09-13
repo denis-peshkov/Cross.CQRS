@@ -56,7 +56,18 @@ description: >-
 
 ### Phase 2 — Кандидат конфига
 
-Править **только** `GitVersion.yml` (или временную копию). Ориентиры: [reference.md](reference.md).
+Править **только** `GitVersion.yml` (или временную копию).
+
+| Цель | Рычаг |
+|---|---|
+| игнор цифр в `release/11.0.0-…` | без `VersionInBranchName`; stub `version-in-branch-pattern`; `track-merge-message: false` |
+| hotfix / direct push = Patch на master | `main.increment: Inherit` + `develop.increment: Patch` |
+| release = Minor на master | тот же `Inherit` + **merge `--no-ff`** (`release.increment: Minor`); squash часто даёт Patch |
+| `label:` (не GV5 `tag:`) | `preview` / `dev` / `''` на main |
+| стабильный MMP без `-1` | `main.mode: ContinuousDeployment`, `label: ''`, `when-current-commit-tagged: true` |
+
+`commit-message-incrementing: Disabled` — без `+semver` в сообщениях.  
+Чистым YAML нельзя одновременно: squash release→Minor **и** direct push→Patch при живом `dev`.
 
 ### Phase 3 — Прогон
 
