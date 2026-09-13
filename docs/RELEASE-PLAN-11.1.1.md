@@ -8,9 +8,9 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.0.md](RELEASE-PLAN-11.1.0.md)
 >
-> Дельта: `origin/master...HEAD` — **13** коммита · **20** файлов · **+918 / −77**. Open C/H/M/L пустые (план закрыт).
+> Дельта: `origin/master...HEAD` — **18** коммита · **26** файлов · **+1075 / −691**. Open C/H/M/L пустые (план закрыт).
 
-**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar name: **#L14**. Drop ReleaseNotes.md: **#L15**.
+**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar: **#L14**. Drop ReleaseNotes: **#L15**. Changelog categorizePath: **#L16**. Drop gitversion-strategy skill: **#L17**.
 
 **PR:** [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) (GitVersion actions v4.7 and stop tagging from dev).
 
@@ -59,10 +59,11 @@
 | ✅ #L13 README license badge | static `RPL 1.5` badge (как Cross.Identity); не `github/license` → NOASSERTION |
 | ✅ #L14 Sonar projectName | `-Dsonar.projectName=Cross.CQRS` в CI; display name применится после анализа на `master` |
 | ✅ #L15 drop root ReleaseNotes.md | дубль README/`docs/CHANGELOG.md`; убран из slnx + CONTRIBUTING |
+| ✅ #L16 changelog categorizePath | repo-agnostic path heuristics + tests; grouping без hardcoded layout |
+| ✅ #L17 drop gitversion-strategy skill | skill/scripts/matrix templates удалены; стратегия остаётся в `GitVersion.yml` + план |
 | ✅ GitVersion PR Number capture | `pull-request.regex` + `(?<Number>\d+)` — CI PR не отдаёт `pr{Number}` (NU5010) |
 | ✅ GitVersion.yml GV6 strategy | `Disabled`; root `Patch`; main `Inherit` + release/hotfix |
-| ✅ gitversion-strategy skill | matrix + golden test |
-| ✅ Matrix golden green | release Minor / hotfix Patch / direct push Patch |
+| ✅ Matrix golden green | release Minor / hotfix Patch / direct push Patch (исторически) |
 | ✅ CI versionSpec 6.8.2 | + stable-only Create/Push tag |
 | ✅ CHANGELOG v11.1.0 process | tags только stable |
 | ✅ RELEASE-PLAN-11.1.0 closed | предыдущий план |
@@ -70,6 +71,7 @@
 | ✅ GitVersion actions v4.7.0 | setup/execute `@v4.7.0` для GV 6.8.x |
 | ✅ #L6 CHANGELOG v11.1.1 | `update-changelog.mjs --write`; секция в `docs/CHANGELOG.md` |
 | ✅ update-changelog.mjs | release-plan Phase 3 всегда пишет CHANGELOG |
+| ✅ triage-pr checklists | `dotnet-checklist` + `angular-checklist` обновлены |
 
 ---
 
@@ -78,10 +80,10 @@
 - API / licensing / MediatR в дельте не менялись.
 - Breaking для NuGet не нужен (`11.1.0` → `11.1.1` patch process/CI).
 - Без тега `v11.2.0-dev.3` clean clone master → SemVer **`11.1.1`**.
-- Sonar `projectKey=Cross.CQRS` уже принимает PR-анализы (#22).
+- Sonar `projectKey=Cross.CQRS` принимает PR-анализы (#22).
 
 ---
 
 ## Приоритет фиксов
 
-_(пусто — релиз `11.1.1` план закрыт; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
+_(пусто — релиз `11.1.1` опубликован; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
