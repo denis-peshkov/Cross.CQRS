@@ -24,7 +24,7 @@ description: >-
 3. Не коммитить / не пушить GitHub без явной команды пользователя.
 4. Фикстуры класть под `.tmp-gvfind/` (уже в ignore / локальный мусор).
 5. **Отчёт матрицы:** источник структуры — [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md).
-   `scripts/run-matrix.py` меряет фикстуры по `GitVersion.yml` и **подставляет** placeholders.
+   `scripts/run-matrix.mjs` меряет фикстуры по `GitVersion.yml` и **подставляет** placeholders.
    - Улучшать коллектор/фикстуры — можно, когда меняется контракт прогона.
    - Форму отчёта менять в **шаблоне**, не хардкодить в чате.
    - Не переписывать скрипт каждый раз ради «нужных» цифр — править `GitVersion.yml` и прогнать снова.
@@ -74,7 +74,7 @@ description: >-
 Из корня репо:
 
 ```bash
-python3 .cursor/skills/gitversion-strategy/scripts/run-matrix.py --config GitVersion.yml --base-tag v10.1.3
+node .cursor/skills/gitversion-strategy/scripts/run-matrix.mjs --config GitVersion.yml --base-tag v10.1.3
 ```
 
 Скрипт меряет фикстуры → заполняет шаблон отчёта. Цифры в ячейках — только из прогона.
