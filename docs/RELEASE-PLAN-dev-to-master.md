@@ -2,7 +2,7 @@
 
 > **Purpose:** checklist before merging into `master` for a NuGet release.  
 > **Product:** Cross.CQRS  
-> **Current target:** `11.1.1` · [`hotfix/no-preview-git-tags`](https://github.com/denis-peshkov/Cross.CQRS/tree/hotfix/no-preview-git-tags) · [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md)  
+> **Current target:** `11.1.1` · [`hotfix/no-preview-git-tags`](https://github.com/denis-peshkov/Cross.CQRS/tree/hotfix/no-preview-git-tags) · [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md) (**closed**)  
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker  
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)  
 > **Updated:** 2026-09-13
@@ -16,7 +16,7 @@
 | # | Item | Status |
 |---|------|--------|
 | P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.1.1` |
-| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md) |
+| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md) (closed) |
 | P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ stable tags; `dev` не тегает |
 
@@ -74,4 +74,4 @@
 | G2 | Publish blockers cleared | ⬜ tip CI green → N3/N4 |
 
 - **Date:** 2026-09-13  
-- **Notes:** Hotfix CI/docs: GitVersion 6.8.2, actions v4.7, stable-only tags, `dev` не тегает. Мусорные `*-dev.*`/`*-preview.*` tags сняты. Осталось: CI → `v11.1.1`.
+- **Notes:** Version plan `11.1.1` **closed** (leftovers → TO-DO: none). Publish: merge [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → tip CI → tag `v11.1.1` / NuGet.

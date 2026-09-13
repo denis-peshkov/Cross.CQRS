@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.1.1` · **ветка:** `hotfix/no-preview-git-tags` · **база:** `v11.1.0` / `origin/master` · **дата:** `2026-09-13`
+> **Версия:** `11.1.1` (closed) · **ветка:** `hotfix/no-preview-git-tags` · **база:** `origin/master` (`v11.1.0`) · **дата:** `2026-09-13`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.1.1
 >
@@ -8,9 +8,9 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.0.md](RELEASE-PLAN-11.1.0.md)
 >
-> Дельта: `origin/master...HEAD` — **11** коммита · **18** файлов · **+905 / −67**. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **13** коммита · **20** файлов · **+918 / −77**. Open C/H/M/L пустые (план закрыт).
 
-**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar name: **#L14** (после merge на `master`). Drop ReleaseNotes.md: **#L15**.
+**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar name: **#L14**. Drop ReleaseNotes.md: **#L15**.
 
 **PR:** [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) (GitVersion actions v4.7 and stop tagging from dev).
 
@@ -84,5 +84,4 @@
 
 ## Приоритет фиксов
 
-1. Merge [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → CI Sonar на `master` (display name) → tag `v11.1.1` / NuGet.
-2. Остальное → [`TO-DO.md`](TO-DO.md).
+_(пусто — релиз `11.1.1` план закрыт; открытый backlog → [`TO-DO.md`](TO-DO.md).)_

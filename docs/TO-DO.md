@@ -2,7 +2,7 @@
 
 Нерешённые пункты вне дельты version plan + кросс-версионные принятые trade-off’ы.
 
-**Id high-water (не переиспользовать ≤):** `C0` `H6` `M7` `L5`
+**Id high-water (не переиспользовать ≤):** `C0` `H7` `M8` `L15`
 
 ---
 
@@ -35,3 +35,4 @@
 - Tag только с `master` / `release/*` / `hotfix/*` (stable SemVer). NuGet Push также с `dev` (pre-release).
 - Git tags только для **stable** SemVer (без `-preview` / `-dev` / …); `dev` **не** создаёт git tags.
 - SonarCloud display name меняется только анализом main (`master`); PR analysis не переименовывает проект.
+- Корневой `ReleaseNotes.md` не нужен — канон `docs/CHANGELOG.md` (+ ссылка в README).
