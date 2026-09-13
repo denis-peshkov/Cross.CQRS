@@ -50,7 +50,7 @@
 | ✅ #H2 SampleWebApp LicenseKey | fixed: placeholder `"<license key here>"` as in README; real JWT removed from sample |
 | ✅ #H3 resolve-target-version bump rules | fixed: любая ветка → GitVersion `MajorMinorPatch`; ручной override `--version` |
 | ✅ #H4 collect-data.sh JSONL files | fixed: `gh --jq` → `{number, files: [paths]}` (JSON-safe array) |
-| ✅ #H5 post-pr-triage comment upsert | fixed: lookup by `TRIAGE_MARKER` + comment author (`gh api user` / `TRIAGE_COMMENT_AUTHOR`) |
+| ✅ #H5 post-pr-triage comment upsert | fixed: lookup by `TRIAGE_MARKER` + `github-actions[bot]` (CI token author) |
 | ✅ #H6 post-pr-triage labels gate | fixed: `TRIAGE_APPLY_LABELS` default on (`1`), opt-out `false`; confidence floor (default 70) + allowlist; comment always suggests |
 | ✅ #M1 README license check frequency | fixed: removed redundant «first/every» pipeline blurb; frequency only in LicenseKey section |
 | ✅ #M2 scaffold-breaking-section skip resolve | fixed: both `--from` + `--to`/`--version` → scaffold without GitVersion |

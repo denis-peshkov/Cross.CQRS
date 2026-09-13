@@ -308,25 +308,19 @@ Rules:
 }
 
 /**
- * Login that owns triage comments for upsert (PATCH only own comments).
- * Override with TRIAGE_COMMENT_AUTHOR when the posting actor differs from `gh api user`.
+ * Comments posted with Actions `GITHUB_TOKEN` are always authored by this login.
+ * (Local `yarn pr-triage` with a PAT would create comments as that user — use CI
+ * token / bot for upsert, or post once and edit manually.)
  */
-function resolveTriageCommentAuthor() {
-  const fromEnv = process.env.TRIAGE_COMMENT_AUTHOR?.trim();
-  if (fromEnv) {
-    return fromEnv;
-  }
-  return gh(['api', 'user', '-q', '.login']).trim();
-}
+const TRIAGE_COMMENT_AUTHOR = 'github-actions[bot]';
 
 /**
- * Find our prior triage comment: marker + same author (ignore contributor copies of the marker).
+ * Find our prior triage comment: marker + bot author (ignore contributor copies of the marker).
  * @param {string} repo
  * @param {string|number} issueNumber
- * @param {string} authorLogin
  * @returns {number|undefined}
  */
-function findExistingCommentId(repo, issueNumber, authorLogin) {
+function findExistingCommentId(repo, issueNumber) {
   try {
     const comments = gh(
       ['api', `repos/${repo}/issues/${issueNumber}/comments`, '--paginate'],
@@ -337,7 +331,7 @@ function findExistingCommentId(repo, issueNumber, authorLogin) {
       (c) =>
         typeof c?.body === 'string' &&
         c.body.includes(TRIAGE_MARKER) &&
-        c.user?.login === authorLogin
+        c.user?.login === TRIAGE_COMMENT_AUTHOR
     );
     return match?.id != null ? Number(match.id) : undefined;
   } catch {
@@ -364,13 +358,12 @@ function upsertPrComment(repo, issueNumber, body) {
     throw new Error('Generated comment body is empty');
   }
 
-  const authorLogin = resolveTriageCommentAuthor();
-  const existingId = findExistingCommentId(repo, issueNumber, authorLogin);
+  const existingId = findExistingCommentId(repo, issueNumber);
 
   if (existingId) {
     patchComment(repo, existingId, body);
     console.log(
-      `Updated triage comment ${existingId} on PR #${issueNumber} (author=${authorLogin})`
+      `Updated triage comment ${existingId} on PR #${issueNumber} (author=${TRIAGE_COMMENT_AUTHOR})`
     );
     return;
   }
