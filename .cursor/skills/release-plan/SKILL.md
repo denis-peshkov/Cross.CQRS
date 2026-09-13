@@ -289,8 +289,17 @@ Cache попадает под `.cursor/skills/release-plan/.cache/` (скрип�
 
 ### Phase 3 — Документы для потребителей
 
-1. **`docs/BREAKING.md`** — если в этой дельте есть breaking для потребителей: см. **`docs/BREAKING.md`** выше.
-2. **Language:** тело на русском; в таблице «Суть» допустима смесь RU/EN имён.
+1. **`docs/CHANGELOG.md`** — **всегда** при черновике / обновлении version plan и перед publish (секция `## vX.Y.Z` newest-first, English). Только скрипт — не писать секцию вручную, если скрипт можно запустить:
+
+```bash
+node .cursor/skills/release-plan/scripts/update-changelog.mjs --write
+# optional: --version X.Y.Z --from A.B.C --dry-run
+```
+
+После `--write`: если path-bullets слишком грубые — **точечно** уточнить bullets в той же секции (не дублировать заголовок, не ломать newest-first / UTF-8 BOM). Open-пункт «нет секции CHANGELOG» закрывать в «Закрыто» текущего плана.
+
+2. **`docs/BREAKING.md`** — если в этой дельте есть breaking для потребителей: см. **`docs/BREAKING.md`** выше.
+3. **Language:** тело version plan на русском; CHANGELOG — **English**; в таблице «Суть» допустима смесь RU/EN имён.
 
 ## Прочие release-документы (не version plans)
 
@@ -343,6 +352,7 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 | [`resolve-target-version.sh`](scripts/resolve-target-version.sh) | `target_version` = GitVersion `MajorMinorPatch` (или `--version`); `plan_path`, `repository_link`, `breaking_from`/`breaking_to` |
 | [`scaffold-breaking-section.sh`](scripts/scaffold-breaking-section.sh) | Строка TOC + блок `From X to Y` (только cache; агент правит `docs/BREAKING.md`) |
 | [`collect-release-delta.sh`](scripts/collect-release-delta.sh) | Cache delta ветки для черновика плана; default focus `docs/BREAKING.md`; `--focus PATH` (repeatable) |
+| [`update-changelog.mjs`](scripts/update-changelog.mjs) | Upsert `docs/CHANGELOG.md` § `vX.Y.Z` из delta (`v{from}..HEAD` + WT); `--write` / `--dry-run` |
 | [`release-plan-summary.mjs`](scripts/release-plan-summary.mjs) | Строка Checklist Summary в `RELEASE-PLAN-dev-to-master.md` |
 
 Другие skills: **Cross-skill references** (ссылка одной строкой; без дублирования скриптов или prose про layout).
@@ -359,3 +369,4 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 - [ ] Новые id C/H/M/L = max(TO-DO HW, current plan ids) + 1; **без** mid-release правок HW в `TO-DO.md`
 - [ ] UTF-8 BOM на записанных plan / TO-DO, если новые
 - [ ] Новые секции `BREAKING.md` следуют [`templates/BREAKING-SECTION.md`](templates/BREAKING-SECTION.md) (layout не дублируется во intro для потребителей)
+- [ ] `docs/CHANGELOG.md` имеет секцию целевой версии (`update-changelog.mjs --write`); UTF-8 BOM сохранён
