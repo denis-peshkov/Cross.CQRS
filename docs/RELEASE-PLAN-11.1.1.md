@@ -8,9 +8,9 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.0.md](RELEASE-PLAN-11.1.0.md)
 >
-> Дельта: `v11.1.0...HEAD` — tip hotfix. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **11** коммита · **18** файлов · **+905 / −67**. Open C/H/M/L пустые.
 
-**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8** full PR scope. README: **#L13** static RPL badge.
+**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar name: **#L14** (после merge на `master`).
 
 **PR:** [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) (GitVersion actions v4.7 and stop tagging from dev).
 
@@ -40,6 +40,7 @@
 - Цифры в имени `release/*` игнорируются.
 - CI: GitVersion **6.8.2**; git tag только stable на `master`/`release`/`hotfix`; **`dev` никогда не тегает** (NuGet `-dev.*` можно).
 - Локальные хвосты `release/*` тоже могут завышать SemVer — для publish ориентир = CI **после** очистки мусорных tags.
+- SonarCloud display name (`sonar.projectName`) обновляется **только** анализом main (`master`); PR-анализ пишет в тот же `projectKey`, но имя не меняет.
 
 ---
 
@@ -56,6 +57,7 @@
 | ✅ #L12 changelog JSDoc coverage | JSDoc на всех функциях `update-changelog.mjs` (docstring threshold) |
 | ✅ #M8 triage full PR scope | PR comment/labels на весь `base...head` (все коммиты); `fetch-depth: 0`; `pr-scope.mjs` |
 | ✅ #L13 README license badge | static `RPL 1.5` badge (как Cross.Identity); не `github/license` → NOASSERTION |
+| ✅ #L14 Sonar projectName | `-Dsonar.projectName=Cross.CQRS` в CI; display name применится после анализа на `master` |
 | ✅ GitVersion PR Number capture | `pull-request.regex` + `(?<Number>\d+)` — CI PR не отдаёт `pr{Number}` (NU5010) |
 | ✅ GitVersion.yml GV6 strategy | `Disabled`; root `Patch`; main `Inherit` + release/hotfix |
 | ✅ gitversion-strategy skill | matrix + golden test |
@@ -73,12 +75,13 @@
 ## Что в библиотеке уже нормально
 
 - API / licensing / MediatR в дельте не менялись.
-- Breaking для NuGet не нужен.
+- Breaking для NuGet не нужен (`11.1.0` → `11.1.1` patch process/CI).
 - Без тега `v11.2.0-dev.3` clean clone master → SemVer **`11.1.1`**.
+- Sonar `projectKey=Cross.CQRS` уже принимает PR-анализы (#22).
 
 ---
 
 ## Приоритет фиксов
 
-1. Запушить tip hotfix → CI на [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → merge → tag `v11.1.1`.
+1. Merge [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → CI Sonar на `master` (display name) → tag `v11.1.1` / NuGet.
 2. Остальное → [`TO-DO.md`](TO-DO.md).

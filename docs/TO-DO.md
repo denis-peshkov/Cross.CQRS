@@ -34,3 +34,4 @@
 - Лицензия опциональна: без ключа — правила «optional license» из README.
 - Tag только с `master` / `release/*` / `hotfix/*` (stable SemVer). NuGet Push также с `dev` (pre-release).
 - Git tags только для **stable** SemVer (без `-preview` / `-dev` / …); `dev` **не** создаёт git tags.
+- SonarCloud display name меняется только анализом main (`master`); PR analysis не переименовывает проект.

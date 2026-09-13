@@ -13,7 +13,7 @@ Thank you for your interest in the project.
 - [SonarCloud](https://sonarcloud.io/summary/new_code?id=Cross.CQRS)
 - [NuGet](https://www.nuget.org/packages/Cross.CQRS/)
 - [README](README.md)
-- [Release notes](docs/CHANGELOG.md) (shortcut: [ReleaseNotes.md](ReleaseNotes.md))
+- [Release notes](docs/CHANGELOG.md)
 - Breaking changes: [`docs/BREAKING.md`](docs/BREAKING.md)
 - Release readiness: [`docs/RELEASE-PLAN-dev-to-master.md`](docs/RELEASE-PLAN-dev-to-master.md)
 - Open backlog: [`docs/TO-DO.md`](docs/TO-DO.md)

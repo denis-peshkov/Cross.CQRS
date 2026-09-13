@@ -12,18 +12,24 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 - CI `.NET` workflow: GitVersion setup/execute upgraded to `gittools/actions` `@v4.7.0` (supports GitVersion 6.8.x).
 - Create/Push git Tag only for **stable** SemVer on `master` / `release/*` / `hotfix/*` (`dev` never creates git tags; NuGet push on `dev` unchanged).
+- SonarCloud: `sonar.projectKey` / `sonar.projectName` = `Cross.CQRS` (display name applies on main-branch analysis).
+- Automated PR triage: full `base...head` scope (all commits), `fetch-depth: 0`, cumulative classification.
 
 ### Versioning
 
 - `GitVersion.yml` (GV 6.x): `commit-message-incrementing: Disabled`; `main.increment: Inherit` from `release`/`hotfix`; root `increment: Patch` for orphaned `master`.
+- Pull-request branch regex captures numeric PR id (`(?<Number>\d+)`) for GitHub Actions refs.
 
 ### Documentation
 
 - `CONTRIBUTING.md` aligned with stable-only git tag policy.
+- README license badge: static `RPL 1.5` (GitHub cannot identify dual RPL/commercial `LICENSE.md`).
 
 ### Repository tooling
 
-- GitVersion strategy skill with Node matrix runner (`run-matrix.mjs`) and golden tests.
+- GitVersion strategy skill with Node matrix runner and golden tests.
+- `update-changelog.mjs` (+ tests): auto CHANGELOG section from release delta; `--dry-run` wins over `--write`.
+- CodeRabbit skill: pasted findings / explain → open C/H/M/L in current RELEASE-PLAN same turn; fix closes with `✅ #Id`.
 
 ---
 
