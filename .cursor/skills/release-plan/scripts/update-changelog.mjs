@@ -138,42 +138,24 @@ function categorizePath(path) {
   return 'Repository tooling';
 }
 
-function pathBullet(category, paths) {
+export function pathBullet(category, paths) {
+  // Neutral path-only bullets — never invent release-specific claims from filenames.
+  // Release-specific wording: refine manually (or derive from diff later) after --write.
   const filtered = [...paths].filter((p) => !/^docs\/RELEASE-PLAN/.test(p) && p !== 'docs/TO-DO.md');
   const use = filtered.length ? filtered : [...paths];
-  const sample = use.sort().slice(0, 8);
+  const sample = [...use].sort().slice(0, 8);
   const more = use.length > sample.length ? ` (+${use.length - sample.length} more)` : '';
   const list = sample.map((p) => `\`${p}\``).join(', ');
-  switch (category) {
-    case 'CI / release process':
-      if ([...paths].some((p) => p.includes('dotnet.yml'))) {
-        return [
-          'CI `.NET` workflow: GitVersion setup/execute upgraded to `gittools/actions` `@v4.7.0` (supports GitVersion 6.8.x).',
-          'Create/Push git Tag only for **stable** SemVer on `master` / `release/*` / `hotfix/*` (`dev` never creates git tags; NuGet push on `dev` unchanged).',
-        ];
-      }
-      return [`CI / GitHub Actions paths updated: ${list}${more}.`];
-    case 'Versioning':
-      return [
-        '`GitVersion.yml` (GV 6.x): `commit-message-incrementing: Disabled`; `main.increment: Inherit` from `release`/`hotfix`; root `increment: Patch` for orphaned `master`.',
-      ];
-    case 'Library':
-      return [`Library sources changed: ${list}${more}.`];
-    case 'Tests':
-      return [`Tests updated: ${list}${more}.`];
-    case 'Documentation':
-      if (use.some((p) => p === 'CONTRIBUTING.md')) {
-        return ['`CONTRIBUTING.md` aligned with stable-only git tag policy.'];
-      }
-      return [`Docs updated: ${list}${more}.`];
-    case 'Repository tooling':
-      if ([...paths].some((p) => p.includes('gitversion-strategy'))) {
-        return ['GitVersion strategy skill with Node matrix runner (`run-matrix.mjs`) and golden tests.'];
-      }
-      return [`Repo tooling updated: ${list}${more}.`];
-    default:
-      return [`Updated: ${list}${more}.`];
-  }
+  const prefixes = {
+    'CI / release process': 'CI / GitHub Actions paths updated',
+    Versioning: 'Versioning config updated',
+    Library: 'Library sources changed',
+    Tests: 'Tests updated',
+    Documentation: 'Docs updated',
+    'Repository tooling': 'Repo tooling updated',
+  };
+  const prefix = prefixes[category] || 'Updated';
+  return [`${prefix}: ${list}${more}.`];
 }
 
 function collectDelta(fromVersion) {

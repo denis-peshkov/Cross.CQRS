@@ -8,9 +8,9 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.0.md](RELEASE-PLAN-11.1.0.md)
 >
-> Дельта: `v11.1.0...HEAD` — **64** коммита · **12** файлов · **+751 / −75** (+ tip: PR Number regex, changelog `--dry-run`). Open C/H/M/L пустые.
+> Дельта: `v11.1.0...HEAD` — tip hotfix (changelog pathBullet neutral). Open C/H/M/L пустые.
 
-**CodeRabbit:** finding на `update-changelog.mjs` (`--write`+`--dry-run`) → закрыт как **#L7**.
+**CodeRabbit:** findings на `update-changelog.mjs` → **#L7** (`--dry-run`), **#L8** (neutral `pathBullet`). Skill: **#L9** no quiet CR fixes (`coderabbit` Phase 4).
 
 **PR:** [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) (GitVersion actions v4.7 and stop tagging from dev).
 
@@ -49,6 +49,8 @@
 |---|------|
 | ✅ #H7 delete v11.2.0-dev.3 | удалён с origin; `dev` убран из Create/Push git Tag (NuGet на `dev` остаётся) |
 | ✅ #L7 changelog --dry-run wins | любой `--dry-run` запрещает запись (даже с `--write`); только печать секции; тесты |
+| ✅ #L8 changelog pathBullet neutral | только path-based bullets; без hardcoded v4.7 / tag-policy / strategy claims; тест |
+| ✅ #L9 no quiet CR fixes | `coderabbit` Phase 4: fix+`✅ #Id` same turn (release-plan не дублировали) |
 | ✅ GitVersion PR Number capture | `pull-request.regex` + `(?<Number>\d+)` — CI PR не отдаёт `pr{Number}` (NU5010) |
 | ✅ GitVersion.yml GV6 strategy | `Disabled`; root `Patch`; main `Inherit` + release/hotfix |
 | ✅ gitversion-strategy skill | matrix + golden test |
@@ -73,5 +75,5 @@
 
 ## Приоритет фиксов
 
-1. Запушить tip hotfix (PR Number regex + `#L7` dry-run) → зелёный CI на [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → merge → tag `v11.1.1`.
+1. Запушить tip hotfix (**#L8** pathBullet + предыдущие tip) → зелёный CI на [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → merge → tag `v11.1.1`.
 2. Остальное → [`TO-DO.md`](TO-DO.md).

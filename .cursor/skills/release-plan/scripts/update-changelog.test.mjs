@@ -4,6 +4,7 @@ import {
   buildGroupedBullets,
   formatSection,
   parseArgs,
+  pathBullet,
   upsertChangelog,
 } from './update-changelog.mjs';
 
@@ -50,6 +51,21 @@ describe('buildGroupedBullets', () => {
     assert.ok(groups.Documentation?.length);
     assert.ok(groups['Repository tooling']?.length);
     assert.equal(groups.Library, undefined);
+  });
+
+  it('pathBullet stays path-neutral (no hardcoded release claims)', () => {
+    const ci = pathBullet('CI / release process', new Set(['.github/workflows/dotnet.yml']));
+    const ver = pathBullet('Versioning', new Set(['GitVersion.yml']));
+    const tool = pathBullet('Repository tooling', new Set([
+      '.cursor/skills/gitversion-strategy/scripts/run-matrix.mjs',
+    ]));
+    const docs = pathBullet('Documentation', new Set(['CONTRIBUTING.md']));
+    const all = [...ci, ...ver, ...tool, ...docs].join('\n');
+    assert.match(ci[0], /dotnet\.yml/);
+    assert.match(ver[0], /GitVersion\.yml/);
+    assert.match(tool[0], /gitversion-strategy/);
+    assert.match(docs[0], /CONTRIBUTING\.md/);
+    assert.doesNotMatch(all, /v4\.7\.0|never creates git tags|Inherit|stable-only|golden tests/i);
   });
 });
 

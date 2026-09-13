@@ -135,18 +135,23 @@ Rules:
 - Update **Приоритет фиксов** of the current plan only for **newly opened** items added to this plan
 - In the chat reply: list what was **added** / **skipped** (and note if `release-plan` was run to create the file)
 
-### Phase 4 — Close / dismiss (same turn when the user asks)
+### Phase 4 — Close / dismiss / fix (same turn — never code-only)
 
-When the user closes, rejects, or dismisses a C/H/M/L item from the current plan (won’t-fix, “example only”, duplicate, fixed, …):
+**This skill owns quiet-fix prevention for CR findings** — not `release-plan`.  
+When the user closes, rejects, dismisses, **or asks to fix** («фикси», «fix», pasted CR finding / `utm_source=ghpr`):
 
-1. **First** add `| ✅ #H2 Short title | reason |` under `## Закрыто` of this plan (id prefix by severity: Minor→`#M…`, not `#L…`).
-2. **Then** remove the item from the open severity section (if it was open).
-3. If the same id somehow still exists in `docs/TO-DO.md` — remove it there too — Skill [`release-plan`](../release-plan/SKILL.md) → **Close from TO-DO** / **Re-check**.
-4. **Never** drop an open item without a «Закрыто» row.
-5. **Fix-in-same-turn:**
+1. Skill [`release-plan`](../release-plan/SKILL.md) → **Ensure current RELEASE-PLAN** / **Re-check** (plan file + id rules only).
+2. **First** allocate/reuse id (open ⬜ optional if fixed immediately).
+3. Apply the code fix **only together with** `| ✅ #Id Short title | … |` under `## Закрыто` of this plan (id prefix by severity: Minor→`#M…`, Trivial/Info→`#L…`).
+4. **Then** remove the item from the open severity section (if it was open).
+5. If the same id somehow still exists in `docs/TO-DO.md` — remove it there too — Skill [`release-plan`](../release-plan/SKILL.md) → **Close from TO-DO** / **Re-check**.
+6. **Never** drop an open item without a «Закрыто» row.
+7. **Never** end the turn with code/CI/docs changes and an untouched plan («тихий фикс»).
+8. **Fix-in-same-turn:**
    - Finding **already open** in the current plan (`### M52. …` ⬜ / same meaning) → move to «Закрыто» as `✅ #M52 …` with the **same `#Id`**; **do not** allocate a replacement id.
    - Finding **not yet** in the current plan (new in this turn) → allocate the next `C/H/M/L` id via max(TO-DO HW, current plan open+«Закрыто» ids)+1 (no mid-release HW write), then write `✅ #M59 …` (etc.) under «Закрыто» (open ⬜ row optional if fixed immediately).
-   - Always keep the severity prefix (Minor→`#M…`, not `#L…`); **do not** skip the «Закрыто» row.
+   - Always keep the severity prefix; **do not** skip the «Закрыто» row.
+   - Chat reply must name the `✅ #Id` closed.
 
 ## Limits
 
@@ -161,4 +166,5 @@ When the user closes, rejects, or dismisses a C/H/M/L item from the current plan
 - [ ] **Did not** glob/`ls` all `docs/RELEASE-PLAN-*.md`; only the current plan (+ TO-DO when needed)
 - [ ] If no current plan existed → skill `release-plan` ran and created `docs/RELEASE-PLAN-X.Y.Z.md` before triage
 - [ ] **Current** `docs/RELEASE-PLAN-X.Y.Z.md` updated in the same turn (open C/H/M/L); **not** `TO-DO.md` for CR findings
+- [ ] Any dismissed/closed/**fixed** item → `✅ #Id …` in this plan’s «Закрыто» **in the same turn as the code change** (no quiet fixes)
 - [ ] Any dismissed/closed item → `✅ #Id …` in this plan’s «Закрыто» before removal from open sections
