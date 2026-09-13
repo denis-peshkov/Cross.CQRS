@@ -8,10 +8,10 @@ description: >-
   it, then merges findings. Closing/dismissing a plan item moves it to that
   plan’s «Закрыто» as `✅ #Id …`. Use when the user asks to run CodeRabbit, CR
   review, or local coderabbit on branch changes — and whenever the user pastes
-  or quotes a CodeRabbit finding / agent review that includes the footer nudge
-  «After applying the fix, consider running coderabbit review --agent»,
-  docs.coderabbit.ai/cli, or utm_source=ghpr: read this skill immediately and
-  triage into RELEASE-PLAN the same turn (no silent code-only fix).
+  or quotes a CodeRabbit finding / agent review (incl. «объясни», footer nudge
+  «After applying the fix…», docs.coderabbit.ai/cli, utm_source=ghpr): read this
+  skill immediately; Phase 3 open C/H/M/L in the SAME turn as any explanation —
+  never explain-only without a plan row; fix = Phase 4 same turn (no silent code-only).
 ---
 
 # CodeRabbit vs master
@@ -20,10 +20,13 @@ description: >-
 
 - User asks to run **CodeRabbit** / **CR** / `coderabbit` on the current branch
 - Local review of committed changes vs `master` before a PR / release plan
-- User pastes / quotes a CR finding or agent review with the footer nudge
+- User pastes / quotes a CR finding or agent review — including **only** «объясни» /
+  explain / «что это» — **or** the footer nudge
   (`After applying the fix, consider running \`coderabbit review --agent\``,
-  `docs.coderabbit.ai/cli`, `utm_source=ghpr`) — **read this skill immediately**;
-  same-turn Phase 3 / Phase 4 into current RELEASE-PLAN (no silent code-only fix)
+  `docs.coderabbit.ai/cli`, `utm_source=ghpr`) — **read this skill immediately**
+- **Same turn:** Phase **3** (open C/H/M/L in RELEASE-PLAN) **before or with** any
+  explanation; Phase **4** when fixing. **Forbidden:** explain-only / chat-only
+  without writing the finding into the current plan
 
 ## Defaults
 
@@ -101,7 +104,20 @@ Order: Phase **1** step **1** may run before Phase **2** (plan first) or after P
 
 ### Phase 3 — Sync with RELEASE-PLAN
 
-**Always — not optional.** Target = the current plan from Phase **1** step **1** (created via `release-plan` if it was missing).
+**Always — not optional.** Applies after CLI review **and** when the user pastes a
+finding (even if they only ask «объясни»). Target = the current plan from Phase **1**
+step **1** (created via `release-plan` if it was missing).
+
+**Order for pasted findings:**
+1. Verify against current code (still-valid? skip with reason if not).
+2. **Write** open `### L…` / `### M…` / … into the plan (**Phase 3**) — **before** or
+   in the same edit burst as the chat explanation.
+3. Then explain in chat (may cite `#Id`).
+4. Code fix only on «фикси» / fix → **Phase 4** (close same id).
+
+**Forbidden:** reply that only explains a pasted CR finding and leaves
+`docs/RELEASE-PLAN-X.Y.Z.md` unchanged.
+
 Immediately merge findings into that plan’s open severity sections **only as C/H/M/L** (no separate CR section).
 **Do not** write CR findings into [`docs/TO-DO.md`](../../../docs/TO-DO.md).
 
@@ -166,5 +182,6 @@ When the user closes, rejects, dismisses, **or asks to fix** («фикси», «
 - [ ] **Did not** glob/`ls` all `docs/RELEASE-PLAN-*.md`; only the current plan (+ TO-DO when needed)
 - [ ] If no current plan existed → skill `release-plan` ran and created `docs/RELEASE-PLAN-X.Y.Z.md` before triage
 - [ ] **Current** `docs/RELEASE-PLAN-X.Y.Z.md` updated in the same turn (open C/H/M/L); **not** `TO-DO.md` for CR findings
+- [ ] Pasted finding + «объясни» → open C/H/M/L row written **before/with** the explanation (not explain-only)
 - [ ] Any dismissed/closed/**fixed** item → `✅ #Id …` in this plan’s «Закрыто» **in the same turn as the code change** (no quiet fixes)
 - [ ] Any dismissed/closed item → `✅ #Id …` in this plan’s «Закрыто» before removal from open sections
