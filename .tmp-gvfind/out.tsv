@@ -13,3 +13,4 @@ v3_mainline	hotfix/test	FAIL	FAIL	FAIL
 v3_mainline	dev	FAIL	FAIL	FAIL
 v4_none_prevent_all	release/11.0.0-new-license	FAIL	FAIL	FAIL
 v4_none_prevent_all	release/test	FAIL	FAIL	FAIL
+v4_none_prevent_all	hotfix/test	FAIL	FAIL	FAIL
