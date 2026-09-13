@@ -7,7 +7,7 @@
 > **Related:** [`BREAKING.md`](BREAKING.md), [`CHANGELOG.md`](CHANGELOG.md), [`TO-DO.md`](TO-DO.md)  
 > **Updated:** 2026-09-13
 
-**Checklist summary:** **22** items — ✅ **12** (55%) · 🟨 **3** (14%) · ⬜ **7** (32%) · ❌ **0** (0%)
+**Checklist summary:** **22** items — ✅ **16** (73%) · 🟨 **1** (5%) · ⬜ **5** (23%) · ❌ **0** (0%)
 
 ---
 
@@ -16,7 +16,7 @@
 | # | Item | Status |
 |---|------|--------|
 | P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `v11.0.0` |
-| P2 | Version plan file `docs/RELEASE-PLAN-X.Y.Z.md` filled (severity template) | ✅ [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md) |
+| P2 | Version plan file `docs/RELEASE-PLAN-X.Y.Z.md` filled (severity template) | ✅ [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md) **finalized** (published / closed) |
 | P3 | Open backlog reviewed (`docs/TO-DO.md`) — no unexpected C/H blockers | ✅ open C/H/M/L empty; **Принято** kept |
 | P4 | Branch policy / rulesets understood (`CONTRIBUTING.md`, `.github/rulesets/`) | ✅ recipes in repo; optional import = ops |
 
@@ -39,9 +39,9 @@
 |---|------|--------|
 | Q1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ local 2026-09-12 |
 | Q2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ local net6–net10 (43×); `SkipNetCoreApp31Tests` on Apple Silicon |
-| Q3 | CI `.NET` workflow green on release branch | 🟨 tip [`34727224354`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34727224354) @ `c4eac82` in progress; last completed green [`34724284757`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34724284757) @ `45d9fb5` |
-| Q4 | SonarCloud / quality gate acceptable | 🟨 `projectKey=Cross.CQRS` aligned; re-check on tip `c4eac82` when CI finishes |
-| Q5 | SampleWebApp still starts / smoke paths OK | ⬜ |
+| Q3 | CI `.NET` workflow green on release branch | ✅ tip [`34727224354`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34727224354) @ `c4eac82` (`build` pass) |
+| Q4 | SonarCloud / quality gate acceptable | ✅ PR #20 `SonarCloud Code Analysis` pass (`projectKey=Cross.CQRS`) |
+| Q5 | SampleWebApp still starts / smoke paths OK | ✅ `dotnet build SampleWebApp -c Release` 2026-09-13 (0 warnings); HTTP smoke not automated |
 
 ---
 
@@ -50,9 +50,9 @@
 | # | Item | Status |
 |---|------|--------|
 | N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ description + tags + trimmed releaseNotes |
-| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 `NUGET_API_KEY` + `CURSOR_API_KEY` present; `TAGTOKEN` not re-verified |
-| N3 | Tag push + NuGet push from CI succeed | ⬜ gates fixed (`master`/`release`/`hotfix`/`dev`); not run for `v11.0.0` |
-| N4 | GitHub Release notes published | ⬜ |
+| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | ✅ `NUGET_API_KEY`, `TAGTOKEN`, `SONAR_TOKEN`, `CURSOR_API_KEY` present in repo secrets |
+| N3 | Tag push + NuGet push from CI succeed | ⬜ gates OK; stable `v11.0.0` tag / NuGet push **not** run (only `v11.0.0-preview.*`) |
+| N4 | GitHub Release notes published | ⬜ no `v11.0.0` GitHub Release yet |
 
 ---
 
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|------|--------|
 | G1 | Go / No-Go decision recorded | ⬜ |
-| G2 | Publish blockers cleared (B3/L4–L5, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | ⬜ |
+| G2 | Publish blockers cleared (B3/L4–L5, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | 🟨 tip CI/Sonar/Sample build/secrets/B3 OK; remaining = **Go** + tag/NuGet (`N3`/`N4`) |
 
 - **Date:** 2026-09-13  
-- **Notes:** Version-plan open C/H/M/L empty. PR [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) open (`BREAKING:`). `triage.yml` fixed: no `secrets` in `if`; same-repo `pull_request` + fork `pull_request_target` (checkout `base.sha` only); tip Triage job started on `c4eac82`. Before Go: tip CI/Sonar green → optional SampleWebApp → tag + NuGet. `pull_request_target` for forks needs workflow on **base** (`master`) after land. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
+- **Notes:** Version plan open C/H/M/L empty. PR [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) open (`BREAKING:`). Tip CI green @ `c4eac82`; Sonar green on PR. Stable release **not** shipped yet (no `v11.0.0` Release — only previews). Before Go: confirm G1 → merge/tag path → `N3`/`N4` → `A1`/`A2`. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).

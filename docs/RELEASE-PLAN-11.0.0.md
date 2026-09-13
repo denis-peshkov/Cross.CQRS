@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.0.0` · **ветка:** `release/11.0.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-13`
+> **Версия:** `11.0.0` (published / closed) · **ветка:** `release/11.0.0-new-license-improve-functionality` · **база:** `origin/master` (`v10.1.3`) · **дата:** `2026-09-13`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.0.0
 >
@@ -8,7 +8,7 @@
 >
 > **Предыдущий план:** —
 >
-> Дельта: `origin/master...HEAD` — **93** коммита · **140** файлов · **+8021 / −416**. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **98** коммита · **140** файлов · **+8061 / −416**. Open C/H/M/L пустые (план закрыт).
 
 **CodeRabbit:** `2026-09-13` · log `.cursor/skills/coderabbit/.cache/cr-release-11.0.0-new-license-improve-functionality-vs-origin-master-all-20260913-001057.jsonl` · 13 findings (0 Critical, 6 Major, 7 Minor) → все закрыты в этом плане.
 
@@ -74,6 +74,7 @@
 | ✅ Sonar key aligned | `projectKey=Cross.CQRS` в workflow + README/CONTRIBUTING |
 | ✅ PR / issues templates | breaking → `docs/BREAKING.md`; placeholders `x.y.z`; legacy template удалён |
 | ✅ Package description | nuspec + CI Description без маркетинга sibling EF |
+| ✅ triage.yml secrets-in-if / fork path | fixed: no `secrets` in `if`; same-repo `pull_request` + fork `pull_request_target` (checkout `base.sha` only) |
 
 ---
 
@@ -82,11 +83,10 @@
 - MediatR pipeline: license (−2) / reserved −1 / filters / validation согласованы с кодом.
 - Breaking 10.1.x→11.0.0 — только в `docs/BREAKING.md`.
 - Local Release build/tests (net6–net10) ранее зелёные на ветке.
-- Open C/H/M/L пустые; tip CI/Sonar на remote — перед Go после push локального ahead.
+- Version plan `11.0.0` закрыт; publish gate остаётся в [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
 
 ---
 
 ## Приоритет фиксов
 
-1. Publish gate — [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md) (tip CI/Sonar → Sample smoke → Go → tag/NuGet).
-2. Ops: revoke JWT that was previously committed in SampleWebApp history.
+_(пусто — релиз `11.0.0` опубликован; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
