@@ -7,7 +7,7 @@
 > **Related:** [`BREAKING.md`](BREAKING.md), [`CHANGELOG.md`](CHANGELOG.md), [`TO-DO.md`](TO-DO.md)  
 > **Updated:** 2026-09-13
 
-**Checklist summary:** **22** items — ✅ **11** (50%) · 🟨 **4** (18%) · ⬜ **7** (32%) · ❌ **0** (0%)
+**Checklist summary:** **22** items — ✅ **12** (55%) · 🟨 **3** (14%) · ⬜ **7** (32%) · ❌ **0** (0%)
 
 ---
 
@@ -27,7 +27,7 @@
 | # | Item | Status |
 |---|------|--------|
 | B1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ From 10.1.x → 11.0.0; layout per template |
-| B2 | PR titles used `BREAKING:` where applicable | 🟨 verify on merge PRs if any |
+| B2 | PR titles used `BREAKING:` where applicable | ✅ [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) `BREAKING: Cross.CQRS 11.0.0 — …` |
 | B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ✅ short blurb + CHANGELOG/BREAKING URLs (version-plan **L4**/**L5**) |
 | B4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ `## v11.0.0` |
 
@@ -39,8 +39,8 @@
 |---|------|--------|
 | Q1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ local 2026-09-12 |
 | Q2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ local net6–net10 (43×); `SkipNetCoreApp31Tests` on Apple Silicon |
-| Q3 | CI `.NET` workflow green on release branch | 🟨 last green [`34719217394`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34719217394) @ `0e80f05`; local HEAD `cb85e15` ahead (~16) — re-confirm after push |
-| Q4 | SonarCloud / quality gate acceptable | 🟨 `projectKey=Cross.CQRS` aligned in CI/docs; gate on tip not re-checked |
+| Q3 | CI `.NET` workflow green on release branch | 🟨 tip [`34727224354`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34727224354) @ `c4eac82` in progress; last completed green [`34724284757`](https://github.com/denis-peshkov/Cross.CQRS/actions/runs/34724284757) @ `45d9fb5` |
+| Q4 | SonarCloud / quality gate acceptable | 🟨 `projectKey=Cross.CQRS` aligned; re-check on tip `c4eac82` when CI finishes |
 | Q5 | SampleWebApp still starts / smoke paths OK | ⬜ |
 
 ---
@@ -50,7 +50,7 @@
 | # | Item | Status |
 |---|------|--------|
 | N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ description + tags + trimmed releaseNotes |
-| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 `NUGET_API_KEY` updated (L2 closed); `TAGTOKEN` not re-verified |
+| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | 🟨 `NUGET_API_KEY` + `CURSOR_API_KEY` present; `TAGTOKEN` not re-verified |
 | N3 | Tag push + NuGet push from CI succeed | ⬜ gates fixed (`master`/`release`/`hotfix`/`dev`); not run for `v11.0.0` |
 | N4 | GitHub Release notes published | ⬜ |
 
@@ -74,4 +74,4 @@
 | G2 | Publish blockers cleared (B3/L4–L5, Q3–Q5 tip CI, N2 TAGTOKEN as needed) | ⬜ |
 
 - **Date:** 2026-09-13  
-- **Notes:** Version-plan open C/H/M/L empty (**L5** nuspec tags closed). Before Go: push tip → CI/Sonar on **HEAD** → optional SampleWebApp → tag + NuGet. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
+- **Notes:** Version-plan open C/H/M/L empty. PR [#20](https://github.com/denis-peshkov/Cross.CQRS/pull/20) open (`BREAKING:`). `triage.yml` fixed: no `secrets` in `if`; same-repo `pull_request` + fork `pull_request_target` (checkout `base.sha` only); tip Triage job started on `c4eac82`. Before Go: tip CI/Sonar green → optional SampleWebApp → tag + NuGet. `pull_request_target` for forks needs workflow on **base** (`master`) after land. See [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md).
