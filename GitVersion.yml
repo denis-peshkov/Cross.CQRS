@@ -1,7 +1,20 @@
 # GitVersion 6.x (CI: versionSpec 6.8.2+)
 # https://gitversion.net/docs/reference/configuration
+#
+# Digits in release/* names are ignored — release/11.0.0-… == release/test.
+# YAML keys are GV6 built-ins (`main`, `develop`); git branches may still be `master` / `dev`.
+#
+# Only this file may be changed to adjust SemVer behaviour.
+# No CI overrides, no matrix fallbacks, no +semver / commit-message tricks.
+#
+# main.source-branches: release + hotfix only (no develop) → squash/merge release Minor, hotfix Patch.
+# Root increment: Patch — when master is orphaned (no release/hotfix tip), GV still yields a config
+# (EffectiveBranchConfigurationFinder skips orphaned only if root Increment is Inherit).
 
 commit-message-incrementing: Disabled
+
+# Fallback when Inherit cannot resolve a parent (direct push / at-tag / merge from develop).
+increment: Patch
 
 next-version: 1.0.0 #
 
@@ -21,11 +34,10 @@ branches:
     regex: ^master$|^main$
     mode: ContinuousDeployment
     label: ''
+    # develop omitted: if listed, Inherit makes squash(release) follow develop (Patch).
     source-branches:
       - release
       - hotfix
-      - develop
-    # Inherit: release→Minor, hotfix→Patch on master after merge/squash.
     increment: Inherit
     prevent-increment:
       of-merged-branch: true
