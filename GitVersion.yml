@@ -82,7 +82,7 @@ branches:
     mode: ContinuousDelivery
     label: dev
     source-branches: [main]
-    increment: Minor
+    increment: Patch
     prevent-increment:
       of-merged-branch: false
     track-merge-target: true
