@@ -102,6 +102,7 @@ jobs:
           args: >
             -Dsonar.organization=denis-peshkov
             -Dsonar.projectKey=Cross.CQRS
+            -Dsonar.projectName=Cross.CQRS
             -Dsonar.cs.opencover.reportsPaths=TestResults/**/coverage.opencover.xml
             -Dsonar.sources=Cross.CQRS/
             -Dsonar.tests=Cross.CQRS.Tests/
