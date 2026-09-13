@@ -10,7 +10,7 @@
 >
 > Дельта: `origin/master...HEAD` — **11** коммита · **18** файлов · **+905 / −67**. Open C/H/M/L пустые.
 
-**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar name: **#L14** (после merge на `master`).
+**CodeRabbit:** findings → **#L7–#L12** закрыты. Triage: **#M8**. README badge: **#L13**. Sonar name: **#L14** (после merge на `master`). Drop ReleaseNotes.md: **#L15**.
 
 **PR:** [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) (GitVersion actions v4.7 and stop tagging from dev).
 
@@ -58,6 +58,7 @@
 | ✅ #M8 triage full PR scope | PR comment/labels на весь `base...head` (все коммиты); `fetch-depth: 0`; `pr-scope.mjs` |
 | ✅ #L13 README license badge | static `RPL 1.5` badge (как Cross.Identity); не `github/license` → NOASSERTION |
 | ✅ #L14 Sonar projectName | `-Dsonar.projectName=Cross.CQRS` в CI; display name применится после анализа на `master` |
+| ✅ #L15 drop root ReleaseNotes.md | дубль README/`docs/CHANGELOG.md`; убран из slnx + CONTRIBUTING |
 | ✅ GitVersion PR Number capture | `pull-request.regex` + `(?<Number>\d+)` — CI PR не отдаёт `pr{Number}` (NU5010) |
 | ✅ GitVersion.yml GV6 strategy | `Disabled`; root `Patch`; main `Inherit` + release/hotfix |
 | ✅ gitversion-strategy skill | matrix + golden test |
