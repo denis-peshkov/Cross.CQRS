@@ -3,8 +3,35 @@ import assert from 'node:assert/strict';
 import {
   buildGroupedBullets,
   formatSection,
+  parseArgs,
   upsertChangelog,
 } from './update-changelog.mjs';
+
+describe('parseArgs', () => {
+  it('defaults to dry-run when --write is absent', () => {
+    const args = parseArgs([]);
+    assert.equal(args.dryRun, true);
+    assert.equal(args.write, false);
+  });
+
+  it('enables write alone', () => {
+    const args = parseArgs(['--write']);
+    assert.equal(args.write, true);
+    assert.equal(args.dryRun, false);
+  });
+
+  it('lets --dry-run win over --write (no write)', () => {
+    const args = parseArgs(['--write', '--dry-run']);
+    assert.equal(args.dryRun, true);
+    assert.equal(args.write, false);
+  });
+
+  it('lets --dry-run win regardless of flag order', () => {
+    const args = parseArgs(['--dry-run', '--write']);
+    assert.equal(args.dryRun, true);
+    assert.equal(args.write, false);
+  });
+});
 
 describe('buildGroupedBullets', () => {
   it('groups paths into changelog categories', () => {

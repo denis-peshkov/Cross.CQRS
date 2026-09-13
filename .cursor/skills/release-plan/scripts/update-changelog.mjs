@@ -41,11 +41,11 @@ Options:
   --changelog PATH  CHANGELOG path (default: docs/CHANGELOG.md)
   --date TEXT       Heading date (default: local "D Mon YYYY")
   --write           Write docs/CHANGELOG.md
-  --dry-run         Print section only (default if no --write)
+  --dry-run         Print section only (default if no --write; wins over --write)
   -h, --help        Show help`;
 }
 
-function parseArgs(argv) {
+export function parseArgs(argv) {
   const args = {
     version: null,
     from: null,
@@ -79,7 +79,12 @@ function parseArgs(argv) {
     }
     throw new Error(`unknown arg: ${a}`);
   }
-  if (!args.write) args.dryRun = true;
+  // Any --dry-run forbids write (print section only), even if --write was also passed.
+  if (args.dryRun) {
+    args.write = false;
+  } else if (!args.write) {
+    args.dryRun = true;
+  }
   return args;
 }
 
@@ -328,7 +333,7 @@ function main() {
   const groups = buildGroupedBullets(delta);
   const section = formatSection({ version, date, groups });
 
-  if (args.dryRun && !args.write) {
+  if (args.dryRun) {
     process.stdout.write(section);
     return;
   }
@@ -338,11 +343,8 @@ function main() {
   }
   const prev = readFileSync(args.changelog, 'utf8');
   const result = upsertChangelog(prev, section, version);
-  if (args.write) {
-    writeFileSync(args.changelog, result.markdown, 'utf8');
-  }
+  writeFileSync(args.changelog, result.markdown, 'utf8');
   console.error(`${result.status}: docs/CHANGELOG.md § v${version} (from v${from})`);
-  if (!args.write) process.stdout.write(section);
 }
 
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);

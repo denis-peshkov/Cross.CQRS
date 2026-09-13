@@ -7,7 +7,11 @@ description: >-
   If no current version plan exists, runs the release-plan skill first to create
   it, then merges findings. Closing/dismissing a plan item moves it to that
   plan’s «Закрыто» as `✅ #Id …`. Use when the user asks to run CodeRabbit, CR
-  review, or local coderabbit on branch changes.
+  review, or local coderabbit on branch changes — and whenever the user pastes
+  or quotes a CodeRabbit finding / agent review that includes the footer nudge
+  «After applying the fix, consider running coderabbit review --agent»,
+  docs.coderabbit.ai/cli, or utm_source=ghpr: read this skill immediately and
+  triage into RELEASE-PLAN the same turn (no silent code-only fix).
 ---
 
 # CodeRabbit vs master
@@ -16,6 +20,10 @@ description: >-
 
 - User asks to run **CodeRabbit** / **CR** / `coderabbit` on the current branch
 - Local review of committed changes vs `master` before a PR / release plan
+- User pastes / quotes a CR finding or agent review with the footer nudge
+  (`After applying the fix, consider running \`coderabbit review --agent\``,
+  `docs.coderabbit.ai/cli`, `utm_source=ghpr`) — **read this skill immediately**;
+  same-turn Phase 3 / Phase 4 into current RELEASE-PLAN (no silent code-only fix)
 
 ## Defaults
 
