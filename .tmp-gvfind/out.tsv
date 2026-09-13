@@ -3,3 +3,4 @@ v1_none	release/11.0.0-new-license	FAIL	FAIL	FAIL
 v1_none	release/test	FAIL	FAIL	FAIL
 v1_none	hotfix/test	FAIL	FAIL	FAIL
 v1_none	dev	FAIL	FAIL	FAIL
+v2_docs	release/11.0.0-new-license	FAIL	FAIL	FAIL
