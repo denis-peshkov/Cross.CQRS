@@ -29,6 +29,9 @@ on:
   pull_request:
     # No `edited` — title/body edits would re-burn Cursor quota
     types: [opened, synchronize, reopened]
+  # Fork PRs: secrets available; must never checkout/run head (see job steps).
+  pull_request_target:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -43,18 +46,34 @@ jobs:
   pr-triage-comment:
     name: PR automated comment
     runs-on: ubuntu-22.04
-    # Same-repo only (fork PRs do not receive CURSOR_API_KEY). Skip drafts.
+    # Same-repo → pull_request (secrets OK). Fork → pull_request_target (secrets OK).
+    # Mutually exclusive on head.repo so a PR never runs twice. Skip drafts.
     if: >
       (
         github.event_name == 'pull_request' &&
         github.event.pull_request.draft == false &&
         github.event.pull_request.head.repo.full_name == github.repository
       ) ||
+      (
+        github.event_name == 'pull_request_target' &&
+        github.event.pull_request.draft == false &&
+        github.event.pull_request.head.repo.full_name != github.repository
+      ) ||
       (github.event_name == 'workflow_dispatch' && inputs.pr_number != '')
 
     steps:
+      # Same-repo / manual: default checkout (merge commit or current ref).
       - name: Checkout
+        if: github.event_name != 'pull_request_target'
         uses: actions/checkout@v4
+
+      # Fork path: ONLY base SHA — never head.sha. Diff comes from gh API in yarn pr-triage.
+      - name: Checkout base only (fork PR)
+        if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
