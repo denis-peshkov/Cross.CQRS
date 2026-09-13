@@ -56,14 +56,15 @@ jobs:
         uses: NuGet/setup-nuget@v2.0.0
 
       - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v1.1.1
+        # v1.x only allows GV >=5.2 <6.1; 6.8.x needs actions v4.7.x
+        # https://github.com/GitTools/actions/blob/main/docs/versions.md
+        uses: gittools/actions/gitversion/setup@v4.7.0
         with:
           versionSpec: 6.8.2
 
       - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v1.1.1
-        with:
-          useConfigFile: true
+        uses: gittools/actions/gitversion/execute@v4.7.0
+        # defaults to configFilePath: GitVersion.yml (useConfigFile removed in v3+/v4)
 
       - name: Restore dependencies
         run: dotnet restore
@@ -111,15 +112,14 @@ jobs:
       - name: Nuget Pack
         run: nuget pack Cross.CQRS/config.nuspec -Symbols -Version ${{ env.semVer }}
 
-      # Git tags: only stable SemVer (no -preview / -dev / …). NuGet may still push pre-releases.
+      # Git tags: only stable SemVer on master/release/hotfix.
       - name: Create git Tag
         if: >
           !contains(env.semVer, '-') &&
           (
             github.ref == 'refs/heads/master' ||
             startsWith(github.ref, 'refs/heads/release/') ||
-            startsWith(github.ref, 'refs/heads/hotfix/') ||
-            github.ref == 'refs/heads/dev'
+            startsWith(github.ref, 'refs/heads/hotfix/')
           )
         run: |
           git tag v${{ env.semVer }}
@@ -130,8 +130,7 @@ jobs:
           (
             github.ref == 'refs/heads/master' ||
             startsWith(github.ref, 'refs/heads/release/') ||
-            startsWith(github.ref, 'refs/heads/hotfix/') ||
-            github.ref == 'refs/heads/dev'
+            startsWith(github.ref, 'refs/heads/hotfix/')
           )
         run: |
           git config --global user.name 'Denis Peshkov'
