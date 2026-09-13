@@ -2,7 +2,6 @@
 
 public class SomeQuery : Query<IEnumerable<string>>
 {
-
     public SomeQuery()
     {
     }

@@ -16,15 +16,15 @@ internal sealed class RequestFilterBehavior<TRequest, TResult> : IPipelineBehavi
         var filters = _filters.ToArray();
         if (filters.Length <= 0)
         {
-            return await next();
+            return await next().ConfigureAwait(false);
         }
 
         var result = request;
         foreach (var filter in filters)
         {
-            result = await filter.ApplyFilterAsync(result, cancellationToken);
+            result = await filter.ApplyFilterAsync(result, cancellationToken).ConfigureAwait(false);
         }
 
-        return await next();
+        return await next().ConfigureAwait(false);
     }
 }

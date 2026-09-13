@@ -1,4 +1,4 @@
-namespace SampleWebApp.Modules.TestEventsCommand.Handlers;
+﻿namespace SampleWebApp.Modules.TestEventsCommand.Handlers;
 
 public class TestEventsCommandHandler : CommandHandler<TestEventsCommand>
 {

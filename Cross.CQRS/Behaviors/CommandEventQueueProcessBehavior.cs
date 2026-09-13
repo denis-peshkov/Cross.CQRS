@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Behaviors;
+﻿namespace Cross.CQRS.Behaviors;
 
 internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPipelineBehavior<TRequest, TResult>
     where TRequest : IRequest<TResult>
@@ -19,11 +19,11 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
     {
         try
         {
-            var result = await next();
+            var result = await next().ConfigureAwait(false);
 
             if (request is ICommand<TResult> identifiable)
             {
-                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.StandardFlow, cancellationToken);
+                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.StandardFlow, cancellationToken).ConfigureAwait(false);
             }
 
             return result;
@@ -32,7 +32,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
         {
             if (request is ICommand<TResult> identifiable)
             {
-                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.ExceptionSafeFlow, cancellationToken);
+                await ProcessCommandEvents(identifiable.CommandId, CommandEventFlowTypeEnum.ExceptionSafeFlow, cancellationToken).ConfigureAwait(false);
             }
         }
     }
@@ -44,7 +44,7 @@ internal sealed class CommandEventQueueProcessBehavior<TRequest, TResult> : IPip
         {
             try
             {
-                await _mediator.Publish((dynamic)commandEvent, cancellationToken);
+                await _mediator.Publish((dynamic)commandEvent, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

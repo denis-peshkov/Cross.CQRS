@@ -3,6 +3,7 @@
 public sealed class BehaviorCollection
 {
     private readonly IServiceCollection _services;
+
     private readonly Dictionary<Type, int> _orderedPipelineBehaviors = new();
 
     public BehaviorCollection(IServiceCollection services)
@@ -16,7 +17,7 @@ public sealed class BehaviorCollection
         // 2 reorder according to registrations
         // 3 add all behaviors to service collection
         var existingDescriptors = _services
-            .Where(d => d.ServiceType == typeof(IPipelineBehavior<,>) && _orderedPipelineBehaviors.ContainsKey(d.ImplementationType))
+            .Where(d => d.ServiceType == typeof(IPipelineBehavior<,>) && d.ImplementationType != null && _orderedPipelineBehaviors.ContainsKey(d.ImplementationType))
             .ToArray();
 
         foreach (var existingDescriptor in existingDescriptors)
@@ -24,7 +25,7 @@ public sealed class BehaviorCollection
             _services.Remove(existingDescriptor);
         }
 
-        _orderedPipelineBehaviors.Add(behaviorType, order);
+        _orderedPipelineBehaviors[behaviorType] = order;
 
         var orderedBehaviors = _orderedPipelineBehaviors
             .Select(b => new { Type = b.Key, Order = b.Value })

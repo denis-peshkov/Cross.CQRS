@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Filters;
+﻿namespace Cross.CQRS.Filters;
 
 /// <summary>
 /// Defines a filter for a particular type.
@@ -10,17 +10,17 @@ namespace Cross.CQRS.Filters;
 public interface IResultFilter<TRequest, TResult>
 {
 	/// <summary>
-	/// Filter the specified instance.
+	/// Transform the handler result synchronously.
 	/// </summary>
-	/// <param name="result">The instance to filter</param>
-	/// <returns>A ValidationResult object containing any validation failures.</returns>
+	/// <param name="result">Value returned by the handler (the instance to filter).</param>
+	/// <returns>Transformed result value.</returns>
 	TResult ApplyFilter(TResult result);
 
 	/// <summary>
-	/// Filter the specified instance asynchronously.
+	/// Transform the handler result asynchronously.
 	/// </summary>
-	/// <param name="result">The instance to filter</param>
+	/// <param name="result">Value returned by the handler (the instance to filter).</param>
 	/// <param name="cancellationToken">Cancellation token</param>
-	/// <returns>A ValidationResult object containing any validation failures.</returns>
+	/// <returns>Transformed result value.</returns>
 	Task<TResult> ApplyFilterAsync(TResult result, CancellationToken cancellationToken);
 }

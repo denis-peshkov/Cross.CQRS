@@ -1,20 +1,40 @@
-﻿namespace Cross.CQRS.Extensions;
+namespace Cross.CQRS.Extensions;
 
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers required services from the specified assemblies to the
-    /// specified <see cref="IServiceCollection"/>.
+    /// Registers Cross.CQRS services with the specified configuration.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-    /// <param name="assemblies">Assemblies to scan</param>
+    /// <param name="configure">Configuration action for CQRS options (e.g. LicenseKey, RegisterFromAssembly).</param>
     /// <returns>A reference to this instance after the operation has completed.</returns>
-    public static CqrsRegistrationSyntax AddCQRS(this IServiceCollection services, params Assembly[] assemblies)
+    public static CqrsRegistrationSyntax AddCQRS(this IServiceCollection services, Action<CqrsServiceConfiguration> configure)
     {
+        var options = new CqrsServiceConfiguration();
+        configure(options);
+
+        if (options.Assemblies.Count == 0)
+        {
+            throw new InvalidOperationException("At least one assembly must be registered. Use cfg.RegisterFromAssembly(typeof(Startup).Assembly) or cfg.RegisterFromAssemblyContaining<Startup>().");
+        }
+
+        return AddCQRSInternal(services, options);
+    }
+
+    private static CqrsRegistrationSyntax AddCQRSInternal(IServiceCollection services, CqrsServiceConfiguration serviceConfiguration)
+    {
+        var assemblies = serviceConfiguration.Assemblies.ToArray();
         var behaviorCollection = new BehaviorCollection(services);
 
-        // FluentValidations
-        services.AddValidatorsFromAssembly(assemblies.FirstOrDefault(), ServiceLifetime.Scoped, result =>
+        LicenseCheckExtensions.ResetLicenseCheckForTests();
+        services.AddSingleton(serviceConfiguration);
+
+        services.AddSingleton<LicenseAccessor>();
+        services.AddSingleton<LicenseValidator>();
+        services.AddSingleton<ILicenseProductInfo, LicenseProductInfo>();
+
+        // FluentValidation: scan every assembly registered in configuration (same set as MediatR / filters)
+        services.AddValidatorsFromAssemblies(assemblies, ServiceLifetime.Scoped, result =>
         {
             var isNoRegisterAutomatically = result.ValidatorType
                 .GetCustomAttributes(typeof(NoRegisterAutomaticallyAttribute), inherit: false)
@@ -35,6 +55,13 @@ public static class ServiceCollectionExtensions
         );
 
         services.AddMediatR(o => o.AsScoped(), assemblies);
+        // services.AddMediatR( // v. 12.5.0
+        //     cfg =>
+        //     {
+        //         cfg.Lifetime = ServiceLifetime.Scoped;
+        //         cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher); // ForeachAwaitPublisher, TaskWhenAllPublisher
+        //         cfg.RegisterServicesFromAssemblies(assemblies);
+        //     });
 
         services.AddSingleton<IHandlerLocator>(_ => new HandlerLocator(services));
 
@@ -42,8 +69,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Reader);
         services.AddScoped(sp => sp.GetRequiredService<ICommandEventQueue>().Writer);
 
+        // Changed to use IRequestPreProcessor instead of IPipelineBehavior for validation
+        // services.AddScoped(typeof(IRequestPreProcessor<>), typeof(ValidationBehavior<>));
+
         // Registration order is important, it works like ASP.NET Core middleware
         // Behaviors registered earlier will be executed earlier
+        behaviorCollection.AddBehavior(typeof(LicenseCheckBehavior<,>), order: -2); // License check runs first and is mandatory for every CQRS request
+        // Order -1 reserved for Cross.CQRS.EF (EfLicenseCheckBehavior), registered from AddEntityFrameworkIntegration.
         behaviorCollection.AddBehavior(typeof(CommandEventQueueProcessBehavior<,>), order: 0);
         behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 1);
         behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 2);

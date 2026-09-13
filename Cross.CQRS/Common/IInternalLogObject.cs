@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Common;
+﻿namespace Cross.CQRS.Common;
 
 public interface IInternalLogObject
 {

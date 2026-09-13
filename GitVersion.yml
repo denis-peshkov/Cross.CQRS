@@ -1,15 +1,15 @@
-next-version: 7.0.0 #
+next-version: 1.0.0 #
 branches:
   master:
     regex: ^master$|^main$
     mode: ContinuousDelivery
     tag: ''
-    increment: Inherit
     source-branches:
-      - feature
-      - hotfix
       - release
-    prevent-increment-of-merged-branch-version: false
+      - hotfix
+      - dev
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: true
     track-merge-target: true
     tracks-release-branches: true
     is-release-branch: true
@@ -19,11 +19,11 @@ branches:
     mode: ContinuousDelivery
     tag: preview
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
-    increment: Minor
     source-branches:
       - master
-      - dev
       - release
+      - dev
+    increment: Minor
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     tracks-release-branches: true
@@ -34,13 +34,24 @@ branches:
     mode: ContinuousDelivery
     tag: preview
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
-    increment: Patch
     source-branches: [ master, hotfix ]
+    increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     tracks-release-branches: true
     is-release-branch: true
     pre-release-weight: 30000
+  dev:
+    regex: ^dev(elop)?(ment)?$
+    mode: ContinuousDeployment
+    tag: dev
+    source-branches: [ master ]
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    tracks-release-branches: true
+    is-release-branch: false
+    pre-release-weight: 40000
   feature:
     regex: ^feature(s)?[/-]
     mode: ContinuousDelivery
@@ -55,26 +66,15 @@ branches:
     mode: ContinuousDelivery
     tag: pr
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
-    increment: None
     source-branches:
-      - dev
       - master
       - release
+      - hotfix
+      - dev
       - feature
       - support
-      - hotfix
+    increment: None
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
     tracks-release-branches: false
     is-release-branch: false
-  dev:
-    regex: ^dev(elop)?(ment)?$
-    mode: ContinuousDeployment
-    tag: dev
-    increment: Minor
-    source-branches: [ master ]
-    prevent-increment-of-merged-branch-version: false
-    track-merge-target: true
-    tracks-release-branches: true
-    is-release-branch: false
-    pre-release-weight: 40000

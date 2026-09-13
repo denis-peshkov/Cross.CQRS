@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Filters;
+﻿namespace Cross.CQRS.Filters;
 
 /// <summary>
 /// Base query/command filter.
