@@ -6,6 +6,27 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
+## v11.1.1 — 13 Sep 2026
+
+### CI / release process
+
+- CI `.NET` workflow: GitVersion setup/execute upgraded to `gittools/actions` `@v4.7.0` (supports GitVersion 6.8.x).
+- Create/Push git Tag only for **stable** SemVer on `master` / `release/*` / `hotfix/*` (`dev` never creates git tags; NuGet push on `dev` unchanged).
+
+### Versioning
+
+- `GitVersion.yml` (GV 6.x): `commit-message-incrementing: Disabled`; `main.increment: Inherit` from `release`/`hotfix`; root `increment: Patch` for orphaned `master`.
+
+### Documentation
+
+- `CONTRIBUTING.md` aligned with stable-only git tag policy.
+
+### Repository tooling
+
+- GitVersion strategy skill with Node matrix runner (`run-matrix.mjs`) and golden tests.
+
+---
+
 ## v11.1.0 — 13 Sep 2026
 
 ### CI / release process
@@ -13,10 +34,6 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 - Git tags (`vX.Y.Z`) are created only for **stable** SemVer (no pre-release suffix such as `-preview` / `-dev`).
 - NuGet may still publish pre-release packages from eligible branches (`master` / `release/*` / `hotfix/*` / `dev`); those builds no longer create matching git tags.
 - `CONTRIBUTING.md` updated to match the tag policy.
-
----
-
-## v11.0.0 — 28 Mar 2026
 
 ### Licensing
 

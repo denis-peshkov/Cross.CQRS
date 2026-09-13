@@ -90,12 +90,12 @@ Do not commit real license JWTs, private keys, or production secrets. Prefer pla
 | `master` | Stable release; GitVersion, **stable** git tag (`vX.Y.Z`), NuGet push | **Owner only** — direct push and PRs |
 | `release/*` | Release preparation; NuGet (may be `-preview.*`); **no** git tag for pre-releases | **Owner only** |
 | `hotfix/*` | Urgent production patches; same tag/NuGet rules as `release/*` | **Owner only** |
-| `dev` | Feature integration; NuGet pre-release (`-dev.*`); **no** git tag for pre-releases | **Default PR target** for contributors |
+| `dev` | Feature integration; NuGet pre-release (`-dev.*`); **never** creates git tags | **Default PR target** for contributors |
 | `feature/*` | New functionality (build/test only — no tag/NuGet) | Contributors |
 | `fix/*` | Bug fixes (build/test only — no tag/NuGet) | Contributors |
 | `chore/*` | CI, deps, docs-only, maintenance (no tag/NuGet) | Contributors |
 
-Git tags are created only when `semVer` has **no** pre-release suffix (no `-preview` / `-dev` / …) — i.e. stable `X.Y.Z` on eligible branches.
+Git tags are created only for **stable** `X.Y.Z` (no `-` in `semVer`) on `master` / `release/*` / `hotfix/*`. **`dev` never creates git tags**; it may still push NuGet pre-release packages.
 
 **Access rules (enforced in CI via `.github/workflows/branch-policy.yml`):**
 

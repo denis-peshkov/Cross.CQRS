@@ -1,13 +1,13 @@
-# Release readiness plan `dev` → `master`
+﻿# Release readiness plan `dev` → `master`
 
 > **Purpose:** checklist before merging the integration line into `master` for a NuGet release.  
 > **Product:** Cross.CQRS  
-> **Current target:** `11.1.0` / branch `hotfix/no-preview-git-tags` (see [`RELEASE-PLAN-11.1.0.md`](RELEASE-PLAN-11.1.0.md); prior [`RELEASE-PLAN-11.0.0.md`](RELEASE-PLAN-11.0.0.md) finalized)  
+> **Current target:** `11.1.1` / branch `hotfix/no-preview-git-tags` (see [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md); prior [`RELEASE-PLAN-11.1.0.md`](RELEASE-PLAN-11.1.0.md) closed)  
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker  
 > **Related:** [`BREAKING.md`](BREAKING.md), [`CHANGELOG.md`](CHANGELOG.md), [`TO-DO.md`](TO-DO.md)  
 > **Updated:** 2026-09-13
 
-**Checklist summary:** **22** items — ✅ **13** (59%) · 🟨 **1** (5%) · ⬜ **8** (36%) · ❌ **0** (0%)
+**Checklist summary:** **22** items — ✅ **14** (64%) · 🟨 **0** (0%) · ⬜ **8** (36%) · ❌ **0** (0%)
 
 ---
 
@@ -15,10 +15,10 @@
 
 | # | Item | Status |
 |---|------|--------|
-| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | 🟨 GitVersion `11.1.0`; tag `v11.1.0` already on master tip (`d5ddc59`) — see plan **M8** |
-| P2 | Version plan file `docs/RELEASE-PLAN-X.Y.Z.md` filled (severity template) | ✅ [`RELEASE-PLAN-11.1.0.md`](RELEASE-PLAN-11.1.0.md) (active); `11.0.0` finalized |
-| P3 | Open backlog reviewed (`docs/TO-DO.md`) — no unexpected C/H blockers | ✅ open C/H empty; plan open **M8**/**L6**; **Принято** kept |
-| P4 | Branch policy / rulesets understood (`CONTRIBUTING.md`, `.github/rulesets/`) | ✅ + hotfix docs for stable-only git tags (WT) |
+| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ цель **`11.1.1`**; `v11.2.0-dev.3` удалён (**H7** closed) |
+| P2 | Version plan file `docs/RELEASE-PLAN-X.Y.Z.md` filled (severity template) | ✅ [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md) (active); `11.1.0` closed |
+| P3 | Open backlog reviewed (`docs/TO-DO.md`) — no unexpected C/H blockers | ✅ TO-DO open пуст; version plan open пуст |
+| P4 | Branch policy / rulesets understood (`CONTRIBUTING.md`, `.github/rulesets/`) | ✅ stable-only git tags |
 
 ---
 
@@ -26,10 +26,10 @@
 
 | # | Item | Status |
 |---|------|--------|
-| B1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ no new consumer break for 11.1.0 (CI/docs only); 10.1.x→11.0.0 unchanged |
-| B2 | PR titles used `BREAKING:` where applicable | ✅ N/A for this hotfix (not BREAKING) |
-| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ✅ unchanged from 11.0.0 |
-| B4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ `## v11.1.0` (CI / release process) |
+| B1 | All consumer breaks listed in `docs/BREAKING.md` (newest section on top) | ✅ нет нового consumer break |
+| B2 | PR titles used `BREAKING:` where applicable | ✅ N/A |
+| B3 | `config.nuspec` `releaseNotes` links to BREAKING (no full duplicate) | ✅ |
+| B4 | `docs/CHANGELOG.md` updated in English (**always** — every release prep / skill run) | ✅ `## v11.1.1` (**L6** closed; `update-changelog.mjs`) |
 
 ---
 
@@ -37,11 +37,11 @@
 
 | # | Item | Status |
 |---|------|--------|
-| Q1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ carried from 11.0.0 prep |
-| Q2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ carried from 11.0.0 prep |
-| Q3 | CI `.NET` workflow green on release branch | ⬜ after commit/push hotfix |
+| Q1 | `dotnet build Cross.CQRS.slnx -c Release` | ✅ carried |
+| Q2 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -c Release` | ✅ carried |
+| Q3 | CI `.NET` workflow green on release branch | ⬜ после commit/push (WT: actions `@v4.7.0`) |
 | Q4 | SonarCloud / quality gate acceptable | ⬜ after tip CI |
-| Q5 | SampleWebApp still starts / smoke paths OK | ✅ carried (product unchanged) |
+| Q5 | SampleWebApp still starts / smoke paths OK | ✅ carried |
 
 ---
 
@@ -49,10 +49,10 @@
 
 | # | Item | Status |
 |---|------|--------|
-| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ unchanged |
-| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | ✅ present |
-| N3 | Tag push + NuGet push from CI succeed | ⬜ stable tag policy in WT; verify no preview tags after land |
-| N4 | GitHub Release notes published | ⬜ for `v11.1.0` / next stable as decided in **M8** |
+| N1 | `Cross.CQRS/config.nuspec` metadata (license, readme, TFM groups) | ✅ |
+| N2 | Secrets: `NUGET_API_KEY`, `TAGTOKEN` valid | ✅ |
+| N3 | Tag push + NuGet push from CI succeed | ⬜ после **H7**; ожидать tag `v11.1.1` |
+| N4 | GitHub Release notes published | ⬜ для `v11.1.1` |
 
 ---
 
@@ -62,7 +62,7 @@
 |---|------|--------|
 | A1 | Back-merge `master` → `dev` (`backmerge-master-to-dev.yml`) | ⬜ after master land |
 | A2 | Sibling extension package(s) can consume published core when needed | ⬜ as needed |
-| A3 | Close or defer leftover open `TO-DO` C/H/M/L items | ✅ none in TO-DO open; plan **M8**/**L6** still open |
+| A3 | Close or defer leftover open `TO-DO` C/H/M/L items | ✅ TO-DO open пуст; **H7**/**L6** в «Закрыто» плана |
 
 ---
 
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|------|--------|
 | G1 | Go / No-Go decision recorded | ⬜ |
-| G2 | Publish blockers cleared (L6 commit, M8 tag story, tip CI, N3) | ⬜ |
+| G2 | Publish blockers cleared (actions tip CI → `11.1.1`, N3 tag/NuGet) | ⬜ commit/push hotfix → green CI |
 
 - **Date:** 2026-09-13  
-- **Notes:** New active plan [`RELEASE-PLAN-11.1.0.md`](RELEASE-PLAN-11.1.0.md) for hotfix: git tags only when `semVer` has no `-` suffix. Committed delta vs master = 0 (changes in WT). Before Go: **L6** commit → CI → resolve **M8** → N3/N4.
+- **Notes:** Цель **`11.1.1`**. CHANGELOG `v11.1.1` + `update-changelog.mjs` готовы. Осталось: commit/push → CI → tag `v11.1.1`.
