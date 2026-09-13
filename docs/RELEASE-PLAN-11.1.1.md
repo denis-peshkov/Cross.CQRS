@@ -10,7 +10,7 @@
 >
 > Дельта: `v11.1.0...HEAD` — tip hotfix. Open C/H/M/L пустые.
 
-**CodeRabbit:** findings → **#L7–#L11** закрыты (вкл. **#L10** collectDelta fail-hard).
+**CodeRabbit:** findings → **#L7–#L12** закрыты (вкл. **#L12** JSDoc на `update-changelog.mjs`).
 
 **PR:** [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) (GitVersion actions v4.7 and stop tagging from dev).
 
@@ -53,6 +53,7 @@
 | ✅ #L9 no quiet CR fixes | `coderabbit` Phase 4: fix+`✅ #Id` same turn (release-plan не дублировали) |
 | ✅ #L10 changelog collectDelta fail-hard | `rev-parse v${from}`; diff/log без fail→`[]`; тесты |
 | ✅ #L11 CR explain→plan | pasted finding / «объясни» → Phase 3 open row **same turn** (forbid explain-only) |
+| ✅ #L12 changelog JSDoc coverage | JSDoc на всех функциях `update-changelog.mjs` (docstring threshold) |
 | ✅ GitVersion PR Number capture | `pull-request.regex` + `(?<Number>\d+)` — CI PR не отдаёт `pr{Number}` (NU5010) |
 | ✅ GitVersion.yml GV6 strategy | `Disabled`; root `Patch`; main `Inherit` + release/hotfix |
 | ✅ gitversion-strategy skill | matrix + golden test |

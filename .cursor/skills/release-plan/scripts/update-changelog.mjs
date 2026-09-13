@@ -31,6 +31,10 @@ const CATEGORY_ORDER = [
   'Repository tooling',
 ];
 
+/**
+ * Build the CLI help text for this script.
+ * @returns {string} Multi-line usage string printed for `-h` / `--help`.
+ */
 function usage() {
   return `Usage:
   node .cursor/skills/release-plan/scripts/update-changelog.mjs [options]
@@ -45,6 +49,12 @@ Options:
   -h, --help        Show help`;
 }
 
+/**
+ * Parse CLI argv into options for changelog generation.
+ * Any `--dry-run` forces `write: false` even when `--write` is also present.
+ * @param {string[]} argv Process argv without `node` / script path.
+ * @returns {{ version: string|null, from: string|null, changelog: string, date: string|null, write: boolean, dryRun: boolean }}
+ */
 export function parseArgs(argv) {
   const args = {
     version: null,
@@ -88,6 +98,13 @@ export function parseArgs(argv) {
   return args;
 }
 
+/**
+ * Run a synchronous subprocess under the repo root (or `cwd`).
+ * @param {string} cmd Executable name or path.
+ * @param {string[]} cmdArgs Arguments for the executable.
+ * @param {{ cwd?: string, check?: boolean }} [options] `check` (default true) throws on non-zero exit.
+ * @returns {{ status: number, stdout: string, stderr: string }}
+ */
 function run(cmd, cmdArgs, { cwd = ROOT, check = true } = {}) {
   const p = spawnSync(cmd, cmdArgs, { cwd, encoding: 'utf8' });
   if (check && p.status !== 0) {
@@ -101,6 +118,11 @@ function run(cmd, cmdArgs, { cwd = ROOT, check = true } = {}) {
   };
 }
 
+/**
+ * Resolve target/from SemVer via `resolve-target-version.sh` (optional CLI overrides).
+ * @param {{ version?: string|null, from?: string|null }} opts Parsed CLI version/from fields.
+ * @returns {{ version: string, from: string, repositoryLink: string }}
+ */
 function resolveVersions({ version, from }) {
   const script = join(SCRIPT_DIR, 'resolve-target-version.sh');
   const cli = [];
@@ -114,19 +136,39 @@ function resolveVersions({ version, from }) {
   };
 }
 
+/**
+ * Format a local date as `D Mon YYYY` for CHANGELOG headings.
+ * @param {Date} [d=new Date()] Date to format.
+ * @returns {string}
+ */
 function formatDate(d = new Date()) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
+/**
+ * Strip a leading UTF-8 BOM if present.
+ * @param {string} text Input text.
+ * @returns {string}
+ */
 function stripBom(text) {
   return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
 }
 
+/**
+ * Ensure the string starts with a UTF-8 BOM (repo CHANGELOG convention).
+ * @param {string} text Input text.
+ * @returns {string}
+ */
 function ensureBom(text) {
   return text.startsWith(BOM) ? text : BOM + text;
 }
 
+/**
+ * Map a repo-relative path to a CHANGELOG category, or null to skip.
+ * @param {string} path File path relative to the repository root.
+ * @returns {string|null} Category name from {@link CATEGORY_ORDER}, or null.
+ */
 function categorizePath(path) {
   if (!path || path === 'docs/CHANGELOG.md') return null;
   if (path.startsWith('.github/workflows/') || path.startsWith('.github/')) return 'CI / release process';
@@ -138,6 +180,12 @@ function categorizePath(path) {
   return 'Repository tooling';
 }
 
+/**
+ * Build neutral path-only CHANGELOG bullets for one category (no invented release claims).
+ * @param {string} category Category heading (e.g. `Versioning`).
+ * @param {Set<string>|Iterable<string>} paths Paths belonging to that category.
+ * @returns {string[]} One or more bullet bodies (without leading `- `).
+ */
 export function pathBullet(category, paths) {
   // Neutral path-only bullets — never invent release-specific claims from filenames.
   // Release-specific wording: refine manually (or derive from diff later) after --write.
@@ -158,6 +206,12 @@ export function pathBullet(category, paths) {
   return [`${prefix}: ${list}${more}.`];
 }
 
+/**
+ * Collect changed paths and commit subjects from `v{from}..HEAD` (+ working tree paths).
+ * Fails hard if the baseline tag does not resolve or if `git diff` / `git log` fail.
+ * @param {string} fromVersion Baseline SemVer with or without a leading `v`.
+ * @returns {{ paths: string[], subjects: string[] }}
+ */
 export function collectDelta(fromVersion) {
   if (!fromVersion || typeof fromVersion !== 'string') {
     throw new Error('collectDelta: fromVersion is required');
@@ -191,6 +245,11 @@ export function collectDelta(fromVersion) {
   return { paths: [...new Set(paths)], subjects };
 }
 
+/**
+ * Heuristic CHANGELOG category for a commit subject (used when folding commits into groups).
+ * @param {string} subject Commit subject line.
+ * @returns {string|null} Category name, or null if no match.
+ */
 function subjectCategory(subject) {
   const s = subject.toLowerCase();
   if (s.includes('workflow') || s.includes('actions') || s.includes('nuget') || /\bci\b/.test(s) || s.includes('git tag')) {
@@ -210,6 +269,11 @@ function subjectCategory(subject) {
   return null;
 }
 
+/**
+ * Group delta paths (and optionally commit subjects) into CHANGELOG category → bullets.
+ * @param {{ paths: string[], subjects: string[], includeCommits?: boolean }} input
+ * @returns {Record<string, string[]>} Map of category name to bullet bodies.
+ */
 export function buildGroupedBullets({ paths, subjects, includeCommits = false }) {
   /** @type {Map<string, Set<string>>} */
   const byCat = new Map();
@@ -250,6 +314,11 @@ export function buildGroupedBullets({ paths, subjects, includeCommits = false })
   return groups;
 }
 
+/**
+ * Render a newest-first CHANGELOG section markdown block for one version.
+ * @param {{ version: string, date: string, groups: Record<string, string[]> }} input
+ * @returns {string} Section ending with `---` and a trailing blank line.
+ */
 export function formatSection({ version, date, groups }) {
   const lines = [`## v${version} — ${date}`, ''];
   for (const cat of CATEGORY_ORDER) {
@@ -269,6 +338,11 @@ export function formatSection({ version, date, groups }) {
 }
 
 /**
+ * Insert or replace the `## v{version}` section in CHANGELOG markdown (newest-first).
+ * Preserves / restores UTF-8 BOM.
+ * @param {string} markdown Full CHANGELOG file contents.
+ * @param {string} section Formatted section from {@link formatSection}.
+ * @param {string} version Target SemVer without leading `v`.
  * @returns {{ status: 'inserted'|'updated'|'up-to-date', markdown: string, section: string }}
  */
 export function upsertChangelog(markdown, section, version) {
@@ -312,6 +386,10 @@ export function upsertChangelog(markdown, section, version) {
   return { status, markdown: out, section };
 }
 
+/**
+ * CLI entry: resolve versions, collect delta, print or write the CHANGELOG section.
+ * @returns {void}
+ */
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const { version, from } = resolveVersions(args);
