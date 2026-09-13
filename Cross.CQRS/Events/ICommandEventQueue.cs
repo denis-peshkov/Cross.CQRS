@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Events;
+﻿namespace Cross.CQRS.Events;
 
 public interface ICommandEventQueue
 {

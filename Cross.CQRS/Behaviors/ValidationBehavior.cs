@@ -16,7 +16,7 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
         var validators = _validators.ToList();
         if (!validators.Any())
         {
-            return await next();
+            return await next().ConfigureAwait(false);
         }
 
         var results = new List<ValidationResult>();
@@ -24,7 +24,7 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
 
         foreach (var validator in validators)
         {
-            var result = await validator.ValidateAsync(context, cancellationToken);
+            var result = await validator.ValidateAsync(context, cancellationToken).ConfigureAwait(false);
             results.Add(result);
         }
 
@@ -38,6 +38,6 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
             throw new ValidationException(failures);
         }
 
-        return await next();
+        return await next().ConfigureAwait(false);
     }
 }

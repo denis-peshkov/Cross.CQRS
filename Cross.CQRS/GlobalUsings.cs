@@ -1,3 +1,5 @@
+﻿// Global using directives
+
 global using System;
 global using System.Collections.Concurrent;
 global using System.Collections.Generic;
@@ -5,6 +7,9 @@ global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Linq;
 global using System.Reflection;
+global using System.Runtime.CompilerServices;
+global using System.Security.Claims;
+global using System.Security.Cryptography;
 global using System.Text;
 global using System.Text.Json;
 global using System.Threading;
@@ -15,11 +20,15 @@ global using Cross.CQRS.Common;
 global using Cross.CQRS.Events;
 global using Cross.CQRS.Extensions;
 global using Cross.CQRS.Filters;
+global using Cross.CQRS.Licensing;
 global using Cross.CQRS.Queries;
 global using Cross.CQRS.Services;
 global using FluentValidation;
 global using FluentValidation.Results;
 global using JetBrains.Annotations;
 global using MediatR;
+global using MediatR.Pipeline;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.IdentityModel.JsonWebTokens;
+global using Microsoft.IdentityModel.Tokens;

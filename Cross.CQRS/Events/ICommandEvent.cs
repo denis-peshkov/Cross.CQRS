@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Events;
+﻿namespace Cross.CQRS.Events;
 
 public interface ICommandEvent : INotification, IInternalLogObject
 {
@@ -11,6 +11,5 @@ public interface ICommandEvent : INotification, IInternalLogObject
     /// Define a type of Event, should process event inside or outside of transaction.
     /// </summary>
     /// <returns></returns>
-    CommandEventFlowTypeEnum EventFlowType()
-        => CommandEventFlowTypeEnum.StandardFlow;
+    CommandEventFlowTypeEnum EventFlowType() => CommandEventFlowTypeEnum.StandardFlow;
 }

@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Queries;
+﻿namespace Cross.CQRS.Queries;
 
 /// <summary>
 /// Base query handler.
@@ -18,9 +18,9 @@ public abstract class QueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TR
     {
         Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has begun.", request.GetGenericTypeName(), request.QueryId);
         var start = Stopwatch.GetTimestamp();
-        var result = await HandleAsync(request, cancellationToken);
+        var result = await HandleAsync(request, cancellationToken).ConfigureAwait(false);
         var elapsed = StopwatchHelper.GetElapsedMilliseconds(start);
-        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully for a {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, elapsed);
+        Logger.InternalLogTrace<TResult>(request, "Handling of the QueryType: {QueryType} for QueryId: {QueryId} has completed successfully in {Elapsed} ms.", request.GetGenericTypeName(), request.QueryId, elapsed);
         return result;
     }
 
