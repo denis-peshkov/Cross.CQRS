@@ -18,17 +18,20 @@ description: >-
 
 ## Жёсткие правила репо
 
+0. **КРИТИЧНО — чистый прогон только по YAML.**
+   `scripts/run-matrix.mjs` **только измеряет** то, что даёт `GitVersion.yml` на фикстурах, и подставляет результат в [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md).
+   - **Запрещено:** `/overrideconfig`, retry/fallback, эмуляция CI, подмена FAIL «удобным» SemVer, любые трюки чтобы таблица «зеленела».
+   - **FAIL в ячейке = честный результат YAML.** Чинить поведение в `GitVersion.yml` (или явно менять CI отдельно по команде пользователя) — не маскировать в скрипте.
+   - CI сейчас (`gitversion/execute` + `useConfigFile: true`) **тоже без fallback**; матрица не должна врать, будто fallback есть.
 1. **YAML-ключи GV6 built-in:** `main`, `develop` (не `master` / `dev`).
    Regex может матчить git-ветки `master` и `dev`. В `source-branches` — имена **ключей** (`main`, `develop`).
 2. **Не гонять `dotnet-gitversion` на полном клоне** без нужды — зависает. Только fixture через скрипт.
 3. Не коммитить / не пушить GitHub без явной команды пользователя.
 4. Фикстуры класть под `.tmp-gvfind/` (уже в ignore / локальный мусор).
-5. **Отчёт матрицы:** источник структуры — [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md).
-   `scripts/run-matrix.mjs` меряет фикстуры по `GitVersion.yml` и **подставляет** placeholders.
-   - Улучшать коллектор/фикстуры — можно, когда меняется контракт прогона.
+5. **Отчёт матрицы:** форма — [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md); цифры — только stdout `run-matrix.mjs` as-is.
+   - Улучшать коллектор/фикстуры — можно, когда меняется **контракт прогона** (не чтобы подогнать SemVer).
    - Форму отчёта менять в **шаблоне**, не хардкодить в чате.
    - Не переписывать скрипт каждый раз ради «нужных» цифр — править `GitVersion.yml` и прогнать снова.
-   - Ответ пользователю = **stdout скрипта as-is**.
 
 ## Целевая матрица (default desired)
 
@@ -36,12 +39,13 @@ description: >-
 
 | Source | На ветке | На `master` |
 |---|---|---|
-| `release/*` (цифры в имени игнор) | Minor + `-preview.N` | Minor MMP (**merge `--no-ff`**); squash может отличаться |
+| `release/*` (цифры в имени игнор) | Minor + `-preview.N` | **Minor** MMP (squash **и** merge) |
 | `hotfix/*` | Patch + `-preview.N` | Patch MMP |
 | `dev` | manual `next-version` (matrix: `11.3.3-dev.N`) | MMP без `-dev` |
-| direct push на `master` | — | **Patch** после тега; N коммитов в одном push = один номер |
+| direct push на `master` | — | **Patch** после тега; N коммитов = один номер |
 
-`commit-message-incrementing: Disabled`.
+`commit-message-incrementing: Disabled`.  
+Если YAML этого не даёт — в отчёте будет фактический SemVer или `FAIL`, не «желаемое».
 
 ## Workflow
 
@@ -61,13 +65,13 @@ description: >-
 | Цель | Рычаг |
 |---|---|
 | игнор цифр в `release/11.0.0-…` | без `VersionInBranchName`; stub `version-in-branch-pattern`; `track-merge-message: false` |
-| hotfix / direct push = Patch на master | `main.increment: Inherit` + `develop.increment: Patch` |
-| release = Minor на master | тот же `Inherit` + **merge `--no-ff`** (`release.increment: Minor`); squash часто даёт Patch |
+| release squash+merge = Minor | `main.increment: Inherit` + `source-branches: [release, hotfix]` (**без** `develop`) |
+| hotfix = Patch | `hotfix.increment: Patch` + Inherit |
+| direct push = Patch | чистым YAML конфликтует с пунктом выше, если `develop` в sources / orphaned master |
 | `label:` (не GV5 `tag:`) | `preview` / `dev` / `''` на main |
 | стабильный MMP без `-1` | `main.mode: ContinuousDeployment`, `label: ''`, `when-current-commit-tagged: true` |
 
-`commit-message-incrementing: Disabled` — без `+semver` в сообщениях.  
-Чистым YAML нельзя одновременно: squash release→Minor **и** direct push→Patch при живом `dev`.
+`commit-message-incrementing: Disabled` — без `+semver` в сообщениях.
 
 ### Phase 3 — Прогон
 
@@ -77,17 +81,17 @@ description: >-
 node .cursor/skills/gitversion-strategy/scripts/run-matrix.mjs --config GitVersion.yml --base-tag v10.1.3
 ```
 
-Скрипт меряет фикстуры → заполняет шаблон отчёта. Цифры в ячейках — только из прогона.
+Только YAML → шаблон. Никаких override.
 
 Нужен `dotnet-gitversion` (`GitVersion.Tool`). Запуск вне sandbox, если `git init` в фикстурах падает.
 
 ### Phase 4 — Отчёт пользователю
 
-Скопировать **весь** stdout. Структура: [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md) (как `release-plan` → `templates/RELEASE-PLAN.md`).
+Скопировать **весь** stdout. Структура: [`templates/MATRIX-REPORT.md`](templates/MATRIX-REPORT.md).
 
 ### Phase 5 — Сверка с целью
 
-Одной строкой: совпало / не совпало. Если нет — править `GitVersion.yml`, снова Phase 3.
+Одной строкой: совпало / не совпало. Если нет — править `GitVersion.yml`, снова Phase 3 (не трогать скрипт ради цифр).
 
 ## Args (пользователь / чат)
 

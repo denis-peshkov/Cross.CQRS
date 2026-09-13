@@ -2,12 +2,9 @@
 /**
  * GitVersion strategy matrix runner for Cross.CQRS fixtures.
  *
- * Collects SemVer measurements from GitVersion.yml fixtures, then fills
- * templates/MATRIX-REPORT.md (structure lives in the template; cells are measured).
- *
- * Improving the collector/fixtures is OK when the contract needs it.
- * Do not rewrite the script mid-session just to force desired numbers — change
- * GitVersion.yml and re-run.
+ * Collects SemVer measurements from GitVersion.yml fixtures ONLY, then fills
+ * templates/MATRIX-REPORT.md. No /overrideconfig, no CI emulation, no retries
+ * that change SemVer — FAIL cells must stay FAIL if YAML fails.
  *
  * Usage:
  *   node .cursor/skills/gitversion-strategy/scripts/run-matrix.mjs
