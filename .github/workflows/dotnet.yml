@@ -29,6 +29,7 @@ jobs:
     env:
       BUILD_CONFIG: 'Release'
       SOLUTION: 'Cross.CQRS.slnx'
+      QUALITY_GATE_WAIT: ${{ github.event_name == 'pull_request' }}
 
     runs-on: ubuntu-22.04 # ubuntu-latest
 
@@ -106,9 +107,13 @@ jobs:
             -Dsonar.cs.opencover.reportsPaths=TestResults/**/coverage.opencover.xml
             -Dsonar.sources=Cross.CQRS/
             -Dsonar.tests=Cross.CQRS.Tests/
+            -Dsonar.qualitygate.wait=${{ env.QUALITY_GATE_WAIT }}
             -Dsonar.verbose=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Update nuspec version
+        uses: denis-peshkov/update-nuspec-action@v2
 
       - name: Nuget Pack
         run: nuget pack Cross.CQRS/config.nuspec -Symbols -Version ${{ env.semVer }}

@@ -8,10 +8,10 @@ description: >-
   затем удаляет из open-секций TO-DO.
   Финализация version plan переносит все оставшиеся open-пункты в TO-DO и
   переписывает план по finalized-шаблону. Также ведёт исторический чеклист
-  dev→master (docs/RELEASE-PLAN-dev-to-master.md) через
-  scripts/release-plan-summary.mjs. Использовать при черновике release notes,
+  → master (docs/RELEASE-PLAN-to-master.md) через
+  scripts/release-plan-to-master.mjs. Использовать при черновике release notes,
   release plans, закрытии version plan или обновлении RELEASE-PLAN-X.Y.Z.md /
-  TO-DO.md / BREAKING.md / чеклиста dev-to-master.
+  TO-DO.md / BREAKING.md / чеклиста to-master.
 ---
 
 # Release plan по delta ветки
@@ -33,7 +33,7 @@ Skill [`release-plan`](SKILL.md) → **Section** · domain hint
 ```
 
 | Section (заголовок в этом файле) | Типичный domain hint |
-|----------------------------------|----------------------|
+|---|---|
 | **Ensure current RELEASE-PLAN** | напр. CR findings → plan, не TO-DO |
 | **`docs/BREAKING.md`** | напр. имена скриптов / текст миграции |
 | **Close from TO-DO** | dismiss / won’t-fix |
@@ -47,7 +47,7 @@ Skill [`release-plan`](SKILL.md) → **Section** · domain hint
 ## Два файла version plan
 
 | Файл | Содержимое |
-|------|------------|
+|---|---|
 | `docs/RELEASE-PLAN-X.Y.Z.md` | **Только** delta этого релиза относительно базы (`master`) |
 | `docs/TO-DO.md` | Кросс-версионный **открытый** backlog (C/H/M/L) + **Принято** (durable trade-offs); инкрементально |
 
@@ -58,6 +58,7 @@ Skill [`release-plan`](SKILL.md) → **Section** · domain hint
 **Источник истины по структуре:**
 - Активный (открытая работа): [`templates/RELEASE-PLAN.md`](templates/RELEASE-PLAN.md)
 - Закрытый / finalized: [`templates/RELEASE-PLAN-FINALIZED.md`](templates/RELEASE-PLAN-FINALIZED.md)
+- Ответ пользователю после finalize: [`templates/FINALIZE-REPLY.md`](templates/FINALIZE-REPLY.md)
 - Новый блок `docs/BREAKING.md` **From X → Y**: workflow в **`docs/BREAKING.md`** ниже; сниппет [`templates/BREAKING-SECTION.md`](templates/BREAKING-SECTION.md)
 
 Общий placeholder: **`{{REPOSITORY_LINK}}`** — базовый URL GitHub-репо из `git remote` (`resolve-target-version.sh` → `repository_link`; fallback в `scripts/lib/repository-link.sh`).
@@ -97,7 +98,7 @@ Downstream triage **coderabbit** по-прежнему пишет только �
 **Нумерация open items** — **общий** namespace с [`docs/TO-DO.md`](../../../docs/TO-DO.md) (не локальный счётчик релиза):
 
 | Префикс | Секция |
-|---------|--------|
+|---|---|
 | `C` | Критично |
 | `H` | Высокий |
 | `M` | Средний |
@@ -115,11 +116,11 @@ Downstream triage **coderabbit** по-прежнему пишет только �
 Процесс/легенда/статусы **не** писать в сам файл — только здесь.
 
 | Правило | Деталь |
-|---------|--------|
+|---|---|
 | Содержимое | Open backlog вне дельты version plan; **Принято** — lasting contracts/trade-offs между релизами; планы = только дельта релиза |
 | Секции | Четыре open: Критично / Высокий / Средний / Низкий (пустые = заголовок + `---`) **и** **Принято** (список bullets; может быть пустым) |
 | Формат open | `### M13. Title` + описание **без** статус-маркеров (`⬜`/`✅`/…) |
-| Формат Принято | bullet `- …` (без id / без ⬜✅); дедуп по смыслу |
+| Формат Принято | bullet `- …` (без id / без ⬜✅ / **без версии** `2.x`/`v2.x`); дедуп по смыслу |
 | Id | Общий namespace с version plan. Новый id = **max(TO-DO high-water, current plan open+«Закрыто» ids) + 1**. Не gap-fill / не переиспользовать |
 | High-water | Строка **`Id high-water`** в шапке TO-DO = якорь **после последнего finalize**. **Писать только при finalize** (`max(старый HW, все id закрываемого релиза)`). Во время релиза high-water **не** обновлять |
 | Источник | leftover plan / audit вне дельты / … — сразу в C/H/M/L |
@@ -153,13 +154,13 @@ bash .cursor/skills/release-plan/scripts/resolve-target-version.sh --json
 Использовать `plan_path` / `target_version` из вывода (GitVersion `MajorMinorPatch`, либо `--version`). Exit **1** → починить GitVersion / теги, или передать `--version`.
 
 | Ситуация | Действие |
-|----------|----------|
+|---|---|
 | Текущий `docs/RELEASE-PLAN-X.Y.Z.md` **существует** | Использовать его (`test -f` / читать **только этот файл** + `docs/TO-DO.md` при необходимости); `plan_path` из вывода скрипта |
 | **Нет** текущего плана для целевой версии (файл отсутствует) | **Обязательно** прогнать этот skill **полностью** (собрать delta → записать план) в этой же сессии, **затем** продолжить |
 | Версия неизвестна | `resolve-target-version.sh` (GitVersion) или явный `--version X.Y.Z` |
 
 **Запрещено:**
-- `ls` / glob / read-all `docs/RELEASE-PLAN-*.md` (вкл. `dev-to-master`), чтобы «найти текущий»
+- `ls` / glob / read-all `docs/RELEASE-PLAN-*.md` (вкл. `to-master`), чтобы «найти текущий»
 - изобретать stub-план без workflow этого skill; пропускать создание плана, когда его нет
 - рутинно открывать исторические version plan (только текущий + TO-DO; ссылка на предыдущий план — только при черновике шапки **нового** плана)
 
@@ -169,7 +170,7 @@ bash .cursor/skills/release-plan/scripts/resolve-target-version.sh --json
 
 Ручной override: `--version X.Y.Z`. Скрипт: `dotnet-gitversion` (`PATH` / `~/.dotnet/tools`). `from_version` — последний стабильный `vX.Y.Z` tag. Поля BREAKING: `breaking_from`, `breaking_to`.
 
-**Текущий** `docs/RELEASE-PLAN-X.Y.Z.md` = план **целевой** версии (`target_version` / user / `**Версия:**` в файле). Писать закрытия только в **текущий** plan — не в shipped historical plans. Не использовать `RELEASE-PLAN-dev-to-master.md`.
+**Текущий** `docs/RELEASE-PLAN-X.Y.Z.md` = план **целевой** версии (`target_version` / user / `**Версия:**` в файле). Писать закрытия только в **текущий** plan — не в shipped historical plans. Не использовать `RELEASE-PLAN-to-master.md`.
 
 ## `docs/BREAKING.md`
 
@@ -200,7 +201,7 @@ bash .cursor/skills/release-plan/scripts/scaffold-breaking-section.sh \
 - **После** `## From … to …` — пустая строка, затем `Release:` (или `###`, если нет `Release:`).
 - **`Release:`** — `[vX.Y.Z](release-url)`; `([PR #N](…)).` когда PR известен. Без `(planned)`, без отсылок к project-specific docs — см. `README.md`.
 
-При правке `docs/BREAKING.md` синхронизировать чеклист dev-to-master, если меняются связанные пункты плана (DOC6, §10) — запустить `release-plan-summary.mjs --write` (см. ниже).
+При правке `docs/BREAKING.md` синхронизировать чеклист to-master, если меняются связанные пункты плана (DOC6, §10) — запустить `release-plan-to-master.mjs --write` (см. ниже).
 
 ## Close from TO-DO (обязательно, любой dismiss)
 
@@ -209,7 +210,7 @@ bash .cursor/skills/release-plan/scripts/scaffold-breaking-section.sh \
 1. **Сначала** добавить строку в `## Закрыто` **текущего** `RELEASE-PLAN-X.Y.Z.md`:
 
 | # | Суть |
-|---|------|
+|---|---|
 | ✅ #H2 Scripts README MERGE SystemId scope | dismissed: README — пример lookup, не open work |
 
 2. Id **сохранить** (`✅ #H2 …` / `✅ #M13 …`); title короткий; в «Суть» — почему закрыто.
@@ -245,7 +246,7 @@ Id’шный backlog, который отклонили как trade-off → **
    - **Приоритет фиксов** — пустая отсылка к `TO-DO.md` (как в finalized template).
 6. Обновить **Приоритет** в `TO-DO.md` при необходимости (новые leftovers).
 7. UTF-8 BOM на изменённых docs.
-8. В ответе пользователю: список **перенесённых в TO-DO** id, факт sync «Принято», новый high-water, подтверждение что план = finalized shape.
+8. **Ответ пользователю** — по [`templates/FINALIZE-REPLY.md`](templates/FINALIZE-REPLY.md).
 
 **Запрещено:** оставить ⬜ open в «закрытом» плане; удалить open без переноса в TO-DO; заново сканировать все historical plans без нужды.
 
@@ -281,7 +282,7 @@ Cache попадает под `.cursor/skills/release-plan/.cache/` (скрип�
 3. Классифицировать изменения **дельты**:
 
 | Корзина | Куда класть |
-|---------|-------------|
+|---|---|
 | Критично / Высокий / Средний / Низкий | Open issues **только в этой дельте** |
 | Принято | Trade-offs **этого** релиза — **только** в version plan; в `TO-DO.md` «Принято» — **только при finalize** |
 | Закрыто | Fixes/features **в этой дельте** |
@@ -305,12 +306,12 @@ node .cursor/skills/release-plan/scripts/update-changelog.mjs --write
 ## Прочие release-документы (не version plans)
 
 | Файл | Роль |
-|------|------|
+|---|---|
 | `RELEASE-PLAN.md` (корень репо) | Аудит библиотеки / hardening backlog |
-| `docs/RELEASE-PLAN-dev-to-master.md` | Исторические readiness-чеклисты `dev` → `master` |
+| `docs/RELEASE-PLAN-to-master.md` | Исторические readiness-чеклисты → `master` |
 | `docs/BREAKING.md` | Breaking changes для NuGet-потребителей |
 
-Version plans (`docs/RELEASE-PLAN-X.Y.Z.md`) и `docs/TO-DO.md` — см. выше. **Не** подменять чеклист dev-to-master version plan’ом.
+Version plans (`docs/RELEASE-PLAN-X.Y.Z.md`) и `docs/TO-DO.md` — см. выше. **Не** подменять чеклист to-master version plan’ом.
 
 ### Статус-метки корневого `RELEASE-PLAN.md`
 
@@ -322,24 +323,26 @@ Version plans (`docs/RELEASE-PLAN-X.Y.Z.md`) и `docs/TO-DO.md` — см. выш
 2. Добавить/обновить строку в **Закрыто** с `✅ #N …`.
 3. Убрать пункт из открытых списков **Приоритет фиксов**.
 
-### `docs/RELEASE-PLAN-dev-to-master.md` — Checklist Summary
+### `docs/RELEASE-PLAN-to-master.md` — Change summary
 
-**При любом изменении** `docs/RELEASE-PLAN-dev-to-master.md` (статусы ⬜/✅/🟨/❌, новые пункты, §8 DB migration, DOC6, breaking changes, release gate, go/no-go) **всегда** пересчитывать и обновлять строку **"Checklist Summary"** в шапке документа (сразу после легенды).
+**Maintainer / agent only** (не контрибьюторский чеклист; не в PR template). Skill `release-plan` ведёт файл; скрипт лишь синхронизирует строку **Change summary**.
+
+**При любом изменении** `docs/RELEASE-PLAN-to-master.md` (статусы ⬜/✅/🟨/❌, новые пункты, §8 DB migration, DOC6, breaking changes, release gate, go/no-go) **всегда** пересчитывать и обновлять строку **"Change summary"** в шапке документа (сразу после легенды).
 
 То же при правке `docs/BREAKING.md`, если меняется статус связанных пунктов плана (напр. DOC6, §10.8, P1 для `collectResult`).
 
 ```bash
-node .cursor/skills/release-plan/scripts/release-plan-summary.mjs --write
+node .cursor/skills/release-plan/scripts/release-plan-to-master.mjs --write
 ```
 
 Без `--write` — только вывести строку для проверки. Не править проценты и счётчики вручную, если скрипт можно запустить.
 
 **Легенда статусов:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker
 
-### Breaking changes ↔ план dev-to-master
+### Breaking changes ↔ план to-master
 
-| Область | Где в плане dev-to-master |
-|---------|---------------------------|
+| Область | Где в плане to-master |
+|---|---|
 | `docs/BREAKING.md` | §2 `B1`–`B4`, go/no-go `G2` |
 | `config.nuspec` releaseNotes | §2 `B3`, §4 `N1` (version-plan L#) |
 | Version plan / TO-DO | §1 `P2`–`P3`, §5 `A3` |
@@ -349,12 +352,12 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 ## Скрипты (`scripts/`)
 
 | Скрипт | Назначение |
-|--------|------------|
+|---|---|
 | [`resolve-target-version.sh`](scripts/resolve-target-version.sh) | `target_version` = GitVersion `MajorMinorPatch` (или `--version`); `plan_path`, `repository_link`, `breaking_from`/`breaking_to` |
 | [`scaffold-breaking-section.sh`](scripts/scaffold-breaking-section.sh) | Строка TOC + блок `From X to Y` (только cache; агент правит `docs/BREAKING.md`) |
 | [`collect-release-delta.sh`](scripts/collect-release-delta.sh) | Cache delta ветки для черновика плана; default focus `docs/BREAKING.md`; `--focus PATH` (repeatable) |
 | [`update-changelog.mjs`](scripts/update-changelog.mjs) | Upsert `docs/CHANGELOG.md` § `vX.Y.Z` из delta (`v{from}..HEAD` + WT); `--write` / `--dry-run` |
-| [`release-plan-summary.mjs`](scripts/release-plan-summary.mjs) | Строка Checklist Summary в `RELEASE-PLAN-dev-to-master.md` |
+| [`release-plan-to-master.mjs`](scripts/release-plan-to-master.mjs) | Строка Change summary в `RELEASE-PLAN-to-master.md` |
 
 Другие skills: **Cross-skill references** (ссылка одной строкой; без дублирования скриптов или prose про layout).
 
@@ -366,7 +369,7 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 - [ ] Во время открытого релиза lasting trade-off’ы **только** в «Принято» version plan — **не** в `TO-DO.md`
 - [ ] «Закрыто» `#` вида `✅ #M13 …` / `✅ #H3 …` (или legacy `✅ #34 …`)
 - [ ] Каждая строка «Закрыто» опирается на evidence дельты **или** явную причину dismiss
-- [ ] Finalize: leftovers в open `TO-DO.md`; «Принято» плана → merge/dedupe в «Принято» `TO-DO.md`; **`Id high-water`** обновлён один раз (`≥` все id релиза); план = `RELEASE-PLAN-FINALIZED`
+- [ ] Finalize выполнен по секции **Finalize version plan** (план → [`RELEASE-PLAN-FINALIZED`](templates/RELEASE-PLAN-FINALIZED.md); ответ → [`FINALIZE-REPLY`](templates/FINALIZE-REPLY.md))
 - [ ] Новые id C/H/M/L = max(TO-DO HW, current plan ids) + 1; **без** mid-release правок HW в `TO-DO.md`
 - [ ] UTF-8 BOM на записанных plan / TO-DO, если новые
 - [ ] Новые секции `BREAKING.md` следуют [`templates/BREAKING-SECTION.md`](templates/BREAKING-SECTION.md) (layout не дублируется во intro для потребителей)

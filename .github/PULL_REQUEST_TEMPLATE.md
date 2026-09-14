@@ -10,6 +10,8 @@ Closes: #0000
 
 ## Changes
 
+<!-- Extend `path/to/file.cs` — numbered list; optional scope line at the end. -->
+
 1. …
 2. …
 
@@ -18,6 +20,8 @@ Closes: #0000
 ---
 
 ## Test plan
+
+<!-- How you verified the change — check off before merge. -->
 
 - [ ] New or updated tests cover the changed behavior
 - [ ] `dotnet build Cross.CQRS.slnx` — green locally
