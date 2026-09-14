@@ -22,7 +22,7 @@
 
 ---
 
-## Высокий (логика / auth model)
+## Высокий (логика / licensing / auth model)
 
 {{HIGH_OR_EMPTY}}
 
@@ -49,7 +49,7 @@
 ## Закрыто (проверено в коде)
 
 | # | Суть |
-|---|------|
+|---|---|
 | ✅ #{{CLOSED_ID}} {{CLOSED_TITLE}} | {{CLOSED_SUMMARY}} |
 
 ---

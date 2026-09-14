@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.1.1` (closed) · **ветка:** `hotfix/no-preview-git-tags` · **база:** `origin/master` (`v11.1.0`) · **дата:** `2026-09-13`
+> **Версия:** `11.1.1` (published / closed) · **ветка:** `hotfix/no-preview-git-tags` · **база:** `origin/master` (`v11.1.0`) · **дата:** `2026-09-13`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.1.1
 >
@@ -47,7 +47,7 @@
 ## Закрыто (проверено в коде)
 
 | # | Суть |
-|---|------|
+|---|---|
 | ✅ #H7 delete v11.2.0-dev.3 | удалён с origin; `dev` убран из Create/Push git Tag (NuGet на `dev` остаётся) |
 | ✅ #L7 changelog --dry-run wins | любой `--dry-run` запрещает запись (даже с `--write`); только печать секции; тесты |
 | ✅ #L8 changelog pathBullet neutral | только path-based bullets; без hardcoded v4.7 / tag-policy / strategy claims; тест |
