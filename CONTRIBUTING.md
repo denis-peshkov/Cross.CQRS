@@ -36,7 +36,7 @@ Consumers call `AddCQRS` and send requests through MediatR (`IMediator` / `ISend
 ## How you can help
 
 | Type | Examples |
-|------|----------|
+|---|---|
 | **Report** | Bug with repro steps, expected/actual behavior, package version and TFM |
 | **Fix** | Pipeline behavior regression, registration bug, licensing validation |
 | **Build** | New filter/behavior, tests, SampleWebApp improvements |
@@ -99,7 +99,7 @@ chore/*   ──┘                              ▲
 ```
 
 | Branch | Purpose | Who |
-|--------|---------|-----|
+|---|---|---|
 | `master` | Stable release; GitVersion, **stable** git tag (`vX.Y.Z`), NuGet push | **Owner only** — direct push and PRs |
 | `release/*` | Release preparation; NuGet (may be `-preview.*`); **no** git tag for pre-releases | **Owner only** — branch creation and push |
 | `hotfix/*` | Urgent production patches; same tag/NuGet rules as `release/*` | **Owner only** — branch creation and push |
@@ -129,7 +129,7 @@ Versioning: **GitVersion** (`GitVersion.yml`). `dev` is pre-release (`-dev.N`), 
 Prefix + kebab-case description:
 
 | Prefix | When |
-|--------|------|
+|---|---|
 | `feature/` | New functionality |
 | `fix/` | Bug fix |
 | `chore/` | CI, deps, docs-only, maintenance |
@@ -244,7 +244,7 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj \
 ## Documentation
 
 | What changed | Update |
-|--------------|--------|
+|---|---|
 | Public API / registration | `README.md` |
 | Breaking change for consumers | `docs/BREAKING.md` only (`config.nuspec` `releaseNotes` = link, no duplicate list) |
 | Released behavior | **`docs/CHANGELOG.md` (maintainers, on release work)** and short `config.nuspec` `releaseNotes` (+ link to BREAKING) |

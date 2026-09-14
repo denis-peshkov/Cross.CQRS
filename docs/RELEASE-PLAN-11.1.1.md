@@ -47,7 +47,7 @@
 ## Закрыто (проверено в коде)
 
 | # | Суть |
-|---|------|
+|---|---|
 | ✅ #H7 delete v11.2.0-dev.3 | удалён с origin; `dev` убран из Create/Push git Tag (NuGet на `dev` остаётся) |
 | ✅ #L7 changelog --dry-run wins | любой `--dry-run` запрещает запись (даже с `--write`); только печать секции; тесты |
 | ✅ #L8 changelog pathBullet neutral | только path-based bullets; без hardcoded v4.7 / tag-policy / strategy claims; тест |

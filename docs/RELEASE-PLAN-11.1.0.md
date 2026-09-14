@@ -45,7 +45,7 @@
 ## Закрыто (проверено в коде)
 
 | # | Суть |
-|---|------|
+|---|---|
 | ✅ #H1 LicenseCheck every request | accepted: by design — validate on every MediatR request (CR major skipped as dup) |
 | ✅ #H2 SampleWebApp LicenseKey | fixed: placeholder `"<license key here>"` as in README; real JWT removed from sample |
 | ✅ #H3 resolve-target-version bump rules | fixed: любая ветка → GitVersion `MajorMinorPatch`; ручной override `--version` |
