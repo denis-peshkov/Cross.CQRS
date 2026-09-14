@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.1.2` · **ветка:** `hotfix/release-plan-triage` · **база:** `origin/master` (`v11.1.1`) · **дата:** `2026-09-14`
+> **Версия:** `11.1.2` (closed) · **ветка:** `hotfix/release-plan-triage` · **база:** `origin/master` (`v11.1.1`) · **дата:** `2026-09-14`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.1.2
 >
@@ -8,7 +8,7 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.1.md](RELEASE-PLAN-11.1.1.md)
 >
-> Дельта: `origin/master...HEAD` — **5** коммита · **30** файлов · **+435 / −269**. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **5** коммита · **30** файлов · **+435 / −269**. Open C/H/M/L пустые (план закрыт).
 
 **CodeRabbit:** не запускался.
 
@@ -67,5 +67,4 @@
 
 ## Приоритет фиксов
 
-1. Tip CI green на `hotfix/release-plan-triage` / [#24](https://github.com/denis-peshkov/Cross.CQRS/pull/24) перед merge.
-2. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+_(пусто — релиз `11.1.2` опубликован; открытый backlog → [`TO-DO.md`](TO-DO.md).)_

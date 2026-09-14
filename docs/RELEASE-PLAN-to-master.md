@@ -16,7 +16,7 @@
 | # | Item | Status |
 |---|---|---|
 | P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.1.2` |
-| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.1.2.md`](RELEASE-PLAN-11.1.2.md) |
+| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.1.2.md`](RELEASE-PLAN-11.1.2.md) (closed) |
 | P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ stable tags; `dev` не тегает |
 
@@ -74,4 +74,4 @@
 | G2 | Publish blockers cleared | ⬜ tip CI green → N3/N4 |
 
 - **Date:** 2026-09-14
-- **Notes:** Version plan `11.1.2` filled (**M9** closed: checklist → `RELEASE-PLAN-to-master.md`). Publish: merge [#24](https://github.com/denis-peshkov/Cross.CQRS/pull/24) → tip CI → tag `v11.1.2` / NuGet.
+- **Notes:** Version plan `11.1.2` **closed** (leftovers → TO-DO: none). Publish: merge [#24](https://github.com/denis-peshkov/Cross.CQRS/pull/24) → tip CI → tag `v11.1.2` / NuGet.

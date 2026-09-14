@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.1.1` (closed) · **ветка:** `hotfix/no-preview-git-tags` · **база:** `origin/master` (`v11.1.0`) · **дата:** `2026-09-13`
+> **Версия:** `11.1.1` (published / closed) · **ветка:** `hotfix/no-preview-git-tags` · **база:** `origin/master` (`v11.1.0`) · **дата:** `2026-09-13`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.1.1
 >
