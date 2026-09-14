@@ -6,6 +6,33 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
+## v11.1.2 — 14 Sep 2026
+
+### CI / release process
+
+- SonarCloud: `sonar.qualitygate.wait` only on `pull_request` (`QUALITY_GATE_WAIT`).
+- NuGet pack: `denis-peshkov/update-nuspec-action@v2` before `nuget pack` (sync nuspec dependencies from the `.csproj`).
+- Triage workflow also runs on `ready_for_review`.
+- PR template: comments for the Changes list and Test plan.
+
+### Versioning
+
+- `GitVersion.yml` whitespace / line-ending normalize only; SemVer strategy unchanged.
+
+### Documentation
+
+- `CONTRIBUTING.md` rewritten for Cross.CQRS (branching, licensing, testing); no Identity leftovers.
+- Readiness checklist renamed to `docs/RELEASE-PLAN-to-master.md` (CONTRIBUTING link updated).
+- `docs/BREAKING.md` markdown table formatting only (no new consumer break).
+
+### Repository tooling
+
+- `release-plan-summary.mjs` renamed to `release-plan-to-master.mjs` (+ tests, `FINALIZE-REPLY.md` template).
+- Triage: `flatten-paginated.mjs` for `gh api --paginate --slurp` (+ tests), wired into `post-pr-triage.mjs`.
+- Skills / templates / `.coderabbit.yaml`: markdown table separator normalization (`|---|`).
+
+---
+
 ## v11.1.1 — 13 Sep 2026
 
 ### CI / release process

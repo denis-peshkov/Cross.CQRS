@@ -15,7 +15,7 @@ Thank you for your interest in the project.
 - [README](README.md)
 - [Release notes](docs/CHANGELOG.md)
 - Breaking changes: [`docs/BREAKING.md`](docs/BREAKING.md)
-- Release readiness: [`docs/RELEASE-PLAN-dev-to-master.md`](docs/RELEASE-PLAN-dev-to-master.md)
+- Release readiness: [`docs/RELEASE-PLAN-to-master.md`](docs/RELEASE-PLAN-to-master.md)
 - Open backlog: [`docs/TO-DO.md`](docs/TO-DO.md)
 
 ---

@@ -2,10 +2,10 @@
 
 > **Purpose:** checklist before merging into `master` for a NuGet release.
 > **Product:** Cross.CQRS
-> **Current target:** `11.1.1` · [`hotfix/no-preview-git-tags`](https://github.com/denis-peshkov/Cross.CQRS/tree/hotfix/no-preview-git-tags) · [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md) (**closed**)
+> **Current target:** `11.1.2` · [`hotfix/release-plan-triage`](https://github.com/denis-peshkov/Cross.CQRS/tree/hotfix/release-plan-triage) · [`RELEASE-PLAN-11.1.2.md`](RELEASE-PLAN-11.1.2.md)
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)
-> **Updated:** 2026-09-13
+> **Updated:** 2026-09-14
 
 **Change summary:** **22** items — ✅ **15** (68%) · 🟨 **0** (0%) · ⬜ **7** (32%) · ❌ **0** (0%)
 
@@ -15,8 +15,8 @@
 
 | # | Item | Status |
 |---|---|---|
-| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.1.1` |
-| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.1.1.md`](RELEASE-PLAN-11.1.1.md) (closed) |
+| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.1.2` |
+| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.1.2.md`](RELEASE-PLAN-11.1.2.md) |
 | P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ stable tags; `dev` не тегает |
 
@@ -29,7 +29,7 @@
 | B1 | Consumer breaks in `docs/BREAKING.md` | ✅ нет (только CI/GitVersion/docs) |
 | B2 | PR title `BREAKING:` where applicable | ✅ N/A |
 | B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ без изменений |
-| B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.1.1` |
+| B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.1.2` |
 
 ---
 
@@ -39,7 +39,7 @@
 |---|---|---|
 | Q1 | `dotnet build` Release | ✅ N/A — API не менялся |
 | Q2 | `dotnet test` Release | ✅ N/A — API не менялся |
-| Q3 | CI `.NET` green on release branch | ⬜ после tip CI на hotfix |
+| Q3 | CI `.NET` green on release branch | ⬜ после tip CI на `hotfix/release-plan-triage` |
 | Q4 | SonarCloud / quality gate | ⬜ after tip CI |
 | Q5 | SampleWebApp smoke | ✅ N/A — product unchanged |
 
@@ -51,8 +51,8 @@
 |---|---|---|
 | N1 | `config.nuspec` metadata | ✅ без изменений |
 | N2 | Secrets `NUGET_API_KEY`, `TAGTOKEN` | ✅ |
-| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.1.1` |
-| N4 | GitHub Release notes | ⬜ для `v11.1.1` |
+| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.1.2` |
+| N4 | GitHub Release notes | ⬜ для `v11.1.2` |
 
 ---
 
@@ -73,5 +73,5 @@
 | G1 | Go / No-Go recorded | ⬜ |
 | G2 | Publish blockers cleared | ⬜ tip CI green → N3/N4 |
 
-- **Date:** 2026-09-13
-- **Notes:** Version plan `11.1.1` **closed** (leftovers → TO-DO: none). Publish: merge [#22](https://github.com/denis-peshkov/Cross.CQRS/pull/22) → tip CI → tag `v11.1.1` / NuGet.
+- **Date:** 2026-09-14
+- **Notes:** Version plan `11.1.2` filled (**M9** closed: checklist → `RELEASE-PLAN-to-master.md`). Publish: merge [#24](https://github.com/denis-peshkov/Cross.CQRS/pull/24) → tip CI → tag `v11.1.2` / NuGet.

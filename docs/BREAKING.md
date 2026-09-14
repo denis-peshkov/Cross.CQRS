@@ -1,4 +1,4 @@
-# Breaking changes (NuGet consumers)
+﻿# Breaking changes (NuGet consumers)
 
 Breaking changes for **Cross.CQRS**, grouped by **from → to** package version.
 Sections are **newest first** (top) → **oldest last** (bottom). When skipping releases, apply every intervening section **from oldest to newest** (bottom-up through the relevant range).

@@ -10,7 +10,7 @@
 
 ---
 
-## Высокий (логика / licensing)
+## Высокий (логика / licensing / auth model)
 
 ---
 

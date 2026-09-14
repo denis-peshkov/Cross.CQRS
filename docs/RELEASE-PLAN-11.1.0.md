@@ -83,7 +83,7 @@
 - MediatR pipeline: license (−2) / reserved −1 / filters / validation согласованы с кодом.
 - Breaking 10.1.x→11.1.0 — только в `docs/BREAKING.md`.
 - Local Release build/tests (net6–net10) ранее зелёные на ветке.
-- Version plan `11.1.0` закрыт; publish gate остаётся в [`RELEASE-PLAN-dev-to-master.md`](RELEASE-PLAN-dev-to-master.md).
+- Version plan `11.1.0` закрыт; publish gate остаётся в [`RELEASE-PLAN-to-master.md`](RELEASE-PLAN-to-master.md).
 
 ---
 
