@@ -1,11 +1,11 @@
-# Breaking changes (NuGet consumers)
+﻿# Breaking changes (NuGet consumers)
 
 Breaking changes for **Cross.CQRS**, grouped by **from → to** package version.
 Sections are **newest first** (top) → **oldest last** (bottom). When skipping releases, apply every intervening section **from oldest to newest** (bottom-up through the relevant range).
 
-| Upgrade path           | Section                                         |
-|------------------------|-------------------------------------------------|
-| `10.1.x` → `11.0.0+`   | [From 10.1.x to 11.0.0](#from-101x-to-1100)     |
+| Upgrade path | Section |
+|---|---|
+| `10.1.x` → `11.0.0+` | [From 10.1.x to 11.0.0](#from-101x-to-1100) |
 
 Breaking-change details live **only** in this file. [`Cross.CQRS/config.nuspec`](../Cross.CQRS/config.nuspec) `releaseNotes` should link here and must not duplicate the versioned sections.
 
@@ -22,7 +22,7 @@ Release: [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.
 ### JWT licensing (new pipeline gate)
 
 | Area | Was (10.1.x) | Now (11.0.0+) |
-|------|--------------|---------------|
+|---|---|---|
 | License | none | Optional `CqrsServiceConfiguration.LicenseKey` (JWT) |
 | Validation | n/a | `LicenseValidator.Validate(license, ILicenseProductInfo)` |
 | Pipeline | no license behavior | `LicenseCheckBehavior` on every MediatR request (order **-2**; **-1** reserved for Cross.CQRS.EF) |
@@ -33,7 +33,7 @@ Release: [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.
 ### Registration / FluentValidation
 
 | Area | Was | Now |
-|------|-----|-----|
+|---|---|---|
 | Validators | scanned from a narrower assembly set | `AddValidatorsFromAssemblies` uses the **full** assembly set from `CqrsServiceConfiguration` |
 
 **Action:** ensure validator types live in assemblies passed to `AddCQRS` / configuration; mis-placed validators will not register.
@@ -41,7 +41,7 @@ Release: [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.
 ### Handlers
 
 | Area | Was | Now |
-|------|-----|-----|
+|---|---|---|
 | `AsyncRequestHandlerBase` | present in earlier lines | **removed**; `CommandHandler<TCommand>` implements `IRequestHandler<TCommand>` (MediatR `Unit`) directly |
 
 **Action:** custom handlers inheriting removed bases must implement MediatR interfaces directly (already required since 10.1.4 notes).
@@ -49,7 +49,7 @@ Release: [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.
 ### Target frameworks
 
 | Area | Was (typical 10.x) | Now (11.0.0) |
-|------|--------------------|--------------|
+|---|---|---|
 | Library TFMs | netstandard2.1 + net6–net10 (see prior notes) | `netstandard2.1;net6.0;net7.0;net8.0;net9.0;net10.0` |
 | Extension packages | Microsoft.Extensions.* | Version per TFM (8.x / 9.0.14 / 10.0.5) as in `.csproj` |
 
@@ -58,7 +58,7 @@ Release: [v11.0.0](https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.
 ### Packaging / solution
 
 | Area | Was | Now |
-|------|-----|-----|
+|---|---|---|
 | Solution | `Cross.CQRS.sln` | **`Cross.CQRS.slnx`** |
 | NuGet scripts | `_nuget/` helpers | removed; pack via CI / `config.nuspec` |
 

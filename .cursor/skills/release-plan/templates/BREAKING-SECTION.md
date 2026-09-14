@@ -3,7 +3,7 @@
 Правила, скрипты, workflow: skill [`release-plan`](../SKILL.md) → **`docs/BREAKING.md`**.
 
 | Placeholder | Значение |
-|-------------|---------|
+|---|---|
 | `{{REPOSITORY_LINK}}` | Базовый URL GitHub-репо, напр. `https://github.com/org/repo` |
 | `{{PR_NUMBER}}` | Id PR, когда известен (до тех пор опускать `([PR #…](…)).`) |
 

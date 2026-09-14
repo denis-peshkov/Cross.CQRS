@@ -12,7 +12,7 @@ description: >-
 Two modes:
 
 | Mode | Trigger | What runs |
-|------|---------|-----------|
+|---|---|---|
 | **GitHub** (default) | `triage` / `запусти triage` without `local`/`branch` | `triage-issue` + `triage-pr` Phase 1 + cross-analysis issues×PRs |
 | **Local / branch** | `local` · `branch <name>` · «текущая ветка» · «vs master» without PR | `triage-pr` **Phase 1b** (`git diff` vs base) — **not** GitHub PR list |
 
@@ -29,7 +29,7 @@ Cross-ref skills: [`triage-issue`](../triage-issue/SKILL.md), [`triage-pr`](../t
 ## Args
 
 | Arg | Effect |
-|-----|--------|
+|---|---|
 | _(none)_ | GitHub mode |
 | `local` | Current `HEAD` vs base (default `origin/master`) |
 | `branch <name>` | Named ref vs base (resolves local or `origin/<name>`) |
@@ -69,8 +69,9 @@ Resolve `BASE_REF` / `BRANCH_REF` per [`triage-pr` Phase 1b](../triage-pr/SKILL.
 git log --oneline "$BASE_REF..$BRANCH_REF" | head -40
 git diff --stat "$BASE_REF...$BRANCH_REF"
 git diff --name-status "$BASE_REF...$BRANCH_REF"
-# Prefer reading hotspots; full diff if needed for deep
-git diff "$BASE_REF...$BRANCH_REF" -- <path>/ <tests-path>/
+# Prefer reading hotspots; full diff if needed for deep.
+# Replace 'path/' / 'tests-path/' with real prefixes from --name-status above.
+git diff "$BASE_REF...$BRANCH_REF" -- 'path/' 'tests-path/'
 ```
 
 Size bands + hotspots: same as `triage-pr` Phase 1. CI / mergeable / reviews → **N/A (branch mode)**.
@@ -85,7 +86,7 @@ Chat: short summary (commits, size, hotspots, risks, priority actions) + offer d
 
 Save (unless `no save`):
 
-- `.cursor/triage/docs/branch-<safe-name>-YYYY-MM-DD.md`  
+- `.cursor/triage/docs/branch-<safe-name>-YYYY-MM-DD.md`
   (`/` → `-` in branch name; for `local` use current branch name)
 
 Suggested file structure:
@@ -153,7 +154,7 @@ PR files — for overlap detection (see `triage-pr`).
 #### 4.1 Double coverage — 2 PRs for 1 issue
 
 | Issue | PR1 | PR2 | Verdict |
-|-------|-----|-----|---------|
+|---|---|---|---|
 
 Rules: smaller scope, CI clean, internal PR, overlap >80% → conflict.
 
@@ -178,7 +179,7 @@ Internal PRs not linked to an issue.
 Summary:
 
 | Category | Count |
-|----------|-------|
+|---|---|
 | PRs ready to merge (ours) | N |
 | Quick wins (external) | N |
 | Double coverage | N |
