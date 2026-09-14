@@ -49,7 +49,7 @@ Consumers call `AddCQRS` and send requests through MediatR (`IMediator` / `ISend
 
 ### Licensing and security first
 
-Any change to licensing, pipeline behaviors, or DI registration is **high-priority review**. Do not log or commit license JWTs, private keys, or production secrets. Prefer placeholders in samples and issues.
+Any change to licensing, pipeline behaviors, or DI registration is **high-priority review**. Do not log or commit license JWTs, private keys, or production secrets. Prefer placeholders in samples and issues. For security-related issues/PRs, include package version and a minimal repro — never real keys or live tokens.
 
 ### Public surface is a contract
 
@@ -251,18 +251,6 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj \
 | Packaging / dependencies | `Cross.CQRS/config.nuspec` |
 | Release readiness | `docs/RELEASE-PLAN-*.md` |
 | Deferred findings | `docs/TO-DO.md` |
-
----
-
-## Security
-
-For issues/PRs on licensing or pipeline security, include package version and a minimal repro:
-
-- license validation / bypass;
-- secrets or PII leakage in logs;
-- DI registration that weakens pipeline guarantees.
-
-**Do not publish** real license keys or live tokens in issues/PRs.
 
 ---
 
