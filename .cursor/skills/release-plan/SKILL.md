@@ -132,7 +132,7 @@ Downstream triage **coderabbit** по-прежнему пишет только �
 ```markdown
 ## Критично (безопасность)
 ---
-## Высокий (логика / auth model)
+## Высокий (логика / licensing / auth model)
 ---
 ## Средний …
 ## Низкий …
