@@ -6,13 +6,26 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
-## Unreleased
+## v11.2.0 — 16 Sep 2026
 
-### Licensing
+### Library
 
 - `LicenseHostedValidator` (`IHostedService`) runs `CheckLicense` at generic-host start (before the first MediatR request). Extensions such as Cross.CQRS.EF still register extra `ILicenseProductInfo`; they do not add a second pipeline slot.
 - Pipeline `LicenseCheckBehavior` remains order **-2**. Order **-1** is no longer reserved for Cross.CQRS.EF.
 - Pack dependency: `Microsoft.Extensions.Hosting.Abstractions` (version per TFM, aligned with `Microsoft.Extensions.Logging`).
+
+### Tests
+
+- Registration tests: `IHostedService` / `LicenseHostedValidator` descriptor; host start does not throw without a license key.
+
+### Documentation
+
+- README / CONTRIBUTING: license check at host start plus per-request `LicenseCheckBehavior`.
+
+### Repository tooling
+
+- CodeRabbit review instructions mention `LicenseHostedValidator`.
+- `.cursor/README.md` and `pr-message` skill added (PR template drafts).
 
 ---
 
