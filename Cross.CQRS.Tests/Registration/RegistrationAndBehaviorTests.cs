@@ -21,6 +21,10 @@ public class RegistrationAndBehaviorTests
         services.Should().Contain(d => d.ServiceType == typeof(IHandlerLocator));
         services.Should().Contain(d => d.ServiceType == typeof(ICommandEventQueue));
         services.Should().Contain(d => d.ImplementationType != null && d.ImplementationType.Name == "LicenseCheckBehavior`2");
+        services.Should().Contain(d =>
+            d.ServiceType == typeof(IHostedService) &&
+            d.ImplementationType != null &&
+            d.ImplementationType.Name == "LicenseHostedValidator");
 
         var pipeline = services
             .Where(d => d.ServiceType == typeof(IPipelineBehavior<,>))
@@ -40,6 +44,19 @@ public class RegistrationAndBehaviorTests
             "RequestFilterBehavior`2",
             "ValidationBehavior`2",
             "ResultFilterBehavior`2");
+    }
+
+    [Test]
+    public async Task AddCQRS_WhenHostStarts_ThenLicenseHostedValidatorDoesNotThrowAsync()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging();
+        services.AddCQRS(cfg => cfg.RegisterFromAssemblyContaining<TestRequest>());
+        using var provider = services.BuildServiceProvider();
+        var hosted = provider.GetServices<IHostedService>().OfType<LicenseHostedValidator>().Single();
+
+        var act = () => hosted.StartAsync(CancellationToken.None);
+        await act.Should().NotThrowAsync();
     }
 
     [Test]

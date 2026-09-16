@@ -26,7 +26,7 @@ Thank you for your interest in the project.
 
 - Queries / Commands / CommandEvents and pipeline behaviors;
 - FluentValidation, request/result filters;
-- optional JWT licensing (`CqrsServiceConfiguration.LicenseKey`, `ILicenseProductInfo`);
+- optional JWT licensing (`CqrsServiceConfiguration.LicenseKey`, `ILicenseProductInfo`, `LicenseHostedValidator` at host start, `LicenseCheckBehavior` on every request);
 - fluent registration via `services.AddCQRS(cfg => …)`.
 
 Consumers call `AddCQRS` and send requests through MediatR (`IMediator` / `ISender`).
@@ -176,7 +176,7 @@ git checkout -b feature/short-description
 
 ### 2. Changes
 
-- Follow existing folder layout (`Behaviors/`, `Licensing/`, `Extensions/`, …).
+- Follow existing folder layout (`Behaviors/`, `Hosting/`, `Licensing/`, `Extensions/`, …).
 - Do not touch unrelated files.
 - Breaking change → `docs/BREAKING.md` only (nuspec keeps a link, not a duplicate list).
 
