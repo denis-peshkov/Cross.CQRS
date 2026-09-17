@@ -6,6 +6,23 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
+## v11.3.0 — 17 Sep 2026
+
+### Library
+
+- **Breaking:** `Command` / `Command<TResult>` / `Query<TResult>` are `abstract record`; new base `abstract record CommandEvent` (`Guid commandId` ctor). Handlers stay `abstract class`. See [`BREAKING.md`](BREAKING.md).
+
+### Tests
+
+- Sample / unit tests: Command / Query / CommandEvent inheritors are `record`.
+- `SkipNetCoreApp31Tests`: skip `netcoreapp3.1` on OSX Arm64 when no x64 3.1 host.
+
+### Documentation
+
+- `docs/BREAKING.md`: From 11.2.x → 11.3.0 (record bases).
+
+---
+
 ## v11.2.0 — 17 Sep 2026
 
 ### CI / release process

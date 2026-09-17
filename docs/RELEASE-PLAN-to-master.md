@@ -2,7 +2,7 @@
 
 > **Purpose:** checklist before merging into `master` for a NuGet release.
 > **Product:** Cross.CQRS
-> **Current target:** `11.2.0` · [`release/license-hosted-validator`](https://github.com/denis-peshkov/Cross.CQRS/tree/release/license-hosted-validator) · [`RELEASE-PLAN-11.2.0.md`](RELEASE-PLAN-11.2.0.md)
+> **Current target:** `11.3.0` · [`release/command-query-records`](https://github.com/denis-peshkov/Cross.CQRS/tree/release/command-query-records) · _(plan TBD)_
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)
 > **Updated:** 2026-09-17
@@ -15,7 +15,7 @@
 
 | # | Item | Status |
 |---|---|---|
-| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.2.0` |
+| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ⬜ `11.3.0` |
 | P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.2.0.md`](RELEASE-PLAN-11.2.0.md) |
 | P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые (open **M10**/**L19**/**L20**/**L22** в version plan) |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ `release/*` → Minor |
@@ -26,10 +26,10 @@
 
 | # | Item | Status |
 |---|---|---|
-| B1 | Consumer breaks in `docs/BREAKING.md` | ✅ нет (additive hosted + Hosting.Abstractions) |
-| B2 | PR title `BREAKING:` where applicable | ✅ N/A |
+| B1 | Consumer breaks in `docs/BREAKING.md` | ⬜ records → From 11.2.x to 11.3.0 |
+| B2 | PR title `BREAKING:` where applicable | ⬜ `BREAKING:` for records |
 | B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ без новой breaking-секции |
-| B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.2.0` |
+| B4 | `docs/CHANGELOG.md` updated | ⬜ `## v11.3.0` |
 
 ---
 
@@ -50,9 +50,9 @@
 | # | Item | Status |
 |---|---|---|
 | N1 | `config.nuspec` metadata | ✅ `Microsoft.Extensions.Hosting.Abstractions` per TFM |
-| N2 | NuGet Trusted Publishing + `TAGTOKEN` | ⬜ policy on nuget.org; username `peshkov` hardcoded in workflow; drop `NUGET_API_KEY` after first green push |
-| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.2.0` |
-| N4 | GitHub Release notes | ⬜ для `v11.2.0` |
+| N2 | Secret `TAGTOKEN` | ⬜ проверить перед publish |
+| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.3.0` |
+| N4 | GitHub Release notes | ⬜ для `v11.3.0` |
 
 ---
 

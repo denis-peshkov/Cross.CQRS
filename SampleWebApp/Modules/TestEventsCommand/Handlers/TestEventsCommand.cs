@@ -1,5 +1,5 @@
 ﻿namespace SampleWebApp.Modules.TestEventsCommand.Handlers;
 
-public class TestEventsCommand : Command
+public record TestEventsCommand : Command
 {
 }

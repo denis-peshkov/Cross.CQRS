@@ -1,5 +1,5 @@
 ﻿namespace SampleWebApp.Modules.TestQueryGeneric.Handlers;
 
-public class TestGenericQuery : Query<int>
+public record TestGenericQuery : Query<int>
 {
 }

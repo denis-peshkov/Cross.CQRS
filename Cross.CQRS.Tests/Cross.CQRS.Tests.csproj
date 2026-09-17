@@ -1,7 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- netcoreapp3.1 needs an x64 3.1 host; Apple Silicon usually has none. Override with -p:SkipNetCoreApp31Tests=false when an x64 host is installed. -->
+    <SkipNetCoreApp31Tests Condition="'$(SkipNetCoreApp31Tests)' == '' and $([MSBuild]::IsOSPlatform('OSX')) and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">true</SkipNetCoreApp31Tests>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(SkipNetCoreApp31Tests)' == 'true'">net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
