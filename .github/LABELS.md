@@ -53,7 +53,6 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 | `duplicate` | `#ffffff` | This issue or pull request already exists | Такой issue/PR уже есть | — |
 | `enhancement` | `#a2eeef` | Polish, perf, or DX without new public contract | Polish / perf / DX без нового публичного контракта | category |
 | `feature` | `#0e8a16` | New API or behavior | Новое API или поведение | category |
-| `good first issue` | `#7057ff` | Good for newcomers | Подходит для новичков | — |
 | `help wanted` | `#008672` | Extra attention is needed | Нужна помощь со стороны | — |
 | `invalid` | `#fef2c0` | This doesn't seem right | Некорректно / не по делу | — |
 | `priority:critical` | `#b60205` | Triage priority: critical | Приоритет triage: критично | priority |
