@@ -52,16 +52,16 @@ Fill **every** template section. Keep HTML comments out of the user-facing draft
 
 | Section | How to fill |
 |---|---|
-| **Title** | Imperative summary; prefix `BREAKING:` only if consumer-breaking (and `docs/BREAKING.md` updated). **No** SemVer / `vX.Y.Z` / «ship N.N.N» in the title |
-| **Summary** | What changed and why (short narrative). `Closes: #N` or `Closes: —`. **No** target/package version numbers |
-| **Changes** | Numbered list: `` `path` — … ``; end with `**Scope:** N files, ~+X / −Y lines.` from `git diff --shortstat`. Prefer path wording without embedding a release number in prose (file names like `RELEASE-PLAN-*.md` ok as paths only) |
+| **Title** | Imperative summary; prefix `BREAKING:` only if consumer-breaking (and `docs/BREAKING.md` updated) |
+| **Summary** | What changed and why (short narrative). `Closes: #N` or `Closes: —` |
+| **Changes** | Numbered list: `` `path` — … ``; end with `**Scope:** N files, ~+X / −Y lines.` from `git diff --shortstat` |
 | **Test plan** | Keep the three template bullets; mark `[x]` / `[ ]` per Phase 3 |
-| **Risks / notes** | Required if licensing, DI registration, transactions, or breaking; else `N/A`. Breaking: describe consumer impact + `docs/BREAKING.md` — **not** «as X.Y.Z» / «not X.0.0» |
+| **Risks / notes** | Required if licensing, DI registration, transactions, or breaking; else `N/A` |
 | **Checklist** | Keep all template bullets; mark `[x]` / `[ ]` per Phase 3 |
 | **AI assistance** | `[x]` + one line what AI did / what was verified, when this skill ran in an agent session; else `[ ]` |
 | **License** | Keep the template license footer verbatim |
 
-**Versions (hard rule):** title and body must **not** advertise the NuGet/git release version (`11.3.0`, `v11.3.0`, «ship 11.3.0», «minor 11.3.0 + BREAKING», …). Version lives in tags / CHANGELOG / release plan — not in the PR message. Exception: literal path or link that already contains a versioned filename.
+**No release version in PR message:** не писать SemVer / `vX.Y.Z` / «ship N.N.N» в title и body (версия — в tag / CHANGELOG / release plan). Исключение: путь к уже versioned-файлу.
 
 ### Phase 3 — Auto-check (only when verifiable)
 
@@ -121,7 +121,6 @@ Do **not** put the title only as plain prose outside a fence — both title and 
 
 - [ ] Body follows `.github/PULL_REQUEST_TEMPLATE.md` section order
 - [ ] English only in title/body
-- [ ] **No** SemVer / `vX.Y.Z` / «ship N.N.N» in title or narrative (except versioned filenames as paths)
 - [ ] Scope numbers match `git diff --shortstat`
 - [ ] No `[x]` without evidence from this turn
 - [ ] Did not create the GitHub PR unless asked
