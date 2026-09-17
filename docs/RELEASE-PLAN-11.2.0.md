@@ -63,6 +63,7 @@
 | ✅ #L24 pr-message Shell least privilege | build/test sandbox; elevate only when needed, smallest scope |
 | ✅ #L19 `.cursor/README.md` ghost skills | убраны `db-scripts` / `stripe-*` / `translate-resources`; список = skills в репо |
 | ✅ #L20 LicenseHostedValidator CancellationToken | `ThrowIfCancellationRequested` в Start/Stop; тест на отмену |
+| ✅ #L22 LABELS.md → LABELS.yml | ссылка исправлена на `LABELS.yml` |
 
 ---
 

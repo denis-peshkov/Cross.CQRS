@@ -20,10 +20,6 @@
 
 ## Низкий (техдолг / несогласованности)
 
-### L22. `LABELS.md` ссылается на `labels.yml`
-
-[`.github/LABELS.md`](../.github/LABELS.md) линкует `labels.yml`, файл в git — `LABELS.yml`. На case-sensitive FS ссылка ломается.
-
 ---
 
 ## Принято (осознанный trade-off)
