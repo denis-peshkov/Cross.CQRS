@@ -189,7 +189,7 @@ bash .cursor/skills/release-plan/scripts/resolve-target-version.sh --json
 
 `target_version` = **GitVersion** `MajorMinorPatch` на **текущей** ветке (`GitVersion.yml` + история). Любая ветка.
 
-Ручной override: `--version X.Y.Z`. Скрипт: `dotnet-gitversion` (`PATH` / `~/.dotnet/tools`). `from_version` — последний стабильный `vX.Y.Z` tag. Поля BREAKING: `breaking_from`, `breaking_to`.
+Ручной override: `--version X.Y.Z`. Скрипт: `dotnet-gitversion /nofetch /showvariable MajorMinorPatch` (`PATH` / `~/.dotnet/tools`; без `/nofetch` возможен hang на remote fetch). `from_version` — последний стабильный `vX.Y.Z` tag. Поля BREAKING: `breaking_from`, `breaking_to`.
 
 **Текущий** `docs/RELEASE-PLAN-X.Y.Z.md` = план **целевой** версии (`target_version` / user / `**Версия:**` в файле). Писать закрытия только в **текущий** plan — не в shipped historical plans. Не использовать `RELEASE-PLAN-to-master.md`.
 

@@ -20,7 +20,12 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ### Documentation
 
-- `docs/BREAKING.md`: From 11.2.x → 11.3.0 (record bases).
+- `docs/BREAKING.md`: From 11.2.x → 11.3.0 (record bases + `CommandEventId`).
+- `config.nuspec` `releaseNotes` links `CHANGELOG.md` and `BREAKING.md` (no duplicated version list).
+
+### Repository tooling
+
+- `release-plan` skill: local `dotnet test` always passes `-p:SkipNetCoreApp31Tests=true`; `pr-message` points at that section.
 
 ---
 

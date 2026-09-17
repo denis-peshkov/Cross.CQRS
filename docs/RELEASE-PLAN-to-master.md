@@ -7,7 +7,7 @@
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)
 > **Updated:** 2026-09-17
 
-**Change summary:** **22** items — ✅ **10** (45%) · 🟨 **2** (9%) · ⬜ **10** (45%) · ❌ **0** (0%)
+**Change summary:** **22** items — ✅ **12** (55%) · 🟨 **1** (5%) · ⬜ **9** (41%) · ❌ **0** (0%)
 
 ---
 
@@ -17,7 +17,7 @@
 |---|---|---|
 | P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.3.0` |
 | P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.3.0.md`](RELEASE-PLAN-11.3.0.md) |
-| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые (version plan open пуст) |
+| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ TO-DO C/H/M/L пустые; version plan **H8** open |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ `release/*` → Minor |
 
 ---
@@ -28,7 +28,7 @@
 |---|---|---|
 | B1 | Consumer breaks in `docs/BREAKING.md` | ✅ From 11.2.x to 11.3.0 (records) |
 | B2 | PR title `BREAKING:` where applicable | ⬜ нет PR |
-| B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ `#from-112x-to-1130` (+ `#from-101x-to-1100`) |
+| B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ ссылка на `docs/BREAKING.md` |
 | B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.3.0` |
 
 ---
@@ -49,7 +49,7 @@
 
 | # | Item | Status |
 |---|---|---|
-| N1 | `config.nuspec` metadata | ✅ releaseNotes 11.3.0 BREAKING link |
+| N1 | `config.nuspec` metadata | ✅ releaseNotes → CHANGELOG + BREAKING |
 | N2 | Secret `TAGTOKEN` | ✅ |
 | N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.3.0` |
 | N4 | GitHub Release notes | ⬜ для `v11.3.0` |
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|---|---|
 | G1 | Go / No-Go recorded | ⬜ |
-| G2 | Publish blockers cleared | ⬜ `BREAKING:` PR → N3/N4 |
+| G2 | Publish blockers cleared | ⬜ **H8** + `BREAKING:` PR → N3/N4 |
 
 - **Date:** 2026-09-17
-- **Notes:** Version plan `11.3.0` (open пуст; ✅ **#M11**/**#M12**/**#M13**). Breaking: Command/Query/CommandEvent records + `CommandEventId`. Publish: PR `BREAKING:` → tip CI → tag `v11.3.0` / NuGet.
+- **Notes:** Version plan `11.3.0` (open **H8**; ✅ **#L26** B3/N1). Breaking: Command/Query/CommandEvent records + `CommandEventId`. Publish: решение H8 → PR `BREAKING:` → tip CI → tag `v11.3.0` / NuGet.
