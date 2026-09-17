@@ -3,6 +3,6 @@
 /// <summary>
 /// Base implementation of <see cref="ICommand{TResult}"/>.
 /// </summary>
-public abstract class Command : Command<Unit>, ICommand
+public abstract record Command : Command<Unit>, ICommand
 {
 }

@@ -1,6 +1,6 @@
 ﻿namespace SampleWebApp.Modules.TestCommandGeneric.Handlers;
 
-public class TestGenericCommand : Command<int>
+public record TestGenericCommand : Command<int>
 {
     public string Text { get; set; }
 

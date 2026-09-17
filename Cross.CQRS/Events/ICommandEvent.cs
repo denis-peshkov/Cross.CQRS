@@ -3,6 +3,11 @@
 public interface ICommandEvent : INotification, IInternalLogObject
 {
     /// <summary>
+    /// Unique command event identifier.
+    /// </summary>
+    Guid CommandEventId { get; }
+
+    /// <summary>
     /// Identifier of source which led to creation of event, e.g. <see cref="ICommand.CommandId"/>.
     /// </summary>
     Guid CommandId { get; }
