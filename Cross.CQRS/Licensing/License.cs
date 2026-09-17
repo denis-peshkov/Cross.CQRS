@@ -1,11 +1,10 @@
 ﻿namespace Cross.CQRS.Licensing;
 
-internal class License
+internal record License
 {
     internal License(params Claim[] claims)
         : this(new ClaimsPrincipal(new ClaimsIdentity(claims)))
     {
-
     }
 
     public License(ClaimsPrincipal claims)
