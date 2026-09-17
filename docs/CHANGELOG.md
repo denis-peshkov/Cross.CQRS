@@ -6,6 +6,30 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
+## v11.3.0 — 17 Sep 2026
+
+### Library
+
+- **Breaking:** `Command` / `Command<TResult>` / `Query<TResult>` are `abstract record`; new base `abstract record CommandEvent` (`Guid commandId` ctor, generated `CommandEventId`). Handlers stay `abstract class`. See [`BREAKING.md`](BREAKING.md).
+- Internal `License` / `LicenseProductInfo` are `record` (JWT claim snapshot / product metadata).
+
+### Tests
+
+- Sample / unit tests: Command / Query / CommandEvent inheritors are `record`.
+- `SkipNetCoreApp31Tests`: skip `netcoreapp3.1` on OSX Arm64 when no x64 3.1 host.
+
+### Documentation
+
+- `docs/BREAKING.md`: From 11.2.x → 11.3.0 (record bases + `CommandEventId`).
+- `config.nuspec` `releaseNotes` links `CHANGELOG.md` and `BREAKING.md` (no duplicated version list).
+
+### Repository tooling
+
+- `release-plan` skill: local `dotnet test` always passes `-p:SkipNetCoreApp31Tests=true`; `pr-message` points at that section.
+- `resolve-target-version.sh`: GitVersion `/nofetch` so sandbox agents do not hang on remote fetch.
+
+---
+
 ## v11.2.0 — 17 Sep 2026
 
 ### CI / release process

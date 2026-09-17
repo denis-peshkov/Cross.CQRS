@@ -61,6 +61,8 @@ Fill **every** template section. Keep HTML comments out of the user-facing draft
 | **AI assistance** | `[x]` + one line what AI did / what was verified, when this skill ran in an agent session; else `[ ]` |
 | **License** | Keep the template license footer verbatim |
 
+**No release version in PR message:** не писать SemVer / `vX.Y.Z` / «ship N.N.N» в title и body (версия — в tag / CHANGELOG / release plan). Исключение: путь к уже versioned-файлу.
+
 ### Phase 3 — Auto-check (only when verifiable)
 
 Run checks that are cheap and conclusive. **Do not** mark a box unless evidence exists in this turn. On failure/skip → leave `[ ]` and note why under Risks or after the draft.
@@ -75,7 +77,7 @@ Run checks that are cheap and conclusive. **Do not** mark a box unless evidence 
 | `dotnet build Cross.CQRS.slnx` — green locally | Command succeeds in this turn |
 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj` — green locally | Command succeeds in this turn (prefer all TFMs; at least one TFM if time-constrained — note partial) |
 
-Preferred commands (sandbox):
+Preferred commands (sandbox). Skill [`release-plan`](../release-plan/SKILL.md) → **Локальный `dotnet test`**.
 
 ```bash
 dotnet build Cross.CQRS.slnx
@@ -86,7 +88,7 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
 
 | Box | Auto `[x]` when |
 |---|---|
-| Read CONTRIBUTING | Always leave `[ ]` (human attestation) unless user says they read it |
+| Read CONTRIBUTING | Always leave `[ ]` (human attestation) unless user says they read it **or** authored `CONTRIBUTING.md` |
 | No other open PR for same fix/feature | `gh pr list --state open` shows no overlapping head/title/topic; if `gh` unavailable → `[ ]` |
 | One PR = one feature/fix | Leave `[ ]` unless delta is clearly single-purpose (then `[x]`) |
 | `.editorconfig` / no secrets | Spot-check diff: no live JWT/`eyJ…` license blobs, passwords, API keys; BOM/editorconfig not violated in touched files → `[x]`; on suspicion → `[ ]` + Risks note |
@@ -105,7 +107,7 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
 
 ````markdown
 ```text
-Prepare 9.2.0: …
+BREAKING: migrate Command/Query to records and add CommandEvent base
 ```
 ````
 

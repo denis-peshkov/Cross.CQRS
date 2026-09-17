@@ -184,22 +184,21 @@ public class BehaviorPipelineTests
         public Task<int> ApplyFilterAsync(int result, CancellationToken cancellationToken) => Task.FromResult(result + _value);
     }
 
-    private sealed class TestCommand : Command<string>
+    private sealed record TestCommand : Command<string>
     {
     }
 
-    private sealed class TestCommandEvent : ICommandEvent
+    private sealed record TestCommandEvent : CommandEvent
     {
         private readonly CommandEventFlowTypeEnum _flowType;
 
         public TestCommandEvent(Guid commandId, CommandEventFlowTypeEnum flowType)
+            : base(commandId)
         {
-            CommandId = commandId;
             _flowType = flowType;
         }
 
-        public Guid CommandId { get; }
-        public CommandEventFlowTypeEnum EventFlowType() => _flowType;
+        public override CommandEventFlowTypeEnum EventFlowType() => _flowType;
     }
 
     private sealed class FakeMediator : IMediator

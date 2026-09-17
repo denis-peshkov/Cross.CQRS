@@ -68,24 +68,24 @@ public class QueueAndExtensionsTests
         qry.QueryId.Should().NotBe(Guid.Empty);
     }
 
-    private sealed class TestEvent : ICommandEvent
+    private sealed record TestEvent : CommandEvent
     {
-        public TestEvent(Guid id, CommandEventFlowTypeEnum flow)
+        private readonly CommandEventFlowTypeEnum _flow;
+
+        public TestEvent(Guid commandId, CommandEventFlowTypeEnum flow)
+            : base(commandId)
         {
-            CommandId = id;
             _flow = flow;
         }
 
-        private readonly CommandEventFlowTypeEnum _flow;
-        public Guid CommandId { get; }
-        public CommandEventFlowTypeEnum EventFlowType() => _flow;
+        public override CommandEventFlowTypeEnum EventFlowType() => _flow;
     }
 
-    private sealed class TestCommand : Command
+    private sealed record TestCommand : Command
     {
     }
 
-    private sealed class TestQuery : Cross.CQRS.Queries.Query<int>
+    private sealed record TestQuery : Cross.CQRS.Queries.Query<int>
     {
     }
 }

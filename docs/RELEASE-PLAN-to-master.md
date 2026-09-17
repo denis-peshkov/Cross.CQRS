@@ -2,12 +2,12 @@
 
 > **Purpose:** checklist before merging into `master` for a NuGet release.
 > **Product:** Cross.CQRS
-> **Current target:** `11.2.0` · [`release/license-hosted-validator`](https://github.com/denis-peshkov/Cross.CQRS/tree/release/license-hosted-validator) · [`RELEASE-PLAN-11.2.0.md`](RELEASE-PLAN-11.2.0.md)
+> **Current target:** `11.3.0` · [`release/command-query-records`](https://github.com/denis-peshkov/Cross.CQRS/tree/release/command-query-records) · [`RELEASE-PLAN-11.3.0.md`](RELEASE-PLAN-11.3.0.md)
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)
 > **Updated:** 2026-09-17
 
-**Change summary:** **22** items — ✅ **16** (73%) · 🟨 **1** (5%) · ⬜ **5** (23%) · ❌ **0** (0%)
+**Change summary:** **22** items — ✅ **12** (55%) · 🟨 **1** (5%) · ⬜ **9** (41%) · ❌ **0** (0%)
 
 ---
 
@@ -15,9 +15,9 @@
 
 | # | Item | Status |
 |---|---|---|
-| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.2.0` |
-| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.2.0.md`](RELEASE-PLAN-11.2.0.md) |
-| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые (open **M10**/**L19**/**L20**/**L22** в version plan) |
+| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.3.0` |
+| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.3.0.md`](RELEASE-PLAN-11.3.0.md) |
+| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ TO-DO + version plan C/H/M/L пустые |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ `release/*` → Minor |
 
 ---
@@ -26,10 +26,10 @@
 
 | # | Item | Status |
 |---|---|---|
-| B1 | Consumer breaks in `docs/BREAKING.md` | ✅ нет (additive hosted + Hosting.Abstractions) |
-| B2 | PR title `BREAKING:` where applicable | ✅ N/A |
-| B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ без новой breaking-секции |
-| B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.2.0` |
+| B1 | Consumer breaks in `docs/BREAKING.md` | ✅ From 11.2.x to 11.3.0 (records) |
+| B2 | PR title `BREAKING:` where applicable | ⬜ нет PR |
+| B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ ссылка на `docs/BREAKING.md` |
+| B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.3.0` |
 
 ---
 
@@ -37,11 +37,11 @@
 
 | # | Item | Status |
 |---|---|---|
-| Q1 | `dotnet build` Release | ✅ restore + build в `dotnet test` |
-| Q2 | `dotnet test` Release | ✅ net6–net10 44 passed; netcoreapp3.1 no x64 host (TO-DO) |
-| Q3 | CI `.NET` green on release branch | ✅ [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25) `build` SUCCESS |
-| Q4 | SonarCloud / quality gate | ✅ SonarCloud Code Analysis SUCCESS |
-| Q5 | SampleWebApp smoke | ✅ N/A — sample не менялся; host подхватит `IHostedService` |
+| Q1 | `dotnet build` Release | ✅ `dotnet test` restore+build |
+| Q2 | `dotnet test` Release | ✅ net6–net10 45 passed (`SkipNetCoreApp31Tests` OSX Arm64) |
+| Q3 | CI `.NET` green on release branch | ⬜ нет PR |
+| Q4 | SonarCloud / quality gate | ⬜ after tip CI |
+| Q5 | SampleWebApp smoke | 🟨 sample inheritors → `record`; smoke host не гоняли |
 
 ---
 
@@ -49,10 +49,10 @@
 
 | # | Item | Status |
 |---|---|---|
-| N1 | `config.nuspec` metadata | ✅ `Microsoft.Extensions.Hosting.Abstractions` per TFM |
-| N2 | NuGet Trusted Publishing + `TAGTOKEN` | ⬜ policy on nuget.org; username `peshkov` hardcoded in workflow; drop `NUGET_API_KEY` after first green push |
-| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.2.0` |
-| N4 | GitHub Release notes | ⬜ для `v11.2.0` |
+| N1 | `config.nuspec` metadata | ✅ releaseNotes → CHANGELOG + BREAKING |
+| N2 | Secret `TAGTOKEN` | ✅ |
+| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.3.0` |
+| N4 | GitHub Release notes | ⬜ для `v11.3.0` |
 
 ---
 
@@ -61,7 +61,7 @@
 | # | Item | Status |
 |---|---|---|
 | A1 | Back-merge `master` → `dev` | ⬜ after land |
-| A2 | Sibling packages consume core | 🟨 EF: `ILicenseProductInfo`, без второго pipeline slot |
+| A2 | Sibling packages consume core | ⬜ EF Commands/Queries → `record` |
 | A3 | Leftover TO-DO C/H/M/L | ✅ open пуст |
 
 ---
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|---|---|
 | G1 | Go / No-Go recorded | ⬜ |
-| G2 | Publish blockers cleared | ⬜ M10 + merge #25 → N3/N4 |
+| G2 | Publish blockers cleared | ⬜ `BREAKING:` PR → N3/N4 |
 
 - **Date:** 2026-09-17
-- **Notes:** Version plan `11.2.0` updated (open **M10**, **L19**, **L20**, **L22**). PR [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25) CI green. Publish: merge → tag `v11.2.0` / NuGet.
+- **Notes:** Version plan `11.3.0` (✅ **#H8** accepted 11.3.0+BREAKING; ✅ **#L26** B3/N1). Breaking: Command/Query/CommandEvent records + `CommandEventId`. Publish: PR `BREAKING:` → tip CI → tag `v11.3.0` / NuGet.

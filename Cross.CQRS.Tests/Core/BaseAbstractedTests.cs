@@ -120,7 +120,7 @@ public class BaseAbstractionsTests
         }
     }
 
-    private sealed class TestCommand : Command
+    private sealed record TestCommand : Command
     {
     }
 
@@ -142,7 +142,7 @@ public class BaseAbstractionsTests
         }
     }
 
-    private sealed class TestQuery : Query<int>
+    private sealed record TestQuery : Query<int>
     {
     }
 
@@ -162,14 +162,12 @@ public class BaseAbstractionsTests
         }
     }
 
-    private sealed class TestEvent : ICommandEvent
+    private sealed record TestEvent : CommandEvent
     {
         public TestEvent(Guid commandId)
+            : base(commandId)
         {
-            CommandId = commandId;
         }
-
-        public Guid CommandId { get; }
     }
 
     private sealed class TestEventHandler : CommandEventHandler<TestEvent>
