@@ -1,8 +1,8 @@
-# Cross.CQRS — GitHub labels
+# Cross.CQRS — лейблы GitHub
 
-Snapshot of configured repository labels. Machine-readable: [`labels.yml`](labels.yml).
+Снимок настроенных лейблов репозитория. Машиночитаемый файл: [`labels.yml`](labels.yml).
 
-Restore example:
+Восстановление:
 
 ```bash
 gh label create "NAME" --color COLOR --description "DESC" --force
@@ -16,7 +16,7 @@ gh label create "NAME" --color COLOR --description "DESC" --force
 
 Сейчас в коде явной лестницы категорий нет — агент сам выбирает одну. По смыслу текущих правил triage логичный порядок такой (выше перебивает ниже):
 
-| # | Категория | Почему выше
+| # | Категория | Почему выше |
 |---|---|---|
 | 1 | security | Уже в prompt: утечки/auth/лицензия → всегда security + high/critical |
 | 2 | bug | Регрессии и падения важнее «новой фичи» |
@@ -44,25 +44,25 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 
 ## All labels
 
-| Label | Color | Description | Triage |
-|---|---|---|---|
-| `bug` | `#e8372a` | Something is broken | category |
-| `chore` | `#1d76db` | Build, CI, tooling, deps | category |
-| `docs` | `#0075ca` | Documentation only | category |
-| `documentation` | `#006b75` | Improvements or additions to documentation | — |
-| `duplicate` | `#ffffff` | This issue or pull request already exists | — |
-| `enhancement` | `#a2eeef` | Improvement without major behavior change | category |
-| `feature` | `#0e8a16` | New capability or flow | category |
-| `good first issue` | `#7057ff` | Good for newcomers | — |
-| `help wanted` | `#008672` | Extra attention is needed | — |
-| `invalid` | `#fef2c0` | This doesn't seem right | — |
-| `priority:critical` | `#b60205` | Triage priority: critical | priority |
-| `priority:high` | `#b60205` | Triage priority: high | priority |
-| `priority:low` | `#fbca04` | Triage priority: low | priority |
-| `priority:medium` | `#d93f0b` | Triage priority: medium | priority |
-| `question` | `#d876e3` | Further information is requested | — |
-| `security` | `#b60205` | Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | category |
-| `wontfix` | `#080808` | This will not be worked on | — |
+| Label | Color | Description (GitHub) | По-русски | Triage |
+|---|---|---|---|---|
+| `bug` | `#e8372a` | Something is broken | Что-то сломано / дефект | category |
+| `chore` | `#1d76db` | Build, CI, tooling, deps | Сборка, CI, tooling, зависимости | category |
+| `docs` | `#0075ca` | Documentation only | Только документация | category |
+| `documentation` | `#006b75` | Improvements or additions to documentation | Доработки / дополнения документации | — |
+| `duplicate` | `#ffffff` | This issue or pull request already exists | Такой issue/PR уже есть | — |
+| `enhancement` | `#a2eeef` | Improvement without major behavior change | Улучшение без крупного сдвига поведения | category |
+| `feature` | `#0e8a16` | New capability or flow | Новая возможность или сценарий | category |
+| `good first issue` | `#7057ff` | Good for newcomers | Подходит для новичков | — |
+| `help wanted` | `#008672` | Extra attention is needed | Нужна помощь со стороны | — |
+| `invalid` | `#fef2c0` | This doesn't seem right | Некорректно / не по делу | — |
+| `priority:critical` | `#b60205` | Triage priority: critical | Приоритет triage: критично | priority |
+| `priority:high` | `#b60205` | Triage priority: high | Приоритет triage: высокий | priority |
+| `priority:low` | `#fbca04` | Triage priority: low | Приоритет triage: низкий | priority |
+| `priority:medium` | `#d93f0b` | Triage priority: medium | Приоритет triage: средний | priority |
+| `question` | `#d876e3` | Further information is requested | Нужны уточнения / вопрос | — |
+| `security` | `#b60205` | Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | Безопасность: auth, секреты, лицензия, ПДн и т.п. | category |
+| `wontfix` | `#080808` | This will not be worked on | Не будем делать | — |
 
-Note: GitHub also has `documentation` (manual/issues). Triage writes `docs`, not `documentation`.
-`question` remains a **manual** GitHub label (e.g. issues); it is **not** a triage PR category.
+Note: на GitHub также есть `documentation` (вручную / issues). Triage пишет `docs`, не `documentation`.
+`question` остаётся **ручным** лейблом GitHub (например на issues); это **не** категория PR-triage.

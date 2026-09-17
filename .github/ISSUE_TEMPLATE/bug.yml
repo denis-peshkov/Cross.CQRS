@@ -47,7 +47,7 @@ body:
     id: verification
     attributes:
       label: Verification
-      description: Please verify before submitting. If you cannot check these honestly, use the **Question** template instead.
+      description: Please verify before submitting.
       options:
         - label: I searched [open and closed issues](https://github.com/denis-peshkov/Cross.CQRS/issues?q=is%3Aissue) and did not find a duplicate.
           required: true
