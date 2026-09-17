@@ -14,6 +14,11 @@ describe('normalizeCategoryLabel', () => {
   it('accepts known categories', () => {
     assert.equal(normalizeCategoryLabel('Enhancement'), 'enhancement');
     assert.equal(normalizeCategoryLabel('bug'), 'bug');
+    assert.equal(normalizeCategoryLabel('documentation'), 'documentation');
+  });
+
+  it('maps legacy docs alias to documentation', () => {
+    assert.equal(normalizeCategoryLabel('docs'), 'documentation');
   });
 
   it('rejects unknown', () => {

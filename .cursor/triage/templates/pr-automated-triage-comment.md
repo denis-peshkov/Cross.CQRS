@@ -40,7 +40,7 @@ The agent fills JSON fields; `format-pr-comment.mjs` renders the layout (reposit
 
 ```json
 {
-  "category": "feature|bug|enhancement|security|docs|chore",
+  "category": "feature|bug|enhancement|security|documentation|chore",
   "priority": "critical|high|medium|low",
   "confidence": 85,
   "summary": "2-4 sentences in English.",
@@ -63,7 +63,7 @@ After analysis, `post-pr-triage.mjs` syncs PR labels via `apply-pr-labels.mjs`:
 
 | Field | Label |
 |---|---|
-| `category` | `feature` / `bug` / `enhancement` / `security` / `docs` / `chore` |
+| `category` | `feature` / `bug` / `enhancement` / `security` / `documentation` / `chore` |
 | `priority` | `priority:critical` / `priority:high` / `priority:medium` / `priority:low` |
 
 Only these managed labels are added/removed; other PR labels are kept. Missing labels are created with `--force`.

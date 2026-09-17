@@ -12,15 +12,19 @@ export const CATEGORY_LABELS = Object.freeze([
   'bug',
   'enhancement',
   'security',
-  'docs',
+  'documentation',
   'chore',
 ]);
+
+/** Former triage category — still stripped from PRs when syncing labels. */
+export const LEGACY_CATEGORY_LABELS = Object.freeze(['docs']);
 
 export const PRIORITY_VALUES = Object.freeze(['critical', 'high', 'medium', 'low']);
 
 /** @type {ReadonlyArray<string>} */
 export const MANAGED_TRIAGE_LABELS = Object.freeze([
   ...CATEGORY_LABELS,
+  ...LEGACY_CATEGORY_LABELS,
   ...PRIORITY_VALUES.map((p) => `priority:${p}`),
 ]);
 
@@ -31,7 +35,7 @@ const LABEL_META = Object.freeze({
   bug: { color: 'e8372a', description: 'Something is broken' },
   enhancement: { color: 'a2eeef', description: 'Improvement without major behavior change' },
   security: { color: 'b60205', description: 'Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security' },
-  docs: { color: '0075ca', description: 'Documentation only' },
+  documentation: { color: '006b75', description: 'Improvements or additions to documentation' },
   chore: { color: '1d76db', description: 'Build, CI, tooling, deps' },
   'priority:critical': { color: 'b60205', description: 'Triage priority: critical' },
   'priority:high': { color: 'b60205', description: 'Triage priority: high' },
@@ -49,6 +53,10 @@ export function normalizeCategoryLabel(value) {
     .toLowerCase();
   if (!raw || raw === 'unknown') {
     return null;
+  }
+  // Legacy agent/alias → current GitHub label
+  if (raw === 'docs') {
+    return 'documentation';
   }
   return CATEGORY_LABELS.includes(raw) ? raw : null;
 }
