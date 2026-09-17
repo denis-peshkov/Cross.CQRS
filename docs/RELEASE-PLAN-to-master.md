@@ -5,9 +5,9 @@
 > **Current target:** `11.2.0` · [`release/license-hosted-validator`](https://github.com/denis-peshkov/Cross.CQRS/tree/release/license-hosted-validator) · [`RELEASE-PLAN-11.2.0.md`](RELEASE-PLAN-11.2.0.md)
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)
-> **Updated:** 2026-09-16
+> **Updated:** 2026-09-17
 
-**Change summary:** **22** items — ✅ **14** (64%) · 🟨 **1** (5%) · ⬜ **7** (32%) · ❌ **0** (0%)
+**Change summary:** **22** items — ✅ **16** (73%) · 🟨 **1** (5%) · ⬜ **5** (23%) · ❌ **0** (0%)
 
 ---
 
@@ -17,7 +17,7 @@
 |---|---|---|
 | P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.2.0` |
 | P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.2.0.md`](RELEASE-PLAN-11.2.0.md) |
-| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые (open **M10**/**L19**/**L20** в version plan) |
+| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ open C/H/M/L пустые (open **M10**/**L19**/**L20**/**L22** в version plan) |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ `release/*` → Minor |
 
 ---
@@ -39,8 +39,8 @@
 |---|---|---|
 | Q1 | `dotnet build` Release | ✅ restore + build в `dotnet test` |
 | Q2 | `dotnet test` Release | ✅ net6–net10 44 passed; netcoreapp3.1 no x64 host (TO-DO) |
-| Q3 | CI `.NET` green on release branch | ⬜ нет PR / tip CI |
-| Q4 | SonarCloud / quality gate | ⬜ after tip CI |
+| Q3 | CI `.NET` green on release branch | ✅ [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25) `build` SUCCESS |
+| Q4 | SonarCloud / quality gate | ✅ SonarCloud Code Analysis SUCCESS |
 | Q5 | SampleWebApp smoke | ✅ N/A — sample не менялся; host подхватит `IHostedService` |
 
 ---
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|---|---|
 | G1 | Go / No-Go recorded | ⬜ |
-| G2 | Publish blockers cleared | ⬜ M10 + tip CI → N3/N4 |
+| G2 | Publish blockers cleared | ⬜ M10 + merge #25 → N3/N4 |
 
-- **Date:** 2026-09-16
-- **Notes:** Version plan `11.2.0` drafted (open **M10**, **L19**, **L20**). PR ещё нет. Publish: PR → tip CI → tag `v11.2.0` / NuGet.
+- **Date:** 2026-09-17
+- **Notes:** Version plan `11.2.0` updated (open **M10**, **L19**, **L20**, **L22**). PR [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25) CI green. Publish: merge → tag `v11.2.0` / NuGet.

@@ -6,7 +6,12 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
-## v11.2.0 — 16 Sep 2026
+## v11.2.0 — 17 Sep 2026
+
+### CI / release process
+
+- GitHub labels: `.github/LABELS.yml` + `.github/LABELS.md`; triage category `docs` (not `documentation`); dropped `question` issue template and `good first issue`.
+- Issue templates: `bug.yml` / `feature.yml` updated.
 
 ### Library
 
@@ -24,8 +29,9 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ### Repository tooling
 
+- Cursor rules pack (`.cursor/rules/*.mdc`); triage loads matched rules (`load-review-rules.mjs`); static PR checklists removed.
 - CodeRabbit review instructions mention `LicenseHostedValidator`.
-- `.cursor/README.md` and `pr-message` skill added (PR template drafts).
+- `.cursor/README.md` and `pr-message` skill (PR template drafts).
 
 ---
 

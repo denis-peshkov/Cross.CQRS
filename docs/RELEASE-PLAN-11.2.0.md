@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.2.0` · **ветка:** `release/license-hosted-validator` · **база:** `origin/master` (`v11.1.2`) · **дата:** `2026-09-16`
+> **Версия:** `11.2.0` · **ветка:** `release/license-hosted-validator` · **база:** `origin/master` (`v11.1.2`) · **дата:** `2026-09-17`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.2.0
 >
@@ -8,11 +8,12 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.2.md](RELEASE-PLAN-11.1.2.md)
 >
-> Дельта: `origin/master...HEAD` — **1** коммита · **14** файлов · **+244 / −8**. Open: C0 H0 M1 L2
+> Дельта: `origin/master...HEAD` — **13** коммита · **66** файлов · **+3494 / −308**. Open: C0 H0 M1 L3
 
-**CodeRabbit:** не запускался.
+**CodeRabbit:**
+- не запускался.
 
-**PR:** —
+**PR:** [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25).
 
 ---
 
@@ -34,13 +35,17 @@
 
 ## Низкий (техдолг / несогласованности)
 
-### L19. `.cursor/README.md` — skills/rules, которых нет в репо
+### L19. `.cursor/README.md` — skills, которых нет в репо
 
-README ссылается на `rules/`, `db-scripts`, `stripe-*`, `translate-resources`. В репо skills: release-plan, coderabbit, triage*, pr-message; `.cursor/rules` нет.
+`.cursor/rules/` уже в дельте. README всё ещё ссылается на `db-scripts`, `stripe-*`, `translate-resources` — этих skills в репо нет.
 
 ### L20. `LicenseHostedValidator.StartAsync` игнорирует `CancellationToken`
 
 `CheckLicense()` синхронный; `cancellationToken` не используется. Для IHostedService на старте обычно терпимо, но контракт не соблюдён.
+
+### L22. `LABELS.md` ссылается на `labels.yml`
+
+[`.github/LABELS.md`](../.github/LABELS.md) линкует `labels.yml`, файл в git — `LABELS.yml`. На case-sensitive FS ссылка ломается.
 
 ---
 
@@ -49,6 +54,7 @@ README ссылается на `rules/`, `db-scripts`, `stripe-*`, `translate-re
 - Лицензия по-прежнему опциональна: тот же `CheckLicense` / `Validate`, что и в pipeline; без ключа host start не бросает (тест).
 - Новая зависимость `Microsoft.Extensions.Hosting.Abstractions` (версия по TFM) — additive, без секции `docs/BREAKING.md`.
 - Pipeline order **-2** для `LicenseCheckBehavior` сохранён; **-1** больше не резервируется под Cross.CQRS.EF (EF — через `ILicenseProductInfo`).
+- Shared `.cursor/rules` pack включает Angular/EF/HTTP шаблоны; triage матчит по globs (на типичном PR этой библиотеки часто не срабатывают).
 - `netcoreapp3.1` в локальном прогоне без x64 host abort — как в TO-DO (`SkipNetCoreApp31Tests`).
 
 ---
@@ -62,7 +68,10 @@ README ссылается на `rules/`, `db-scripts`, `stripe-*`, `translate-re
 | ✅ Registration tests | descriptor `IHostedService`; start without key does not throw |
 | ✅ README / CONTRIBUTING | host start + per-request license check |
 | ✅ CodeRabbit licensing hint | instructions + `LicenseHostedValidator` |
-| ✅ #L21 CHANGELOG v11.2.0 | `update-changelog.mjs --write`; Unreleased влит в `## v11.2.0`; секция уточнена |
+| ✅ Cursor rules + triage | `.cursor/rules/*.mdc`; `load-review-rules.mjs`; static PR checklists удалены |
+| ✅ GitHub labels | `.github/LABELS.yml` + `LABELS.md`; triage `docs`; без `question` template / `good first issue` |
+| ✅ PR #25 | [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25); CI `build` + SonarCloud green |
+| ✅ #L21 CHANGELOG v11.2.0 | `update-changelog.mjs --write`; секция уточнена (labels / templates) |
 
 ---
 
@@ -76,6 +85,6 @@ README ссылается на `rules/`, `db-scripts`, `stripe-*`, `translate-re
 
 ## Приоритет фиксов
 
-1. **M10** — поправить пути build/test в `pr-message` под Cross.CQRS.
-2. **L19** / **L20** — README skills / `CancellationToken` на старте.
+1. **M10** — поправить пути build/test в `pr-message` под `Cross.CQRS.slnx` / `Cross.CQRS.Tests`.
+2. **L19** / **L20** / **L22** — README leftover skills / `CancellationToken` / ссылка `LABELS.md`.
 3. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
