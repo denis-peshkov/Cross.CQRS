@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.2.0` · **ветка:** `release/license-hosted-validator` · **база:** `origin/master` (`v11.1.2`) · **дата:** `2026-09-17`
+> **Версия:** `11.2.0` (closed) · **ветка:** `release/license-hosted-validator` · **база:** `origin/master` (`v11.1.2`) · **дата:** `2026-09-17`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.2.0
 >
@@ -8,11 +8,11 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.2.md](RELEASE-PLAN-11.1.2.md)
 >
-> Дельта: `origin/master...HEAD` — **13** коммита · **66** файлов · **+3494 / −308**. Open: C0 H0 M0 L3
+> Дельта: `origin/master...HEAD` — **15** коммита · **66** файлов · **+3510 / −309**. Open C/H/M/L пустые (план закрыт).
 
 **CodeRabbit:**
-- `2026-09-17` · pasted agent finding (EF SeedLookup MERGE) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → Open: C0 H0 M0 L3
-- `2026-09-17` · pasted agent finding (pr-message Shell perms) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → Open: C0 H0 M0 L3
+- `2026-09-17` · pasted agent finding (EF SeedLookup MERGE) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → все закрыты в этом плане.
+- `2026-09-17` · pasted agent finding (pr-message Shell perms) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → все закрыты в этом плане.
 
 **PR:** [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25).
 
@@ -31,18 +31,6 @@
 ---
 
 ## Низкий (техдолг / несогласованности)
-
-### L19. `.cursor/README.md` — skills, которых нет в репо
-
-`.cursor/rules/` уже в дельте. README всё ещё ссылается на `db-scripts`, `stripe-*`, `translate-resources` — этих skills в репо нет.
-
-### L20. `LicenseHostedValidator.StartAsync` игнорирует `CancellationToken`
-
-`CheckLicense()` синхронный; `cancellationToken` не используется. Для IHostedService на старте обычно терпимо, но контракт не соблюдён.
-
-### L22. `LABELS.md` ссылается на `labels.yml`
-
-[`.github/LABELS.md`](../.github/LABELS.md) линкует `labels.yml`, файл в git — `LABELS.yml`. На case-sensitive FS ссылка ломается.
 
 ---
 
@@ -86,5 +74,4 @@
 
 ## Приоритет фиксов
 
-1. **L19** / **L20** / **L22** — README leftover skills / `CancellationToken` / ссылка `LABELS.md`.
-2. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+_(пусто — релиз `11.2.0` закрыт; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
