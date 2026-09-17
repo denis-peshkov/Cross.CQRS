@@ -14,7 +14,6 @@ export const CATEGORY_LABELS = Object.freeze([
   'security',
   'docs',
   'chore',
-  'question',
 ]);
 
 export const PRIORITY_VALUES = Object.freeze(['critical', 'high', 'medium', 'low']);
@@ -29,16 +28,15 @@ export const DEFAULT_LABEL_MIN_CONFIDENCE = 70;
 
 const LABEL_META = Object.freeze({
   feature: { color: '0e8a16', description: 'New capability or flow' },
-  bug: { color: 'd73a4a', description: 'Something is broken' },
+  bug: { color: 'e8372a', description: 'Something is broken' },
   enhancement: { color: 'a2eeef', description: 'Improvement without major behavior change' },
   security: { color: 'b60205', description: 'Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security' },
   docs: { color: '0075ca', description: 'Documentation only' },
-  chore: { color: 'fef2c0', description: 'Build, CI, tooling, deps' },
-  question: { color: 'd876e3', description: 'Question / clarification' },
+  chore: { color: '1d76db', description: 'Build, CI, tooling, deps' },
   'priority:critical': { color: 'b60205', description: 'Triage priority: critical' },
-  'priority:high': { color: 'd93f0b', description: 'Triage priority: high' },
-  'priority:medium': { color: 'fbca04', description: 'Triage priority: medium' },
-  'priority:low': { color: '0e8a16', description: 'Triage priority: low' },
+  'priority:high': { color: 'b60205', description: 'Triage priority: high' },
+  'priority:medium': { color: 'd93f0b', description: 'Triage priority: medium' },
+  'priority:low': { color: 'fbca04', description: 'Triage priority: low' },
 });
 
 /**
