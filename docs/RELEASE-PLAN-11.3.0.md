@@ -8,11 +8,11 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.2.0.md](RELEASE-PLAN-11.2.0.md)
 >
-> Дельта: `origin/master...HEAD` — **5** коммита · **29** файлов · **+234 / −83**. Open: C0 H1 M0 L0
+> Дельта: `origin/master...HEAD` — **5** коммита · **29** файлов · **+234 / −83**. Open C/H/M/L пустые.
 
 **CodeRabbit:**
-- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → Open: C0 H1 M0 L0
-- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-155731.jsonl` · 2 findings (0 Critical, 1 Major, 1 Minor) → Open: C0 H1 M0 L0
+- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → Open C/H/M/L пустые.
+- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-155731.jsonl` · 2 findings (0 Critical, 1 Major, 1 Minor) → Open C/H/M/L пустые.
 
 **PR:** —
 
@@ -23,10 +23,6 @@
 ---
 
 ## Высокий (логика / licensing / auth model)
-
-### H8. `ICommandEvent.CommandEventId` — SemVer major vs 11.3.0
-
-На публичный интерфейс добавлен обязательный `Guid CommandEventId` — source/binary break для ручных implementors. CR: либо **next major** (12.0.0), либо вынести в opt-in interface. Сейчас шипится как **11.3.0** + `docs/BREAKING.md` (как class→record). Нужно явное решение maintainers.
 
 ---
 
@@ -42,6 +38,7 @@
 
 - Handlers (`CommandHandler` / `QueryHandler` / `CommandEventHandler`) остаются `abstract class`; breaking только для inheritors `Command` / `Query` / нового `CommandEvent`.
 - `ICommandEvent` по-прежнему можно реализовать вручную; канон — `record … : CommandEvent`.
+- `ICommandEvent.CommandEventId` — намеренный breaking в **11.3.0** + `docs/BREAKING.md` (не 12.0.0 / не opt-in interface).
 - `License` / `LicenseProductInfo` — `internal record`; не consumer-breaking.
 - `SkipNetCoreApp31Tests=true` по умолчанию на OSX Arm64 (тот же trade-off, что в TO-DO).
 
@@ -62,6 +59,7 @@
 | ✅ #M12 Command XML identity | `Command` / `Command<TResult>` summaries kept as base implementation (CR wording trimmed) |
 | ✅ #M13 CommandEventId on CommandEvent | `CommandEventId = Guid.NewGuid()` — value-equality различает два события с одним `CommandId`; `Equal` в тесте ок |
 | ✅ #L26 to-master B3 nuspec | B3/N1: `releaseNotes` → `docs/BREAKING.md` без якорей |
+| ✅ #H8 CommandEventId SemVer | accepted: 11.3.0 + BREAKING (planned); не 12.0.0 / не opt-in |
 
 ---
 
@@ -75,7 +73,6 @@
 
 ## Приоритет фиксов
 
-1. **H8** — решение: 12.0.0 vs оставить 11.3.0 + BREAKING (и/или opt-in interface).
-2. PR с префиксом `BREAKING:` (чеклист B2).
-3. Sibling EF: Commands/Queries → `record`.
-4. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+1. PR с префиксом `BREAKING:` (чеклист B2).
+2. Sibling EF: Commands/Queries → `record`.
+3. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).

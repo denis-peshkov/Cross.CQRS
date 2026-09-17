@@ -17,7 +17,7 @@
 |---|---|---|
 | P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `11.3.0` |
 | P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.3.0.md`](RELEASE-PLAN-11.3.0.md) |
-| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ TO-DO C/H/M/L пустые; version plan **H8** open |
+| P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ TO-DO + version plan C/H/M/L пустые |
 | P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ `release/*` → Minor |
 
 ---
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|---|---|
 | G1 | Go / No-Go recorded | ⬜ |
-| G2 | Publish blockers cleared | ⬜ **H8** + `BREAKING:` PR → N3/N4 |
+| G2 | Publish blockers cleared | ⬜ `BREAKING:` PR → N3/N4 |
 
 - **Date:** 2026-09-17
-- **Notes:** Version plan `11.3.0` (open **H8**; ✅ **#L26** B3/N1). Breaking: Command/Query/CommandEvent records + `CommandEventId`. Publish: решение H8 → PR `BREAKING:` → tip CI → tag `v11.3.0` / NuGet.
+- **Notes:** Version plan `11.3.0` (✅ **#H8** accepted 11.3.0+BREAKING; ✅ **#L26** B3/N1). Breaking: Command/Query/CommandEvent records + `CommandEventId`. Publish: PR `BREAKING:` → tip CI → tag `v11.3.0` / NuGet.
