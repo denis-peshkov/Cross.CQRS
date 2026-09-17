@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.3.0` · **ветка:** `release/command-query-records` · **база:** `origin/master` (`v11.2.0`) · **дата:** `2026-09-17`
+> **Версия:** `11.3.0` (closed) · **ветка:** `release/command-query-records` · **база:** `origin/master` (`v11.2.0`) · **дата:** `2026-09-17`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.3.0
 >
@@ -8,11 +8,11 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.2.0.md](RELEASE-PLAN-11.2.0.md)
 >
-> Дельта: `origin/master...HEAD` — **7** коммита · **30** файлов · **+246 / −85**. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **8** коммита · **30** файлов · **+248 / −85**. Open C/H/M/L пустые (план закрыт).
 
 **CodeRabbit:**
-- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → Open C/H/M/L пустые.
-- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-155731.jsonl` · 2 findings (0 Critical, 1 Major, 1 Minor) → Open C/H/M/L пустые.
+- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → все закрыты в этом плане.
+- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-155731.jsonl` · 2 findings (0 Critical, 1 Major, 1 Minor) → все закрыты в этом плане.
 
 **PR:** —
 
@@ -74,6 +74,4 @@
 
 ## Приоритет фиксов
 
-1. PR с префиксом `BREAKING:` (чеклист B2).
-2. Sibling EF: Commands/Queries → `record`.
-3. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+_(пусто — релиз `11.3.0` закрыт; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
