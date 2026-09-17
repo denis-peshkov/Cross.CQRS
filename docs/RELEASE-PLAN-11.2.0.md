@@ -8,10 +8,11 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.2.md](RELEASE-PLAN-11.1.2.md)
 >
-> Дельта: `origin/master...HEAD` — **13** коммита · **66** файлов · **+3494 / −308**. Open: C0 H0 M1 L3
+> Дельта: `origin/master...HEAD` — **13** коммита · **66** файлов · **+3494 / −308**. Open: C0 H0 M0 L3
 
 **CodeRabbit:**
-- не запускался.
+- `2026-09-17` · pasted agent finding (EF SeedLookup MERGE) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → Open: C0 H0 M0 L3
+- `2026-09-17` · pasted agent finding (pr-message Shell perms) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → Open: C0 H0 M0 L3
 
 **PR:** [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25).
 
@@ -26,10 +27,6 @@
 ---
 
 ## Средний (противоречия / баги контрактов)
-
-### M10. pr-message skill: EF sln / test project
-
-`.cursor/skills/pr-message/SKILL.md` Phase 3 гоняет `Cross.CQRS.EF.slnx` / `Cross.CQRS.EF.Tests` — в этом репо канон `Cross.CQRS.slnx` и `Cross.CQRS.Tests`. Авточеки Test plan на этом репо сломаны / копипаст из sibling.
 
 ---
 
@@ -56,6 +53,7 @@
 - Pipeline order **-2** для `LicenseCheckBehavior` сохранён; **-1** больше не резервируется под Cross.CQRS.EF (EF — через `ILicenseProductInfo`).
 - Shared `.cursor/rules` pack включает Angular/EF/HTTP шаблоны; triage матчит по globs (на типичном PR этой библиотеки часто не срабатывают).
 - `netcoreapp3.1` в локальном прогоне без x64 host abort — как в TO-DO (`SkipNetCoreApp31Tests`).
+- `3_SeedLookup` MERGE + delete-not-in-source: канон = seed владеет всей lookup-таблицей; оговорки про partial ownership / owner-predicate в rule не нужны.
 
 ---
 
@@ -72,6 +70,9 @@
 | ✅ GitHub labels | `.github/LABELS.yml` + `LABELS.md`; triage `docs`; без `question` template / `good first issue` |
 | ✅ PR #25 | [#25](https://github.com/denis-peshkov/Cross.CQRS/pull/25); CI `build` + SonarCloud green |
 | ✅ #L21 CHANGELOG v11.2.0 | `update-changelog.mjs --write`; секция уточнена (labels / templates) |
+| ✅ #L23 SeedLookup MERGE delete | won’t-fix: канон = полный ownership таблицы; оговорку в `102-backend-efcore.mdc` не писать |
+| ✅ #M10 pr-message EF paths | Phase 3 → `Cross.CQRS.slnx` / `Cross.CQRS.Tests` (как template) |
+| ✅ #L24 pr-message Shell least privilege | build/test sandbox; elevate only when needed, smallest scope |
 
 ---
 
@@ -85,6 +86,5 @@
 
 ## Приоритет фиксов
 
-1. **M10** — поправить пути build/test в `pr-message` под `Cross.CQRS.slnx` / `Cross.CQRS.Tests`.
-2. **L19** / **L20** / **L22** — README leftover skills / `CancellationToken` / ссылка `LABELS.md`.
-3. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+1. **L19** / **L20** / **L22** — README leftover skills / `CancellationToken` / ссылка `LABELS.md`.
+2. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
