@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `11.1.2` (closed) · **ветка:** `hotfix/release-plan-triage` · **база:** `origin/master` (`v11.1.1`) · **дата:** `2026-09-14`
+> **Версия:** `11.1.2` (published / closed) · **ветка:** `hotfix/release-plan-triage` · **база:** `origin/master` (`v11.1.1`) · **дата:** `2026-09-14`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v11.1.2
 >

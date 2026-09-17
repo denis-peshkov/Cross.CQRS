@@ -208,7 +208,12 @@ git diff "$BASE_REF...$BRANCH_REF"
 # or uncommitted: git diff && git diff --cached
 ```
 
-Checklist: `references/dotnet-checklist.md` (and `docs/BREAKING.md` when public API changes).
+Repository context for the agent (from README / tree, not hard-coded paths):
+
+- Library / `src/` — public API, DI, pipeline
+- `*Tests*/` — automated tests
+- Documentation: `README.md`, `docs/BREAKING.md`, `docs/CHANGELOG.md` (when present)
+- Rules: `.cursor/triage/post-pr-triage.mjs` (`loadMatchedRules` → `.cursor/rules/*.mdc` by `alwaysApply` / `globs`)
 
 Response structure: Critical 🔴 / Important 🟠 / Suggestions 🟡 / What's Good ✅.
 
@@ -220,7 +225,7 @@ Branch/local: report in chat and/or save file — **never** `gh pr comment` unle
 
 ### Automated PR comment (CI)
 
-On `pull_request` opened/synchronize CI posts a **wshm-style** comment:
+On `pull_request` opened/synchronize CI posts an automated triage comment (category, priority, confidence, summary, files):
 
 - Script: `.cursor/triage/post-pr-triage.mjs`
 - Template: `.cursor/triage/templates/pr-automated-triage-comment.md`

@@ -39,7 +39,8 @@ reviews:
       instructions: |
         Prefer findings on MediatR pipeline order, DI registration (AddCQRS),
         FluentValidation assembly scan, command/event queue behavior, and JWT
-        licensing (LicenseKey / ILicenseProductInfo / LicenseCheckBehavior).
+        licensing (LicenseKey / ILicenseProductInfo / LicenseCheckBehavior /
+        LicenseHostedValidator).
         Require XML docs only on public host-facing contracts. Do not require
         docstrings/XML on internal helpers or private members.
         Library code must use ConfigureAwait(false) where CA2007 applies;
