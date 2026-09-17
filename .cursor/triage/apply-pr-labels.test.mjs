@@ -14,11 +14,11 @@ describe('normalizeCategoryLabel', () => {
   it('accepts known categories', () => {
     assert.equal(normalizeCategoryLabel('Enhancement'), 'enhancement');
     assert.equal(normalizeCategoryLabel('bug'), 'bug');
-    assert.equal(normalizeCategoryLabel('documentation'), 'documentation');
+    assert.equal(normalizeCategoryLabel('docs'), 'docs');
   });
 
-  it('maps legacy docs alias to documentation', () => {
-    assert.equal(normalizeCategoryLabel('docs'), 'documentation');
+  it('maps legacy documentation alias to docs', () => {
+    assert.equal(normalizeCategoryLabel('documentation'), 'docs');
   });
 
   it('rejects unknown', () => {

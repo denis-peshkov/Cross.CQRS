@@ -22,10 +22,10 @@ gh label create "NAME" --color COLOR --description "DESC" --force
 | 2 | bug | Регрессии и падения важнее «новой фичи» |
 | 3 | feature | Новое API/поведение важнее polish/docs |
 | 4 | enhancement | Polish / perf / DX без нового публичного контракта |
-| 5 | documentation | Документация |
+| 5 | docs | Доработки / дополнения документации |
 | 6 | chore | CI/tooling/deps без продуктового эффекта |
 
-**Как читать смешанный PR:** берёшь все подходящие категории по диффу, оставляешь **самую верхнюю** из таблицы. Пример: documentation + bugfix → `bug`; feature + workflow YAML → `feature`; только README + triage.yml → смотри объём/intent, обычно `documentation` или `chore`.
+**Как читать смешанный PR:** берёшь все подходящие категории по диффу, оставляешь **самую верхнюю** из таблицы. Пример: docs + bugfix → `bug`; feature + workflow YAML → `feature`; только README + triage.yml → смотри объём/intent, обычно `docs` или `chore`.
 
 Priority (`critical`...`low`) — **отдельная ось**, не путать с этой лестницей категорий.
 
@@ -48,8 +48,7 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 |---|---|---|---|---|
 | `bug` | `#e8372a` | Something is broken | Что-то сломано / дефект | category |
 | `chore` | `#1d76db` | Build, CI, tooling, deps | Сборка, CI, tooling, зависимости | category |
-| `docs` | `#0075ca` | Documentation only | Только документация | — (legacy) |
-| `documentation` | `#006b75` | Improvements or additions to documentation | Доработки / дополнения документации | category |
+| `docs` | `#006b75` | Improvements or additions to documentation | Доработки / дополнения документации | category |
 | `duplicate` | `#ffffff` | This issue or pull request already exists | Такой issue/PR уже есть | — |
 | `enhancement` | `#a2eeef` | Polish, perf, or DX without new public contract | Polish / perf / DX без нового публичного контракта | category |
 | `feature` | `#0e8a16` | New API or behavior | Новое API или поведение | category |
@@ -63,5 +62,5 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 | `security` | `#5319e7` | 🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | Безопасность: auth, секреты, лицензия, ПДн и т.п. | category |
 | `wontfix` | `#080808` | This will not be worked on | Не будем делать | — |
 
-Note: triage пишет **`documentation`**. Лейбл `docs` на GitHub — legacy; при sync PR старый `docs` снимается.
+Note: triage пишет **`docs`**. Лейбл `documentation` на GitHub — legacy; при sync PR старый `documentation` снимается.
 `question` остаётся **ручным** лейблом GitHub (например на issues); это **не** категория PR-triage.

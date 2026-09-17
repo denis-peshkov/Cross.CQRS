@@ -13,10 +13,6 @@
   description: "Build, CI, tooling, deps"
 
 - name: "docs"
-  color: "0075ca"
-  description: "Documentation only"
-
-- name: "documentation"
   color: "006b75"
   description: "Improvements or additions to documentation"
 
