@@ -31,9 +31,9 @@ export const MANAGED_TRIAGE_LABELS = Object.freeze([
 export const DEFAULT_LABEL_MIN_CONFIDENCE = 70;
 
 const LABEL_META = Object.freeze({
-  feature: { color: '0e8a16', description: 'New capability or flow' },
+  feature: { color: '0e8a16', description: 'New API or behavior' },
   bug: { color: 'e8372a', description: 'Something is broken' },
-  enhancement: { color: 'a2eeef', description: 'Improvement without major behavior change' },
+  enhancement: { color: 'a2eeef', description: 'Polish, perf, or DX without new public contract' },
   security: {
     color: '5319e7',
     description: '🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security',

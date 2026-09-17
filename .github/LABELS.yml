@@ -26,11 +26,11 @@
 
 - name: "enhancement"
   color: "a2eeef"
-  description: "Improvement without major behavior change"
+  description: "Polish, perf, or DX without new public contract"
 
 - name: "feature"
   color: "0e8a16"
-  description: "New capability or flow"
+  description: "New API or behavior"
 
 - name: "good first issue"
   color: "7057ff"

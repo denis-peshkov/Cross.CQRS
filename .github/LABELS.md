@@ -20,8 +20,8 @@ gh label create "NAME" --color COLOR --description "DESC" --force
 |---|---|---|
 | 1 | security | Уже в prompt: утечки/auth/лицензия → всегда security + high/critical |
 | 2 | bug | Регрессии и падения важнее «новой фичи» |
-| 3 | feature | Новое поведение важнее косметики/docs |
-| 4 | enhancement | Улучшение без major behavior change |
+| 3 | feature | Новое API/поведение важнее polish/docs |
+| 4 | enhancement | Polish / perf / DX без нового публичного контракта |
 | 5 | documentation | Документация |
 | 6 | chore | CI/tooling/deps без продуктового эффекта |
 
@@ -51,8 +51,8 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 | `docs` | `#0075ca` | Documentation only | Только документация | — (legacy) |
 | `documentation` | `#006b75` | Improvements or additions to documentation | Доработки / дополнения документации | category |
 | `duplicate` | `#ffffff` | This issue or pull request already exists | Такой issue/PR уже есть | — |
-| `enhancement` | `#a2eeef` | Improvement without major behavior change | Улучшение без крупного сдвига поведения | category |
-| `feature` | `#0e8a16` | New capability or flow | Новая возможность или сценарий | category |
+| `enhancement` | `#a2eeef` | Polish, perf, or DX without new public contract | Polish / perf / DX без нового публичного контракта | category |
+| `feature` | `#0e8a16` | New API or behavior | Новое API или поведение | category |
 | `good first issue` | `#7057ff` | Good for newcomers | Подходит для новичков | — |
 | `help wanted` | `#008672` | Extra attention is needed | Нужна помощь со стороны | — |
 | `invalid` | `#fef2c0` | This doesn't seem right | Некорректно / не по делу | — |
