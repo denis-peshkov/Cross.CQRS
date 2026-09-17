@@ -26,6 +26,7 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 ### Repository tooling
 
 - `release-plan` skill: local `dotnet test` always passes `-p:SkipNetCoreApp31Tests=true`; `pr-message` points at that section.
+- `resolve-target-version.sh`: GitVersion `/nofetch` so sandbox agents do not hang on remote fetch.
 
 ---
 

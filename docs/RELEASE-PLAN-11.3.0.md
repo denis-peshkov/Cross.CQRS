@@ -8,7 +8,7 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.2.0.md](RELEASE-PLAN-11.2.0.md)
 >
-> Дельта: `origin/master...HEAD` — **5** коммита · **29** файлов · **+234 / −83**. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **7** коммита · **30** файлов · **+246 / −85**. Open C/H/M/L пустые.
 
 **CodeRabbit:**
 - `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → Open C/H/M/L пустые.
@@ -60,6 +60,7 @@
 | ✅ #M13 CommandEventId on CommandEvent | `CommandEventId = Guid.NewGuid()` — value-equality различает два события с одним `CommandId`; `Equal` в тесте ок |
 | ✅ #L26 to-master B3 nuspec | B3/N1: `releaseNotes` → `docs/BREAKING.md` без якорей |
 | ✅ #H8 CommandEventId SemVer | accepted: 11.3.0 + BREAKING (planned); не 12.0.0 / не opt-in |
+| ✅ GitVersion /nofetch | `resolve-target-version.sh` — `/nofetch`, без hang на remote fetch |
 
 ---
 
