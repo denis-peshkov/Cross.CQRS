@@ -34,12 +34,15 @@ const LABEL_META = Object.freeze({
   feature: { color: '0e8a16', description: 'New capability or flow' },
   bug: { color: 'e8372a', description: 'Something is broken' },
   enhancement: { color: 'a2eeef', description: 'Improvement without major behavior change' },
-  security: { color: 'b60205', description: 'Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security' },
+  security: {
+    color: '5319e7',
+    description: '🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security',
+  },
   documentation: { color: '006b75', description: 'Improvements or additions to documentation' },
   chore: { color: '1d76db', description: 'Build, CI, tooling, deps' },
   'priority:critical': { color: 'b60205', description: 'Triage priority: critical' },
-  'priority:high': { color: 'b60205', description: 'Triage priority: high' },
-  'priority:medium': { color: 'd93f0b', description: 'Triage priority: medium' },
+  'priority:high': { color: 'd93f0b', description: 'Triage priority: high' },
+  'priority:medium': { color: 'fb8500', description: 'Triage priority: medium' },
   'priority:low': { color: 'fbca04', description: 'Triage priority: low' },
 });
 

@@ -57,11 +57,11 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 | `help wanted` | `#008672` | Extra attention is needed | Нужна помощь со стороны | — |
 | `invalid` | `#fef2c0` | This doesn't seem right | Некорректно / не по делу | — |
 | `priority:critical` | `#b60205` | Triage priority: critical | Приоритет triage: критично | priority |
-| `priority:high` | `#b60205` | Triage priority: high | Приоритет triage: высокий | priority |
+| `priority:high` | `#d93f0b` | Triage priority: high | Приоритет triage: высокий | priority |
 | `priority:low` | `#fbca04` | Triage priority: low | Приоритет triage: низкий | priority |
-| `priority:medium` | `#d93f0b` | Triage priority: medium | Приоритет triage: средний | priority |
+| `priority:medium` | `#fb8500` | Triage priority: medium | Приоритет triage: средний | priority |
 | `question` | `#d876e3` | Further information is requested | Нужны уточнения / вопрос | — |
-| `security` | `#b60205` | Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | Безопасность: auth, секреты, лицензия, ПДн и т.п. | category |
+| `security` | `#5319e7` | 🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | Безопасность: auth, секреты, лицензия, ПДн и т.п. | category |
 | `wontfix` | `#080808` | This will not be worked on | Не будем делать | — |
 
 Note: triage пишет **`documentation`**. Лейбл `docs` на GitHub — legacy; при sync PR старый `docs` снимается.

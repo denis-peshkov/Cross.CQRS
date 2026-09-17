@@ -49,7 +49,7 @@
   description: "Triage priority: critical"
 
 - name: "priority:high"
-  color: "b60205"
+  color: "d93f0b"
   description: "Triage priority: high"
 
 - name: "priority:low"
@@ -57,7 +57,7 @@
   description: "Triage priority: low"
 
 - name: "priority:medium"
-  color: "d93f0b"
+  color: "fb8500"
   description: "Triage priority: medium"
 
 - name: "question"
@@ -65,8 +65,8 @@
   description: "Further information is requested"
 
 - name: "security"
-  color: "b60205"
-  description: "Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security"
+  color: "5319e7"
+  description: "🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security"
 
 - name: "wontfix"
   color: "080808"
