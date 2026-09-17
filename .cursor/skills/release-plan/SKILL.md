@@ -40,6 +40,7 @@ Skill [`release-plan`](SKILL.md) → **Section** · domain hint
 | **Re-check** | закрыть open-пункт в version plan |
 | **Finalize version plan** | ship / leftovers → TO-DO |
 | **Previous plans published/closed** | `(closed)` → `(published / closed)` если есть tag |
+| **Локальный `dotnet test`** | локальный прогон тестов |
 
 Из sibling skills — относительная ссылка: `[`release-plan`](../release-plan/SKILL.md)`.
 
@@ -382,6 +383,14 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 | [`release-plan-to-master.mjs`](scripts/release-plan-to-master.mjs) | Строка Change summary в `RELEASE-PLAN-to-master.md` |
 
 Другие skills: **Cross-skill references** (ссылка одной строкой; без дублирования скриптов или prose про layout).
+
+## Локальный `dotnet test`
+
+К `dotnet test` всегда добавлять `-p:SkipNetCoreApp31Tests=true` (без x64 3.1 host VSTest зависает на Darwin Arm64).
+
+```bash
+dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -p:SkipNetCoreApp31Tests=true
+```
 
 ## Quality bar
 

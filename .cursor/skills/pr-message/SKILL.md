@@ -75,7 +75,7 @@ Run checks that are cheap and conclusive. **Do not** mark a box unless evidence 
 | `dotnet build Cross.CQRS.slnx` — green locally | Command succeeds in this turn |
 | `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj` — green locally | Command succeeds in this turn (prefer all TFMs; at least one TFM if time-constrained — note partial) |
 
-Preferred commands (sandbox):
+Preferred commands (sandbox). Skill [`release-plan`](../release-plan/SKILL.md) → **Локальный `dotnet test`**.
 
 ```bash
 dotnet build Cross.CQRS.slnx
