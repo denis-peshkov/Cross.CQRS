@@ -20,10 +20,6 @@
 
 ## Низкий (техдолг / несогласованности)
 
-### L19. `.cursor/README.md` — skills, которых нет в репо
-
-`.cursor/rules/` уже в дельте. README всё ещё ссылается на `db-scripts`, `stripe-*`, `translate-resources` — этих skills в репо нет.
-
 ### L20. `LicenseHostedValidator.StartAsync` игнорирует `CancellationToken`
 
 `CheckLicense()` синхронный; `cancellationToken` не используется. Для IHostedService на старте обычно терпимо, но контракт не соблюдён.

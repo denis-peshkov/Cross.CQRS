@@ -61,6 +61,7 @@
 | ✅ #L23 SeedLookup MERGE delete | won’t-fix: канон = полный ownership таблицы; оговорку в `102-backend-efcore.mdc` не писать |
 | ✅ #M10 pr-message EF paths | Phase 3 → `Cross.CQRS.slnx` / `Cross.CQRS.Tests` (как template) |
 | ✅ #L24 pr-message Shell least privilege | build/test sandbox; elevate only when needed, smallest scope |
+| ✅ #L19 `.cursor/README.md` ghost skills | убраны `db-scripts` / `stripe-*` / `translate-resources`; список = skills в репо |
 
 ---
 
