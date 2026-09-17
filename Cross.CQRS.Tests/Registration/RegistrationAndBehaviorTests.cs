@@ -60,6 +60,21 @@ public class RegistrationAndBehaviorTests
     }
 
     [Test]
+    public async Task LicenseHostedValidator_StartAsync_Throws_WhenCancellationRequestedAsync()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging();
+        services.AddCQRS(cfg => cfg.RegisterFromAssemblyContaining<TestRequest>());
+        using var provider = services.BuildServiceProvider();
+        var hosted = provider.GetServices<IHostedService>().OfType<LicenseHostedValidator>().Single();
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        var act = () => hosted.StartAsync(cts.Token);
+        await act.Should().ThrowAsync<OperationCanceledException>();
+    }
+
+    [Test]
     public void BehaviorCollection_ReordersBehaviorsAndKeepsSingleDescriptors()
     {
         var services = new ServiceCollection();

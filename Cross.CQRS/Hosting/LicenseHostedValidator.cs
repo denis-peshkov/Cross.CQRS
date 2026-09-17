@@ -14,9 +14,15 @@ internal sealed class LicenseHostedValidator : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
+        // Honor host abort before synchronous license work.
+        cancellationToken.ThrowIfCancellationRequested();
         _serviceProvider.CheckLicense();
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.CompletedTask;
+    }
 }

@@ -20,10 +20,6 @@
 
 ## Низкий (техдолг / несогласованности)
 
-### L20. `LicenseHostedValidator.StartAsync` игнорирует `CancellationToken`
-
-`CheckLicense()` синхронный; `cancellationToken` не используется. Для IHostedService на старте обычно терпимо, но контракт не соблюдён.
-
 ### L22. `LABELS.md` ссылается на `labels.yml`
 
 [`.github/LABELS.md`](../.github/LABELS.md) линкует `labels.yml`, файл в git — `LABELS.yml`. На case-sensitive FS ссылка ломается.
