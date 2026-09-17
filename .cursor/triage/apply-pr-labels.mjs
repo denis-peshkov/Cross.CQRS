@@ -16,15 +16,11 @@ export const CATEGORY_LABELS = Object.freeze([
   'chore',
 ]);
 
-/** Former triage category — still stripped from PRs when syncing labels. */
-export const LEGACY_CATEGORY_LABELS = Object.freeze(['documentation']);
-
 export const PRIORITY_VALUES = Object.freeze(['critical', 'high', 'medium', 'low']);
 
 /** @type {ReadonlyArray<string>} */
 export const MANAGED_TRIAGE_LABELS = Object.freeze([
   ...CATEGORY_LABELS,
-  ...LEGACY_CATEGORY_LABELS,
   ...PRIORITY_VALUES.map((p) => `priority:${p}`),
 ]);
 
@@ -56,10 +52,6 @@ export function normalizeCategoryLabel(value) {
     .toLowerCase();
   if (!raw || raw === 'unknown') {
     return null;
-  }
-  // Legacy agent/alias → current GitHub label
-  if (raw === 'documentation') {
-    return 'docs';
   }
   return CATEGORY_LABELS.includes(raw) ? raw : null;
 }

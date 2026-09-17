@@ -62,5 +62,5 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 | `security` | `#5319e7` | 🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | Безопасность: auth, секреты, лицензия, ПДн и т.п. | category |
 | `wontfix` | `#080808` | This will not be worked on | Не будем делать | — |
 
-Note: triage пишет **`docs`**. Лейбл `documentation` на GitHub — legacy; при sync PR старый `documentation` снимается.
+Note: triage пишет **`docs`**.
 `question` остаётся **ручным** лейблом GitHub (например на issues); это **не** категория PR-triage.

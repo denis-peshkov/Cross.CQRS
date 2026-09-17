@@ -17,10 +17,6 @@ describe('normalizeCategoryLabel', () => {
     assert.equal(normalizeCategoryLabel('docs'), 'docs');
   });
 
-  it('maps legacy documentation alias to docs', () => {
-    assert.equal(normalizeCategoryLabel('documentation'), 'docs');
-  });
-
   it('rejects unknown', () => {
     assert.equal(normalizeCategoryLabel('unknown'), null);
     assert.equal(normalizeCategoryLabel(''), null);
