@@ -10,7 +10,7 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ### Library
 
-- **Breaking:** `Command` / `Command<TResult>` / `Query<TResult>` are `abstract record`; new base `abstract record CommandEvent` (`Guid commandId` ctor). Handlers stay `abstract class`. See [`BREAKING.md`](BREAKING.md).
+- **Breaking:** `Command` / `Command<TResult>` / `Query<TResult>` are `abstract record`; new base `abstract record CommandEvent` (`Guid commandId` ctor, generated `CommandEventId`). Handlers stay `abstract class`. See [`BREAKING.md`](BREAKING.md).
 - Internal `License` / `LicenseProductInfo` are `record` (JWT claim snapshot / product metadata).
 
 ### Tests

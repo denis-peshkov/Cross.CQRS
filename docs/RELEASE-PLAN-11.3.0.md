@@ -8,10 +8,10 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.2.0.md](RELEASE-PLAN-11.2.0.md)
 >
-> Дельта: `origin/master...HEAD` — **3** коммита · **27** файлов · **+227 / −80**. Open: C0 H0 M1 L0
+> Дельта: `origin/master...HEAD` — **3** коммита · **27** файлов · **+227 / −80**. Open: C0 H0 M0 L0
 
 **CodeRabbit:**
-- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → Open: C0 H0 M1 L0 (#M13)
+- `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → все закрыты в этом плане.
 
 **PR:** —
 
@@ -26,10 +26,6 @@
 ---
 
 ## Средний (противоречия / баги контрактов)
-
-### M13. `BehaviorPipelineTests` — identity, не value-equality
-
-`mediator.Published.Should().Equal(first, second)` после migration на `record` сравнивает по значению; для очереди событий нужен same-instance (`BeSameAs` / reference).
 
 ---
 
@@ -58,7 +54,8 @@
 | ✅ SkipNetCoreApp31Tests | csproj default skip 3.1 on OSX Arm64 |
 | ✅ tests net6–net10 | 45 passed, `SkipNetCoreApp31Tests=true` |
 | ✅ #M11 nuspec releaseNotes 11.3.0 | `Breaking 11.2.x → 11.3.0` → `#from-112x-to-1130` (+ краткий 11.3.0 lead) |
-| ✅ #M12 Command XML identity | `Command` / `Command<TResult>` summaries: host-facing request + `CommandId` correlation |
+| ✅ #M12 Command XML identity | `Command` / `Command<TResult>` summaries kept as base implementation (CR wording trimmed) |
+| ✅ #M13 CommandEventId on CommandEvent | `CommandEventId = Guid.NewGuid()` — value-equality различает два события с одним `CommandId`; `Equal` в тесте ок |
 
 ---
 
@@ -72,7 +69,6 @@
 
 ## Приоритет фиксов
 
-1. **M13** — `BeSameAs` в queue-тесте (`BehaviorPipelineTests`).
-2. PR с префиксом `BREAKING:` (чеклист B2).
-3. Sibling EF: Commands/Queries → `record`.
-4. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+1. PR с префиксом `BREAKING:` (чеклист B2).
+2. Sibling EF: Commands/Queries → `record`.
+3. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).

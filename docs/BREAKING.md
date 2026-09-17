@@ -27,7 +27,7 @@ Release: _(pending)_ `v11.3.0`.
 |---|---|---|
 | `Command` / `Command<TResult>` | `abstract class` | `abstract record` |
 | `Query<TResult>` | `abstract class` | `abstract record` |
-| `CommandEvent` | _(none — only `ICommandEvent`)_ | **new** `abstract record CommandEvent` (`Guid commandId` ctor) |
+| `CommandEvent` | _(none — only `ICommandEvent`)_ | **new** `abstract record CommandEvent` (`Guid commandId` ctor, `CommandEventId`) |
 | `CommandEventHandler<T>` | `abstract class` | `abstract class` (unchanged) |
 
 **Action:**

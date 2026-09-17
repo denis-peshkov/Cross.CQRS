@@ -5,14 +5,17 @@
 /// </summary>
 public abstract record CommandEvent : ICommandEvent
 {
-    protected CommandEvent(Guid commandId)
-    {
-        CommandId = commandId;
-    }
+    /// <inheritdoc />
+    public Guid CommandEventId { get; } = Guid.NewGuid();
 
     /// <inheritdoc />
     public Guid CommandId { get; }
 
     /// <inheritdoc />
     public virtual CommandEventFlowTypeEnum EventFlowType() => CommandEventFlowTypeEnum.StandardFlow;
+
+    protected CommandEvent(Guid commandId)
+    {
+        CommandId = commandId;
+    }
 }
