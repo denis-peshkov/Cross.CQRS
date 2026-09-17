@@ -1,4 +1,4 @@
-namespace Cross.CQRS.Extensions;
+﻿namespace Cross.CQRS.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -32,6 +32,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<LicenseAccessor>();
         services.AddSingleton<LicenseValidator>();
         services.AddSingleton<ILicenseProductInfo, LicenseProductInfo>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IHostedService, LicenseHostedValidator>());
 
         // FluentValidation: scan every assembly registered in configuration (same set as MediatR / filters)
         services.AddValidatorsFromAssemblies(assemblies, ServiceLifetime.Scoped, result =>
@@ -75,7 +77,6 @@ public static class ServiceCollectionExtensions
         // Registration order is important, it works like ASP.NET Core middleware
         // Behaviors registered earlier will be executed earlier
         behaviorCollection.AddBehavior(typeof(LicenseCheckBehavior<,>), order: -2); // License check runs first and is mandatory for every CQRS request
-        // Order -1 reserved for Cross.CQRS.EF (EfLicenseCheckBehavior), registered from AddEntityFrameworkIntegration.
         behaviorCollection.AddBehavior(typeof(CommandEventQueueProcessBehavior<,>), order: 0);
         behaviorCollection.AddBehavior(typeof(RequestFilterBehavior<,>), order: 1);
         behaviorCollection.AddBehavior(typeof(ValidationBehavior<,>), order: 2);

@@ -57,7 +57,7 @@ Main Features:
 
 * **Licensing (optional JWT)**.
 
-  You can set `LicenseKey` on `CqrsServiceConfiguration` to a Peshkov license JWT. Validation runs on **every** MediatR request via `LicenseCheckBehavior` / `CheckLicense` (for `ILicenseProductInfo` with `Product` of `"Cross.CQRS"` or `"Cross.CQRS.EF"`). License keys: [peshkov.biz](https://peshkov.biz/cqrs).
+  You can set `LicenseKey` on `CqrsServiceConfiguration` to a Peshkov license JWT. Validation runs at **host start** (`LicenseHostedValidator`) and on **every** MediatR request via `LicenseCheckBehavior` / `CheckLicense` (for `ILicenseProductInfo` with `Product` of `"Cross.CQRS"` or `"Cross.CQRS.EF"`). License keys: [peshkov.biz](https://peshkov.biz/cqrs).
 
 
 ## Install NuGet package
@@ -127,8 +127,9 @@ Additionally registered:
 - `IResultFilter<,>` and `IRequestFilter<>` — scoped
 - `IHandlerLocator` — singleton
 - `LicenseAccessor`, `LicenseValidator`, default `ILicenseProductInfo` (`LicenseProductInfo`) — singleton
+- `LicenseHostedValidator` (`IHostedService`) — `CheckLicense` at host start
 - `ICommandEventQueue` and its reader/writer — scoped
-- Pipeline behaviors (scoped): `LicenseCheckBehavior`, `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior`
+- Pipeline behaviors (scoped): `LicenseCheckBehavior` (order **-2**), `CommandEventQueueProcessBehavior`, `RequestFilterBehavior`, `ValidationBehavior`, `ResultFilterBehavior`
 
 The method returns `CqrsRegistrationSyntax` for fluent configuration (e.g. adding custom behaviors).
 

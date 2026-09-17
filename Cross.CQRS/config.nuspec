@@ -28,6 +28,7 @@ Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/mas
         <dependency id="MediatR" version="11.1.0" />
         <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
         <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
+        <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="8.0.1" />
         <dependency id="Microsoft.Extensions.Logging" version="8.0.1" />
         <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
         <dependency id="Scrutor" version="4.2.2" />
@@ -39,6 +40,7 @@ Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/mas
         <dependency id="MediatR" version="11.1.0" />
         <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
         <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
+        <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="8.0.1" />
         <dependency id="Microsoft.Extensions.Logging" version="8.0.1" />
         <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
         <dependency id="Scrutor" version="4.2.2" />
@@ -50,6 +52,7 @@ Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/mas
         <dependency id="MediatR" version="11.1.0" />
         <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
         <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
+        <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="8.0.1" />
         <dependency id="Microsoft.Extensions.Logging" version="8.0.1" />
         <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
         <dependency id="Scrutor" version="4.2.2" />
@@ -61,6 +64,7 @@ Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/mas
         <dependency id="MediatR" version="11.1.0" />
         <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
         <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" />
+        <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="8.0.1" />
         <dependency id="Microsoft.Extensions.Logging" version="8.0.1" />
         <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
         <dependency id="Scrutor" version="4.2.2" />
@@ -72,6 +76,7 @@ Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/mas
         <dependency id="MediatR" version="11.1.0" />
         <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
         <dependency id="Microsoft.Extensions.Configuration" version="9.0.14" />
+        <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="9.0.14" />
         <dependency id="Microsoft.Extensions.Logging" version="9.0.14" />
         <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
         <dependency id="Scrutor" version="4.2.2" />
@@ -83,6 +88,7 @@ Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/mas
         <dependency id="MediatR" version="11.1.0" />
         <dependency id="MediatR.Extensions.Microsoft.DependencyInjection" version="11.1.0" />
         <dependency id="Microsoft.Extensions.Configuration" version="10.0.5" />
+        <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="10.0.5" />
         <dependency id="Microsoft.Extensions.Logging" version="10.0.5" />
         <dependency id="Microsoft.IdentityModel.JsonWebTokens" version="8.17.0" />
         <dependency id="Scrutor" version="4.2.2" />

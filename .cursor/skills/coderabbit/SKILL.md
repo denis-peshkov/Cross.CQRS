@@ -109,7 +109,7 @@ finding (even if they only ask «объясни»). Target = the current plan fr
 step **1** (created via `release-plan` if it was missing).
 
 **Order for pasted findings:**
-1. Verify against current code (still-valid? skip with reason if not).
+1. Verify against current code (still-valid? skip with reason if not). Skip-list (ниже) — **не** писать open C/H/M/L.
 2. **Write** open `### L…` / `### M…` / … into the plan (**Phase 3**) — **before** or
    in the same edit burst as the chat explanation.
 3. Then explain in chat (may cite `#Id`).
@@ -124,12 +124,18 @@ Immediately merge findings into that plan’s open severity sections **only as C
 **Also update the plan header** (Skill [`release-plan`](../release-plan/SKILL.md) → шапка / хвост):
 
 ```markdown
-**CodeRabbit:** `YYYY-MM-DD` · log `.cursor/skills/coderabbit/.cache/cr-….jsonl` · N findings (C Critical, M Major, m Minor) → STATUS.
+**CodeRabbit:**
+- `YYYY-MM-DD` · log `.cursor/skills/coderabbit/.cache/cr-….jsonl` · N findings (C Critical, M Major, m Minor) → CURRENT.
 ```
 
 - Date = review day; log = path printed by `run-coderabbit-review.sh`.
-- Counts from this run (Critical/Major/Minor; Trivial/Info fold into Minor count **or** note separately if non-zero).
-- `STATUS`: `все закрыты в этом плане.` / `K открыты в плане (#H…, #M…).` after merge.
+- Counts from **this** run (Critical/Major/Minor; Trivial/Info fold into Minor count **or** note separately if non-zero).
+- **Формат сообщения — один `→`:**
+  - **До `→` (снимок прогона, не переписывать):** только дата · log(s) · dirs (если split) · `N findings (C Critical, M Major, m Minor)`. **Без** «открыты в плане», skipped, id — это в чат / C/H/M/L, не в bullet.
+  - **После `→` (текущее):** `все закрыты в этом плане.` / `Open: Cx Hy Mz Lw` / `K открыты (#…)`. При каждом новом прогоне (и если в том же ходе Phase 3/4 меняет open) — **обновить текст после `→` у всех** bullets.
+- **Append, never overwrite:** один заголовок `**CodeRabbit:**`; каждый прогон = **новый** bullet `- …` сразу после последнего bullet (перед `**PR:**`). **Не** удалять предыдущие bullets и **не** менять их снимок (текст до `→`).
+- Placeholder `- не запускался.` / `- —` — **только при первом** реальном прогоне заменить на первый dated bullet; дальше только append.
+- Один логический прогон с несколькими `--dir` (один день / одна сессия) = **один** bullet (logs glob + dirs), как раньше.
 - Keep **`**PR:**`** line as-is unless the user/PR context changed.
 - Refresh the blockquote **Дельта:** line (`{{BASE}}...HEAD` counts + `Open C/H/M/L …`) when open C/H/M/L change in the same turn.
 
@@ -146,6 +152,7 @@ Rules:
 - Merge by meaning; next id = **max(`Id high-water` in TO-DO, open+«Закрыто» ids of the current plan) + 1** per group (`C`/`H`/`M`/`L`). **Do not** bump high-water in `TO-DO.md` until **Finalize version plan** ([`release-plan`](../release-plan/SKILL.md))
 - Skip duplicates already open in the current plan or already in any plan’s «Закрыто»
 - Skip duplicates already open in `TO-DO.md` (same meaning) — **do not** copy them into the plan’s open C/H/M/L, **do not** include them in **Приоритет фиксов**, **do not** count them as release work unless the user asks
+- **Не заносить** в version plan finding, что `docs/CHANGELOG.md` § `## vX.Y.Z` «выглядит published» (дата в заголовке, нет `Unreleased`) до git tag / GitHub Release. Канон: notes целевой версии писать как dated `vX.Y.Z` **до** tag; **не** предлагать `Unreleased` / pending. В чате: `skipped (CHANGELOG dated-by-design)`
 - In the chat reply: a short note like “skipped (already in TO-DO: H1, M44)” is enough; no plan edits for those
 - Leave empty severity sections as heading + `---`; UTF-8 BOM
 - Update **Приоритет фиксов** of the current plan only for **newly opened** items added to this plan
@@ -182,6 +189,8 @@ When the user closes, rejects, dismisses, **or asks to fix** («фикси», «
 - [ ] **Did not** glob/`ls` all `docs/RELEASE-PLAN-*.md`; only the current plan (+ TO-DO when needed)
 - [ ] If no current plan existed → skill `release-plan` ran and created `docs/RELEASE-PLAN-X.Y.Z.md` before triage
 - [ ] **Current** `docs/RELEASE-PLAN-X.Y.Z.md` updated in the same turn (open C/H/M/L); **not** `TO-DO.md` for CR findings
+- [ ] Header `**CodeRabbit:**` — **appended** new `-` bullet; previous kept; до `→` только дата/log/counts (без open/skipped ids); после `→` CURRENT synced on all bullets
+- [ ] **Did not** open a C/H/M/L row for CHANGELOG «looks published before tag» (dated `## vX.Y.Z` is by design)
 - [ ] Pasted finding + «объясни» → open C/H/M/L row written **before/with** the explanation (not explain-only)
 - [ ] Any dismissed/closed/**fixed** item → `✅ #Id …` in this plan’s «Закрыто» **in the same turn as the code change** (no quiet fixes)
 - [ ] Any dismissed/closed item → `✅ #Id …` in this plan’s «Закрыто» before removal from open sections
