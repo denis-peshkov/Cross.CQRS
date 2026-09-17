@@ -10,6 +10,7 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ### CI / release process
 
+- NuGet publish uses **Trusted Publishing** (OIDC via `NuGet/login@v1`); long-lived `NUGET_API_KEY` removed from the workflow. Requires nuget.org policy; username `peshkov` is hardcoded in CI.
 - GitHub labels: `.github/LABELS.yml` + `.github/LABELS.md`; triage category `docs` (not `documentation`); dropped `question` issue template and `good first issue`.
 - Issue templates: `bug.yml` / `feature.yml` updated.
 

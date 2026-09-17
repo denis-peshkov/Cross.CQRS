@@ -50,7 +50,7 @@
 | # | Item | Status |
 |---|---|---|
 | N1 | `config.nuspec` metadata | ✅ `Microsoft.Extensions.Hosting.Abstractions` per TFM |
-| N2 | Secrets `NUGET_API_KEY`, `TAGTOKEN` | ✅ |
+| N2 | NuGet Trusted Publishing + `TAGTOKEN` | ⬜ policy on nuget.org; username `peshkov` hardcoded in workflow; drop `NUGET_API_KEY` after first green push |
 | N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.2.0` |
 | N4 | GitHub Release notes | ⬜ для `v11.2.0` |
 

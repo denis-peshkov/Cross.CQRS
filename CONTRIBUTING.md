@@ -116,6 +116,7 @@ Git tags are created only for **stable** `X.Y.Z` (no `-` in `semVer`) on `master
 - PRs targeting **`master`** — repository owner only (`denis-peshkov`).
 - Pushing to **`master`**, **`release/*`**, or **`hotfix/*`** — owner only.
 - Release merge `dev` → `master`, tags, and NuGet publish — maintainer step after the release checklist.
+- NuGet.org push from CI uses **Trusted Publishing** (OIDC), not a long-lived API key: nuget.org → Trusted Publishing policy for `denis-peshkov/Cross.CQRS` + workflow file `dotnet.yml`; nuget.org username `peshkov` is hardcoded in `.github/workflows/dotnet.yml`. See [Trusted Publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing).
 - After changes land on **`master`**, CI (`.github/workflows/backmerge-master-to-dev.yml`) **merges `master` into `dev` and pushes** (no PR, no build wait) using the owner PAT secret **`TAGTOKEN`** — required to bypass Protect-dev (PR + `build`). Plain `GITHUB_TOKEN` is rejected (`GH013`). If there are conflicts, the job fails — resolve locally and push to `dev`.
 
 Optional GitHub Rulesets: import recipes from [`.github/rulesets/`](.github/rulesets/).
