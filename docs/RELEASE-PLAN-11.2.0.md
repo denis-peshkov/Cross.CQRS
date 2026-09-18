@@ -8,7 +8,7 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.1.2.md](RELEASE-PLAN-11.1.2.md)
 >
-> Дельта: `origin/master...HEAD` — **15** коммита · **66** файлов · **+3510 / −309**. Open C/H/M/L пустые (план закрыт).
+> Дельта: `origin/master...HEAD` — **1** коммита · **67** файлов · **+3549 / −313**. Open C/H/M/L пустые (план закрыт).
 
 **CodeRabbit:**
 - `2026-09-17` · pasted agent finding (EF SeedLookup MERGE) · 1 finding (0 Critical, 0 Major, 0 Minor; 1 Trivial) → все закрыты в этом плане.
