@@ -2,7 +2,7 @@
 
 > **Purpose:** checklist before merging into `master` for a NuGet release.
 > **Product:** Cross.CQRS
-> **Current target:** `11.3.1` · [`master`](https://github.com/denis-peshkov/Cross.CQRS/tree/master) · [`RELEASE-PLAN-11.3.1.md`](RELEASE-PLAN-11.3.1.md)
+> **Current target:** `12.0.0` · [`feature/command-query-records-major`](https://github.com/denis-peshkov/Cross.CQRS/tree/feature/command-query-records-major) · [`RELEASE-PLAN-12.0.0.md`](RELEASE-PLAN-12.0.0.md)
 > **Legend:** ⬜ open · ✅ done · 🟨 partial · ❌ blocker
 > **Related:** [`BREAKING.md`](BREAKING.md) · [`CHANGELOG.md`](CHANGELOG.md) · [`TO-DO.md`](TO-DO.md)
 > **Updated:** 2026-09-18
@@ -15,10 +15,10 @@
 
 | # | Item | Status |
 |---|---|---|
-| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | 🟨 override `11.3.1`; GitVersion still `11.3.0` until commit after `v11.3.0` |
-| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-11.3.1.md`](RELEASE-PLAN-11.3.1.md) |
+| P1 | Target version agreed (GitVersion / tag `vX.Y.Z`) | ✅ `12.0.0` (`next-version` + resolve) |
+| P2 | Version plan `docs/RELEASE-PLAN-X.Y.Z.md` filled | ✅ [`RELEASE-PLAN-12.0.0.md`](RELEASE-PLAN-12.0.0.md) |
 | P3 | `docs/TO-DO.md` — no unexpected C/H blockers | ✅ TO-DO + version plan C/H/M/L пустые |
-| P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ tagged `master` → Patch after commit |
+| P4 | Branch policy understood (`CONTRIBUTING.md`) | ✅ `feature/*` → `dev` |
 
 ---
 
@@ -26,10 +26,10 @@
 
 | # | Item | Status |
 |---|---|---|
-| B1 | Consumer breaks in `docs/BREAKING.md` | ✅ нет consumer break `11.3.0`→`11.3.1` (tooling) |
+| B1 | Consumer breaks in `docs/BREAKING.md` | ✅ From 11.2.x → 12.0.0 |
 | B2 | PR title `BREAKING:` where applicable | ⬜ нет PR |
 | B3 | `config.nuspec` `releaseNotes` → BREAKING | ✅ ссылка на `docs/BREAKING.md` |
-| B4 | `docs/CHANGELOG.md` updated | ✅ `## v11.3.1` |
+| B4 | `docs/CHANGELOG.md` updated | ✅ `## v12.0.0` (draft 11.3.0+11.3.1 merged; not published) |
 
 ---
 
@@ -37,11 +37,11 @@
 
 | # | Item | Status |
 |---|---|---|
-| Q1 | `dotnet build` Release | ✅ `dotnet test` restore+build |
+| Q1 | `dotnet build` Release | ✅ prior green on master tip |
 | Q2 | `dotnet test` Release | ✅ net6–net10 45 passed (`SkipNetCoreApp31Tests`) |
-| Q3 | CI `.NET` green on release branch | ⬜ нет PR (работа на `master` WT) |
+| Q3 | CI `.NET` green on release branch | ⬜ нет PR |
 | Q4 | SonarCloud / quality gate | ⬜ after tip CI |
-| Q5 | SampleWebApp smoke | ✅ N/A this patch (sample не в дельте) |
+| Q5 | SampleWebApp smoke | 🟨 sample already on records; smoke host не гоняли |
 
 ---
 
@@ -51,8 +51,8 @@
 |---|---|---|
 | N1 | `config.nuspec` metadata | ✅ releaseNotes → CHANGELOG + BREAKING |
 | N2 | Secret `TAGTOKEN` | ✅ |
-| N3 | Tag + NuGet push from CI | ⬜ ожидать `v11.3.1` (local tag `v11.3.0`; GitHub Release нет) |
-| N4 | GitHub Release notes | ⬜ для `v11.3.1` |
+| N3 | Tag + NuGet push from CI | ⬜ ожидать `v12.0.0` |
+| N4 | GitHub Release notes | ⬜ для `v12.0.0` |
 
 ---
 
@@ -60,7 +60,7 @@
 
 | # | Item | Status |
 |---|---|---|
-| A1 | Back-merge `master` → `dev` | ⬜ after `11.3.1` commit |
+| A1 | Back-merge `master` → `dev` | ⬜ after land |
 | A2 | Sibling packages consume core | ⬜ EF Commands/Queries → `record` |
 | A3 | Leftover TO-DO C/H/M/L | ✅ open пуст |
 
@@ -71,7 +71,7 @@
 | # | Item | Status |
 |---|---|---|
 | G1 | Go / No-Go recorded | ⬜ |
-| G2 | Publish blockers cleared | ⬜ commit WT → CI → tag `v11.3.1` |
+| G2 | Publish blockers cleared | ⬜ `BREAKING:` PR → N3/N4 |
 
 - **Date:** 2026-09-18
-- **Notes:** Version plan `11.3.1` (tooling-only WT on tagged `master`). No consumer BREAKING. Publish: commit → tip CI → tag `v11.3.1` / NuGet. Local `v11.3.0` exists; GitHub Release `v11.3.0` still missing.
+- **Notes:** Drafts 11.3.0+11.3.1 → **12.0.0** on `feature/command-query-records-major` (nothing published under 11.3.x). Publish: PR → `dev` → release → tag `v12.0.0` / NuGet. Latest public release remains `v11.2.0`.

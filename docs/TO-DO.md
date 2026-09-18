@@ -44,6 +44,5 @@
 - `3_SeedLookup` MERGE + delete-not-in-source: канон = seed владеет всей lookup-таблицей; оговорки про partial ownership / owner-predicate в rule не нужны.
 - Handlers (`CommandHandler` / `QueryHandler` / `CommandEventHandler`) остаются `abstract class`; breaking только для inheritors `Command` / `Query` / `CommandEvent`.
 - `ICommandEvent` по-прежнему можно реализовать вручную; канон — `record … : CommandEvent`.
-- `ICommandEvent.CommandEventId` — намеренный breaking + `docs/BREAKING.md` (не next major / не opt-in interface).
 - `License` / `LicenseProductInfo` — `internal record`; не consumer-breaking.
 - На tagged `master` GitVersion `MajorMinorPatch` остаётся на текущий tag, пока нет commit поверх него (тогда Patch).

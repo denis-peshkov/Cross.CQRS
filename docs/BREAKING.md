@@ -5,7 +5,7 @@ Sections are **newest first** (top) → **oldest last** (bottom). When skipping 
 
 | Upgrade path | Section |
 |---|---|
-| `11.2.x` → `11.3.0+` | [From 11.2.x to 11.3.0](#from-112x-to-1130) |
+| `11.2.x` → `12.0.0+` | [From 11.2.x to 12.0.0](#from-112x-to-1200) |
 | `10.1.x` → `11.0.0+` | [From 10.1.x to 11.0.0](#from-101x-to-1100) |
 
 Breaking-change details live **only** in this file. [`Cross.CQRS/config.nuspec`](../Cross.CQRS/config.nuspec) `releaseNotes` should link here and must not duplicate the versioned sections.
@@ -16,14 +16,13 @@ Historical renames before 11.0.0 (e.g. Event* → CommandEvent* in 9.1.0) are do
 
 ---
 
+## From 11.2.x to 12.0.0
 
-## From 11.2.x to 11.3.0
-
-Release: _(pending)_ `v11.3.0`.
+Release: _(pending)_ `v12.0.0`.
 
 ### Command / Query / CommandEvent are records
 
-| Area | Was (11.2.x) | Now (11.3.0+) |
+| Area | Was (11.2.x) | Now (12.0.0+) |
 |---|---|---|
 | `Command` / `Command<TResult>` | `abstract class` | `abstract record` |
 | `Query<TResult>` | `abstract class` | `abstract record` |
