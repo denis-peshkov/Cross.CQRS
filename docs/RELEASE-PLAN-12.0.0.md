@@ -1,6 +1,6 @@
 ﻿Ниже — **проблемы внутри библиотеки**, по уровню критичности. Аудит по дельте ветки относительно базовой ветки (обычно `master`).
 
-> **Версия:** `12.0.0` · **ветка:** `feature/command-query-records-major` · **база:** `origin/master` (`v11.2.0`) · **дата:** `2026-09-18`
+> **Версия:** `12.0.0` (closed) · **ветка:** `feature/command-query-records-major` · **база:** `origin/master` (`v11.2.0`) · **дата:** `2026-09-18`
 >
 > **Релиз (если есть):** https://github.com/denis-peshkov/Cross.CQRS/releases/tag/v12.0.0
 >
@@ -8,7 +8,7 @@
 >
 > **Предыдущий план:** [RELEASE-PLAN-11.2.0.md](RELEASE-PLAN-11.2.0.md)
 >
-> Дельта: library + tooling на tip `master` (бывшие draft 11.3.0/11.3.1) · WT: SemVer/docs → `12.0.0`. Open C/H/M/L пустые.
+> Дельта: `origin/master...HEAD` — **1** коммита · **7** файлов · **+50 / −118**. Open C/H/M/L пустые (план закрыт).
 
 **CodeRabbit:**
 - `2026-09-17` · log `.cursor/skills/coderabbit/.cache/cr-release-command-query-records-vs-origin-master-all-20260917-153231.jsonl` · 3 findings (0 Critical, 0 Major, 3 Minor) → все закрыты в этом плане.
@@ -80,6 +80,4 @@
 
 ## Приоритет фиксов
 
-1. PR в `dev` с префиксом `BREAKING:`.
-2. Sibling EF: Commands/Queries → `record`.
-3. Кросс-версионный backlog — [`TO-DO.md`](TO-DO.md).
+_(пусто — релиз `12.0.0` закрыт; открытый backlog → [`TO-DO.md`](TO-DO.md).)_
