@@ -6,6 +6,17 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
+## v11.3.1 — 18 Sep 2026
+
+### Repository tooling
+
+- `pr-message`: repo-agnostic build/test targets (PR template / discovery; no hardcoded solution or test csproj names).
+- `release-plan`: `-p:SkipNetCoreApp31Tests=true` only when the test project defines that property; test csproj from template / discovery.
+- Triage `load-review-rules` tests and changelog `categorizePath` sample path use generic layouts.
+- Cursor README / `101-backend-cqrs.mdc`: wording (no `db-scripts` skill assume; MediatR pipeline names).
+
+---
+
 ## v11.3.0 — 17 Sep 2026
 
 ### Library
