@@ -2,7 +2,7 @@
 
 Нерешённые пункты вне дельты version plan + кросс-версионные принятые trade-off’ы.
 
-**Id high-water (не переиспользовать ≤):** `C0` `H7` `M10` `L24`
+**Id high-water (не переиспользовать ≤):** `C0` `H8` `M13` `L26`
 
 ---
 
@@ -42,3 +42,9 @@
 - Pipeline order **-2** для `LicenseCheckBehavior` сохранён; **-1** больше не резервируется под Cross.CQRS.EF (EF — через `ILicenseProductInfo`).
 - Shared `.cursor/rules` pack включает Angular/EF/HTTP шаблоны; triage матчит по globs (на типичном PR этой библиотеки часто не срабатывают).
 - `3_SeedLookup` MERGE + delete-not-in-source: канон = seed владеет всей lookup-таблицей; оговорки про partial ownership / owner-predicate в rule не нужны.
+- Handlers (`CommandHandler` / `QueryHandler` / `CommandEventHandler`) остаются `abstract class`; breaking только для inheritors `Command` / `Query` / `CommandEvent`.
+- `ICommandEvent` по-прежнему можно реализовать вручную; канон — `record … : CommandEvent`.
+- `License` / `LicenseProductInfo` — `internal record`; не consumer-breaking.
+- На tagged `master` GitVersion `MajorMinorPatch` остаётся на текущий tag, пока нет commit поверх него (тогда Patch).
+- `ICommandEvent.CommandEventId` — намеренный breaking + `docs/BREAKING.md` (не opt-in interface).
+- Unpublished draft SemVer не публиковать отдельно, если тот же library break уходит одним major.

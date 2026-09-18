@@ -1,6 +1,6 @@
-namespace Cross.CQRS.Licensing;
+﻿namespace Cross.CQRS.Licensing;
 
-internal class LicenseProductInfo : ILicenseProductInfo
+internal record LicenseProductInfo : ILicenseProductInfo
 {
     public string Company => "Peshkov software";
     public string Product => "Cross.CQRS";

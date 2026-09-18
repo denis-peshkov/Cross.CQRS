@@ -5,6 +5,7 @@ Sections are **newest first** (top) → **oldest last** (bottom). When skipping 
 
 | Upgrade path | Section |
 |---|---|
+| `11.2.x` → `12.0.0+` | [From 11.2.x to 12.0.0](#from-112x-to-1200) |
 | `10.1.x` → `11.0.0+` | [From 10.1.x to 11.0.0](#from-101x-to-1100) |
 
 Breaking-change details live **only** in this file. [`Cross.CQRS/config.nuspec`](../Cross.CQRS/config.nuspec) `releaseNotes` should link here and must not duplicate the versioned sections.
@@ -12,6 +13,41 @@ Breaking-change details live **only** in this file. [`Cross.CQRS/config.nuspec`]
 When shipping a new breaking change: insert a **From X.Y.Z to A.B.C** section **at the top** of the versioned sections (and a matching TOC row), and prefix the **PR title** with `BREAKING:`.
 
 Historical renames before 11.0.0 (e.g. Event* → CommandEvent* in 9.1.0) are documented in [`docs/CHANGELOG.md`](CHANGELOG.md). Promote them into versioned sections here only when consumers still need a structured upgrade guide.
+
+---
+
+## From 11.2.x to 12.0.0
+
+Release: _(pending)_ `v12.0.0`.
+
+### Command / Query / CommandEvent are records
+
+| Area | Was (11.2.x) | Now (12.0.0+) |
+|---|---|---|
+| `Command` / `Command<TResult>` | `abstract class` | `abstract record` |
+| `Query<TResult>` | `abstract class` | `abstract record` |
+| `CommandEvent` | _(none — only `ICommandEvent`)_ | **new** `abstract record CommandEvent` (`Guid commandId` ctor, `CommandEventId`) |
+| `CommandEventHandler<T>` | `abstract class` | `abstract class` (unchanged) |
+
+**Action:**
+- Change consumer types that inherit `Command` / `Query` / `CommandEvent` from `class` to `record` (only records may inherit from records).
+- Prefer `record MyEvent : CommandEvent` with `: base(commandId)` instead of hand-rolling `ICommandEvent`.
+- `CommandHandler` / `QueryHandler` / `CommandEventHandler` remain `abstract class` — no change for those inheritors.
+
+Example:
+
+```csharp
+// was
+public class CreateOrderCommand : Command { … }
+public class OrderCreatedEvent : ICommandEvent { public Guid CommandId { get; } … }
+
+// now
+public record CreateOrderCommand : Command { … }
+public record OrderCreatedEvent : CommandEvent
+{
+    public OrderCreatedEvent(Guid commandId) : base(commandId) { }
+}
+```
 
 ---
 

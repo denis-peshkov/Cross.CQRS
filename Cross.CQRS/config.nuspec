@@ -15,10 +15,8 @@
     <description>Simple .NET MediatR base Query, Command, CommandEvent and CommandEventQueueProcess behavior. RequestFilter, ResultFilter and Filter behaviours. Event Queue and Validation behaviors. Optional JWT license validation with pluggable product metadata (ILicenseProductInfo).</description>
     <tags>.NET MediatR Query QueryHandler Command CommandHandler CommandEvent CommandEventHandler CommandEventQueueProcessBehavior Filter RequestFilter ResultFilter FilterBehavior Validation ValidationBehavior CQRS License JWT AddCQRS NetCore</tags>
     <releaseNotes><![CDATA[
-Cross.CQRS 11.0.0 — optional JWT licensing (LicenseCheckBehavior on every MediatR request), AddCQRS / CqrsServiceConfiguration (full-assembly FluentValidation scan), TFMs netstandard2.1 + net6–net10. AsyncRequestHandlerBase removed.
-
 Changelog: https://github.com/denis-peshkov/Cross.CQRS/blob/master/docs/CHANGELOG.md
-Breaking 10.1.x → 11.0.0: https://github.com/denis-peshkov/Cross.CQRS/blob/master/docs/BREAKING.md#from-101x-to-1100
+Breaking: https://github.com/denis-peshkov/Cross.CQRS/blob/master/docs/BREAKING.md
 ]]></releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.1">

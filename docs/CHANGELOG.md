@@ -6,6 +6,34 @@ Breaking upgrade notes for NuGet consumers: [`BREAKING.md`](BREAKING.md).
 
 ---
 
+## v12.0.0 — 18 Sep 2026
+
+### Library
+
+- **Breaking:** `Command` / `Command<TResult>` / `Query<TResult>` are `abstract record`; new base `abstract record CommandEvent` (`Guid commandId` ctor, generated `CommandEventId`). Handlers stay `abstract class`. See [`BREAKING.md`](BREAKING.md).
+- Internal `License` / `LicenseProductInfo` are `record` (JWT claim snapshot / product metadata).
+
+### Tests
+
+- Sample / unit tests: Command / Query / CommandEvent inheritors are `record`.
+- `SkipNetCoreApp31Tests`: skip `netcoreapp3.1` on OSX Arm64 when no x64 3.1 host.
+
+### Documentation
+
+- `docs/BREAKING.md`: From 11.2.x → 12.0.0 (record bases + `CommandEventId`).
+- `config.nuspec` `releaseNotes` links `CHANGELOG.md` and `BREAKING.md` (no duplicated version list).
+
+### Repository tooling
+
+- `pr-message`: repo-agnostic build/test targets (PR template / discovery; no hardcoded solution or test csproj names); no SemVer in PR title/body.
+- `release-plan`: `-p:SkipNetCoreApp31Tests=true` only when the test project defines that property; test csproj from template / discovery.
+- `resolve-target-version.sh`: GitVersion `/nofetch` so sandbox agents do not hang on remote fetch.
+- Triage `load-review-rules` tests and changelog `categorizePath` sample path use generic layouts.
+- Cursor README / `101-backend-cqrs.mdc`: wording (no `db-scripts` skill assume; MediatR pipeline names).
+- `GitVersion.yml` `next-version: 12.0.0`.
+
+---
+
 ## v11.2.0 — 17 Sep 2026
 
 ### CI / release process

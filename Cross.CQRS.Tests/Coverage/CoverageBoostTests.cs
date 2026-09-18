@@ -138,7 +138,7 @@ public class CoverageBoostTests
 
     public sealed record SimpleRequest : IRequest<int>;
 
-    private sealed class TestGenericCommand : Command<int>
+    private sealed record TestGenericCommand : Command<int>
     {
     }
 
@@ -160,7 +160,7 @@ public class CoverageBoostTests
         }
     }
 
-    private sealed class LargeCommand : Command<int>
+    private sealed record LargeCommand : Command<int>
     {
         public LargeCommand(string payload)
         {
@@ -170,18 +170,16 @@ public class CoverageBoostTests
         public string Payload { get; }
     }
 
-    private sealed class SimpleQuery : Query<int>
+    private sealed record SimpleQuery : Query<int>
     {
     }
 
-    private sealed class TestCommandEvent : ICommandEvent
+    private sealed record TestCommandEvent : CommandEvent
     {
         public TestCommandEvent(Guid commandId)
+            : base(commandId)
         {
-            CommandId = commandId;
         }
-
-        public Guid CommandId { get; }
     }
 
     private sealed class UnknownInternalLogObject : IInternalLogObject

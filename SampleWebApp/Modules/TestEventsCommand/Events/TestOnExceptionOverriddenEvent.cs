@@ -1,6 +1,6 @@
 ﻿namespace SampleWebApp.Modules.TestEventsCommand.Events;
 
-public class TestOnExceptionOverriddenEvent : TestOnExceptionEvent
+public record TestOnExceptionOverriddenEvent : TestOnExceptionEvent
 {
     public TestOnExceptionOverriddenEvent(Guid commandId)
         : base(commandId)

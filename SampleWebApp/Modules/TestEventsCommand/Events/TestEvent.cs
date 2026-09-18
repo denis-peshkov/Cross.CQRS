@@ -1,11 +1,9 @@
 ﻿namespace SampleWebApp.Modules.TestEventsCommand.Events;
 
-public class TestEvent  : ICommandEvent
+public record TestEvent : CommandEvent
 {
-    public Guid CommandId { get; }
-
     public TestEvent(Guid commandId)
+        : base(commandId)
     {
-        CommandId = commandId;
     }
 }
