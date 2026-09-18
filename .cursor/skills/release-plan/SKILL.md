@@ -386,10 +386,12 @@ Workflow новых секций: **`docs/BREAKING.md`** (этот skill).
 
 ## Локальный `dotnet test`
 
-К `dotnet test` всегда добавлять `-p:SkipNetCoreApp31Tests=true` (без x64 3.1 host VSTest зависает на Darwin Arm64).
+Если в test `.csproj` есть свойство `SkipNetCoreApp31Tests` — к `dotnet test` добавлять `-p:SkipNetCoreApp31Tests=true` (без x64 3.1 host VSTest зависает на Darwin Arm64). Иначе не добавлять.
+
+Целевой csproj: из PR template / discovery (`**/*Tests*.csproj`), **не** хардкодить имя продукта.
 
 ```bash
-dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj -p:SkipNetCoreApp31Tests=true
+dotnet test <TestProject>/<TestProject>.csproj -p:SkipNetCoreApp31Tests=true
 ```
 
 ## Quality bar

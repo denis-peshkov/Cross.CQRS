@@ -46,3 +46,4 @@
 - `ICommandEvent` по-прежнему можно реализовать вручную; канон — `record … : CommandEvent`.
 - `ICommandEvent.CommandEventId` — намеренный breaking + `docs/BREAKING.md` (не next major / не opt-in interface).
 - `License` / `LicenseProductInfo` — `internal record`; не consumer-breaking.
+- На tagged `master` GitVersion `MajorMinorPatch` остаётся на текущий tag, пока нет commit поверх него (тогда Patch).

@@ -44,7 +44,11 @@ git diff --shortstat "$BASE...$HEAD"
 ```
 
 3. Optional: `gh pr list --head "$HEAD" --json number,url,baseRefName` — if a PR already exists, say so and still draft/update the body text (`network` / `full_network` as needed).
-4. Skim delta hotspots (library API, tests, SampleWebApp, docs/BREAKING, LICENSE/secrets).
+4. Skim delta hotspots (library / src API, tests, sample host, docs/BREAKING, LICENSE/secrets).
+5. Resolve build/test targets for Phase 3 (**repo-agnostic**):
+   - Prefer commands already written in the template Test plan (`dotnet build …` / `dotnet test …`).
+   - Else discover: root `*.slnx` or `*.sln` (prefer `.slnx`); primary test project `**/*Tests*.csproj` / `**/*Test*.csproj` nearest the library (not under `node_modules`).
+   - Do **not** hardcode a product name (solution / test csproj) in this skill.
 
 ### Phase 2 — Draft body
 
@@ -74,14 +78,15 @@ Run checks that are cheap and conclusive. **Do not** mark a box unless evidence 
 | Box | Auto `[x]` when |
 |---|---|
 | New or updated tests cover the changed behavior | Diff touches `**/*Tests*` / `**/*Test*` with meaningful test changes **or** production change is docs/rules-only (then still `[x]` only if no behavior change — otherwise leave `[ ]` if prod code changed without tests) |
-| `dotnet build Cross.CQRS.slnx` — green locally | Command succeeds in this turn |
-| `dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj` — green locally | Command succeeds in this turn (prefer all TFMs; at least one TFM if time-constrained — note partial) |
+| Template `dotnet build …` — green locally | Command from template (or discovered solution) succeeds in this turn |
+| Template `dotnet test …` — green locally | Command from template (or discovered test csproj) succeeds in this turn (prefer all TFMs; at least one TFM if time-constrained — note partial) |
 
-Preferred commands (sandbox). Skill [`release-plan`](../release-plan/SKILL.md) → **Локальный `dotnet test`**.
+Preferred commands (sandbox). Keep the **exact** build/test lines from the PR template when present. Skill [`release-plan`](../release-plan/SKILL.md) → **Локальный `dotnet test`**.
 
 ```bash
-dotnet build Cross.CQRS.slnx
-dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
+# Examples only — replace with targets from the template / discovery:
+dotnet build <solution.slnx|sln>
+dotnet test <TestProject>/<TestProject>.csproj
 ```
 
 #### Checklist
@@ -107,7 +112,7 @@ dotnet test Cross.CQRS.Tests/Cross.CQRS.Tests.csproj
 
 ````markdown
 ```text
-BREAKING: migrate Command/Query to records and add CommandEvent base
+BREAKING: rename public API surface for consumers
 ```
 ````
 
