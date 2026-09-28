@@ -9,6 +9,7 @@ Thank you for your interest in the project.
 - [CI (.NET)](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/dotnet.yml)
 - [CI (back-merge master → dev)](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/backmerge-master-to-dev.yml)
 - [Branch policy](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/branch-policy.yml)
+- [Breaking gate](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/breaking-gate.yml)
 - [Triage](https://github.com/denis-peshkov/Cross.CQRS/actions/workflows/triage.yml)
 - [SonarCloud](https://sonarcloud.io/summary/new_code?id=Cross.CQRS)
 - [NuGet](https://www.nuget.org/packages/Cross.CQRS/)
@@ -76,7 +77,7 @@ Do not mix refactoring, formatting untouched files, and a feature in one PR. Dri
 - `Cross.CQRS.Tests/` — unit / pipeline / licensing tests;
 - `SampleWebApp/` — smoke host example;
 - `README.md`, `docs/CHANGELOG.md`, `docs/BREAKING.md`, `Cross.CQRS/config.nuspec`;
-- CI: `.github/workflows/dotnet.yml`, `branch-policy.yml`, `triage.yml`, `backmerge-master-to-dev.yml`.
+- CI: `.github/workflows/dotnet.yml`, `branch-policy.yml`, `breaking-gate.yml`, `triage.yml`, `backmerge-master-to-dev.yml`.
 
 ### Out of scope (without maintainer discussion)
 
@@ -191,6 +192,7 @@ See [Testing](#testing).
 - Description: what, why, how to verify (**English** — for GitHub history and the triage bot)
 - For licensing / security — explicitly note risks
 - Breaking consumer change → prefix the **PR title** with `BREAKING:`
+- CI detects `BREAKING:` title and/or a `docs/BREAKING.md` diff, adds the `breaking-changes` label, and **fails** until the repository owner adds `breaking-approved` (a comment is not enough)
 
 ### 5. CI
 
@@ -198,6 +200,7 @@ Must pass:
 
 - `.NET` workflow (`dotnet build` + `dotnet test`)
 - Branch policy (`.github/workflows/branch-policy.yml`) — contributors cannot PR to `master` or push `release/*` / `hotfix/*`
+- `Breaking gate` when the PR is consumer-breaking (`BREAKING:` title and/or `docs/BREAKING.md` changed) — owner must add `breaking-approved`
 - SonarCloud quality gate on PR (`sonar.qualitygate.wait=true` when enabled)
 - Triage PR comment job when enabled (`CURSOR_API_KEY`) — must not fail on large diffs
 

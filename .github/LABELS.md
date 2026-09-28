@@ -1,11 +1,16 @@
-# Cross.CQRS — лейблы GitHub
+﻿# Cross.DataFilter — лейблы GitHub
 
 Снимок настроенных лейблов репозитория. Машиночитаемый файл: [`LABELS.yml`](LABELS.yml).
 
-Восстановление:
+Восстановление / sync (локальный файл → GitHub):
 
 ```bash
-gh label create "NAME" --color COLOR --description "DESC" --force
+# create/update from LABELS.yml
+while IFS= read -r name; do
+  color=$(yq -r ".[] | select(.name==\"$name\") | .color" .github/LABELS.yml)
+  desc=$(yq -r ".[] | select(.name==\"$name\") | .description" .github/LABELS.yml)
+  gh label create "$name" --color "$color" --description "$desc" --force
+done < <(yq -r '.[].name' .github/LABELS.yml)
 ```
 
 ## Triage (ставит на PR автоматически)
@@ -14,20 +19,18 @@ gh label create "NAME" --color COLOR --description "DESC" --force
 
 ### Categories
 
-Сейчас в коде явной лестницы категорий нет — агент сам выбирает одну. По смыслу текущих правил triage логичный порядок такой (выше перебивает ниже):
-
 | # | Категория | Почему выше |
 |---|---|---|
-| 1 | security | Уже в prompt: утечки/auth/лицензия → всегда security + high/critical |
+| 1 | security | Утечки/auth/лицензия → всегда security + high/critical |
 | 2 | bug | Регрессии и падения важнее «новой фичи» |
 | 3 | feature | Новое API/поведение важнее polish/docs |
 | 4 | enhancement | Polish / perf / DX без нового публичного контракта |
 | 5 | docs | Доработки / дополнения документации |
 | 6 | chore | CI/tooling/deps без продуктового эффекта |
 
-**Как читать смешанный PR:** берёшь все подходящие категории по диффу, оставляешь **самую верхнюю** из таблицы. Пример: docs + bugfix → `bug`; feature + workflow YAML → `feature`; только README + triage.yml → смотри объём/intent, обычно `docs` или `chore`.
+**Как читать смешанный PR:** берёшь все подходящие категории по диффу, оставляешь **самую верхнюю** из таблицы.
 
-Priority (`critical`...`low`) — **отдельная ось**, не путать с этой лестницей категорий.
+Priority (`critical`…`low`) — **отдельная ось**, не путать с лестницей категорий.
 
 ---
 
@@ -46,6 +49,8 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 
 | Label | Color | Description (GitHub) | По-русски | Triage |
 |---|---|---|---|---|
+| `breaking-approved` | `#0e8a16` | Owner approved consumer-breaking change (unblocks breaking-gate) | Owner одобрил breaking (снимает blocking gate) | — |
+| `breaking-changes` | `#b60205` | Consumer-breaking signals detected (BREAKING: title and/or docs/BREAKING.md) | Обнаружены consumer-breaking сигналы (ставит CI) | — |
 | `bug` | `#e8372a` | Something is broken | Что-то сломано / дефект | category |
 | `chore` | `#1d76db` | Build, CI, tooling, deps | Сборка, CI, tooling, зависимости | category |
 | `docs` | `#006b75` | Improvements or additions to documentation | Доработки / дополнения документации | category |
@@ -59,8 +64,5 @@ Priority (`critical`...`low`) — **отдельная ось**, не путат
 | `priority:low` | `#fbca04` | Triage priority: low | Приоритет triage: низкий | priority |
 | `priority:medium` | `#fb8500` | Triage priority: medium | Приоритет triage: средний | priority |
 | `question` | `#d876e3` | Further information is requested | Нужны уточнения / вопрос | — |
-| `security` | `#5319e7` | 🔒 Auth/JWT/OAuth, secrets, licensing, PII, payment, or token security | Безопасность: auth, секреты, лицензия, ПДн и т.п. | category |
+| `security` | `#5319e7` | 🔒 Secrets, licensing, PII, or unsafe filter/query handling | Безопасность: секреты, лицензия, ПДн, опасные фильтры | category |
 | `wontfix` | `#080808` | This will not be worked on | Не будем делать | — |
-
-Note: triage пишет **`docs`**.
-`question` остаётся **ручным** лейблом GitHub (например на issues); это **не** категория PR-triage.
